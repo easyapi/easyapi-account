@@ -1,0 +1,171 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>登录 - EasyAPI服务平台</title>
+    <link href="https://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet"/>
+    <meta name="descriptions" content="EasyAPI账号登录"/>
+    <meta name="keywords" content="登录"/>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+</head>
+<body>
+<div style="margin: 0 0 100px 0">
+    <div class="toper">
+        <div class="wp">
+            <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png"/></a>
+            <div class="navs pr">
+                <a href="/login">登录</a>
+                <a href="/signup">注册</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="lg-form yahei">
+        <div class="ath"><img src="https://static.easyapi.com/images/ath.png"></div>
+        <div class="lg-title ">用户登录</div>
+        <div class="lg-body bgf">
+            <form method="post" class="login-form" id="loginForm" onsubmit="return handleLogin();">
+                <div id="alert" class="alert fade in alert-warning none">
+                    无效用户名或密码，请重试。
+                </div>
+                <br/>
+                <div class="form-group">
+                    <input datatype="e" nullmsg="请输入邮箱" errormsg="邮箱格式有误！" class="form-control"
+                           id="username" placeholder="请输入您注册时填写的邮箱" name="username" type="text"/>
+                </div>
+                <div class="form-group">
+                    <input nullmsg="请输入密码！" placeholder="请输入密码" datatype="*" class="form-control" type="password"
+                           name="password" id="password"/>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="rememberMe" id="rememberMe" checked="checked" v/>
+                        记住密码 </label> <span class="Validform_checktip" id="msg2"></span>
+                </div>
+                <input id="btn_sub" type="submit" name="login" class=" btn-block btn btn-lg btn-info" value="登 录"/>
+
+                <div class="otherlogin">
+                    <div class="name"><span>第三方登陆</span></div>
+                    <a href="/auth/wechat"><i class="iconfont icon-weixing color-success"></i> </a>
+                    <a href="/auth/qq"><i class="iconfont icon-iconfonticon6"></i> </a>
+                </div>
+
+                <div class="otherbox">
+                    <a href="/signup" class="btn btn-lg btn-default btn-bor">还没有账号？免费注册</a>
+                    <a href="/forgetPassword" class="btn btn-lg btn-default">忘记密码？重置</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="foot clearfix">
+    <p>
+        <a href="https://www.easyapi.com/info/about">关于我们</a>
+        <a href="https://www.easyapi.com/info/together">合作伙伴</a>
+        <a href="https://www.easyapi.com/info/contact">联系我们</a>
+        <a href="https://www.easyapi.com/info/donate">支持我们</a>
+    </p>
+    <p>Copyright © 2014～2017 上海帮趣网络技术有限公司</p>
+</div>
+
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+<script src="https://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://static.easyapi.com/scripts/base.js"></script>
+<script type="text/javascript" src="https://static.easyapi.com/layer/layer.js"></script>
+<script type="text/javascript" src="https://static.easyapi.com/scripts/jquery.jsonp.js"></script>
+<script type="text/javascript" src="https://static.easyapi.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="https://static.easyapi.com/scripts/libs/Validform_v5.3.2_min.js"></script>
+<script type="text/javascript">
+    var from = "";
+
+    if (from != null && from != '') {
+        var expiresDate = new Date();
+        expiresDate.setTime(expiresDate.getTime() + (60 * 60 * 1000));
+        $.cookie('from', from, {expires: expiresDate});
+    } else {
+        from = $.cookie("from");
+    }
+    if ( typeof(from) == "undefined") {
+        from = '';
+    }
+    from = from != "" ? from : document.referrer;
+    from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
+    var domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
+    if ($.cookie("username") != null) {
+        $("#username").val($.cookie("username"));
+        $("#password").focus();
+    } else {
+        $("#username").focus();
+    }
+
+    $(document).ready(function () {
+        $("#loginForm").Validform({
+            tiptype: function (msg, o, cssctl) {
+                var objtip = $("#msg2");
+                cssctl(objtip, o.type);
+                objtip.text(msg);
+            },
+        });
+    });
+
+    $.ajax({
+        method: 'GET',
+        url: '/api/authenticate',
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", "Bearer " + ($.cookie("authenticationToken")));
+        },
+        success: function (data) {
+            if (data.length > 0) {
+                window.location.replace(from);
+            }
+        }
+    });
+
+    function handleLogin() {
+        $.cookie("username", $("#username").val(), {expires: 7});
+        $.ajax({
+            method: 'POST',
+            url: '/api/authenticate',
+            cache: false,
+            contentType: 'application/json',
+            data: JSON.stringify({
+                username: $("#username").val(),
+                password: $("#password").val(),
+                rememberMe: $("#rememberMe").is(":checked")
+            }),
+            processData: false,
+            dataType: 'json',
+            success: function (data, status, xhr) {
+                var bearerToken = xhr.getResponseHeader("Authorization");
+                if (bearerToken.substr(0, 7) == "Bearer ") {
+                    var jwt = bearerToken.substr(7, bearerToken.length);
+                    if ($("#rememberMe").is(":checked")) {
+                        $.cookie("authenticationToken", jwt, {
+                            expires: 30,
+                            path: '/',
+                            domain: domain
+                        });
+                    } else {
+                        $.cookie("authenticationToken", jwt, {
+                            expires: 0.05,
+                            path: '/',
+                            domain: domain
+                        });
+                    }
+                    window.location.replace(from);
+                }
+            },
+            error: function () {
+                $("#alert").removeClass("none");
+            }
+        });
+        return false;
+    }
+</script>
+</body>
+</html>
