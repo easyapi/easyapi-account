@@ -4,7 +4,7 @@ EasyAPI账户中心
 EasyAPI账户中心，是一个纯静态项目工程，通过调用API接口实现功能。
 
 ## 开发建议
-- 公共样式表、脚步、图片放到easyapi-static项目中
+- 公共样式表、脚本、图片放到easyapi-static项目中
 - 每个站点，根据需要独立建立静态文件，css，images，js（命名参照jhipster框架，Bootstrap等）
 - 样式表使用less语法编写
 
