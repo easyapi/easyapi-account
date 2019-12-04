@@ -19,8 +19,8 @@
       <div class="wp">
         <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png" /></a>
         <div class="navs pr">
-          <a href="/login">登录</a>
-          <a href="/signup">注册</a>
+          <a href="/login.html">登录</a>
+          <a href="/signup.html">注册</a>
         </div>
       </div>
     </div>
@@ -122,7 +122,7 @@
       },
       success: function (data) {
         if (data.length > 0) {
-          window.location.replace(from);
+          // window.location.replace(from);
         }
       }
     });
@@ -141,25 +141,23 @@
         }),
         processData: false,
         dataType: 'json',
+
         success: function (data, status, xhr) {
-          var bearerToken = xhr.getResponseHeader("Authorization");
-          if (bearerToken.substr(0, 7) == "Bearer ") {
-            var jwt = bearerToken.substr(7, bearerToken.length);
-            if ($("#rememberMe").is(":checked")) {
-              $.cookie("authenticationToken", jwt, {
-                expires: 30,
-                path: '/',
-                domain: domain
-              });
-            } else {
-              $.cookie("authenticationToken", jwt, {
-                expires: 0.05,
-                path: '/',
-                domain: domain
-              });
-            }
-            window.location.replace(from);
+          var jwt = data.id_token;
+          if ($("#rememberMe").is(":checked")) {
+            $.cookie("authenticationToken", jwt, {
+              expires: 30,
+              path: '/',
+              domain: domain
+            });
+          } else {
+            $.cookie("authenticationToken", jwt, {
+              expires: 0.05,
+              path: '/',
+              domain: domain
+            });
           }
+          window.location.replace(from);
         },
         error: function () {
           $("#alert").removeClass("none");
