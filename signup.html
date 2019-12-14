@@ -165,7 +165,7 @@
     function findUsername() {
       // var username = $("#username").val();
       // $.ajax({
-      //   url: "https://account.easyapi.com/api/account/find",
+      //   url: "https://account-api.easyapi.com/api/account/find",
       //   contentType: 'text/plain',
       //   method: "POST",
       //   data: { username },
@@ -224,7 +224,7 @@
       return
       $.ajax({
         method: 'POST',
-        url: 'https://account.easyapi.com/api/account/signup',
+        url: 'https://account-api.easyapi.com/api/account/signup',
         contentType: 'application/json',
         data: JSON.stringify({
           code: $("#code").val(),
