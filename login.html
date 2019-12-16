@@ -28,7 +28,6 @@
 
   <div class="container">
     <div class="lg-form yahei">
-      <div class="ath"><img src="https://static.easyapi.com/images/ath.png"></div>
       <div class="lg-title ">用户登录</div>
       <div class="lg-body bgf">
         <form method="post" class="login-form" id="loginForm" onsubmit="return handleLogin();">
@@ -37,7 +36,7 @@
           </div>
           <br />
           <div class="form-group">
-            <input data-validation-engine="validate[required,custom[email]]" data-errormessage-value-missing="手机号码必填"
+            <input data-validation-engine="validate[required]" data-errormessage-value-missing="手机号码必填"
               data-errormessage-custom-error="手机号码格式有误" class="form-control" id="username" placeholder="请输入您注册时手机号码"
               name="username" type="text" />
           </div>
@@ -74,7 +73,7 @@
       <a href="https://www.easyapi.com/info/contact">联系我们</a>
       <a href="https://www.easyapi.com/info/donate">支持我们</a>
     </p>
-    <p>Copyright © 2014～2017 上海帮趣网络技术有限公司</p>
+    <p>Copyright © 2014～2020 上海帮趣网络技术有限公司</p>
   </div>
 
   <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js" type="text/javascript"></script>
@@ -83,10 +82,8 @@
   <script type="text/javascript" src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
   <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
   <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-  <script type="text/javascript"
-    src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/jquery.validationEngine.min.js"></script>
-  <script type="text/javascript"
-    src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/languages/jquery.validationEngine-zh_CN.min.js"></script>
+  <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/jquery.validationEngine.min.js"></script>
+  <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/languages/jquery.validationEngine-zh_CN.min.js"></script>
   <script type="text/javascript">
     var from = "";
 
@@ -116,7 +113,7 @@
 
     $.ajax({
       method: 'GET',
-      url: 'https://account.easyapi.com/api/authenticate',
+      url: 'https://account-api.easyapi.com/api/authenticate',
       beforeSend: function (request) {
         request.setRequestHeader("Authorization", "Bearer " + ($.cookie("authenticationToken")));
       },
@@ -131,7 +128,7 @@
       $.cookie("username", $("#username").val(), { expires: 7 });
       $.ajax({
         method: 'POST',
-        url: 'https://account.easyapi.com/api/authenticate',
+        url: 'https://account-api.easyapi.com/api/authenticate',
         cache: false,
         contentType: 'application/json',
         data: JSON.stringify({
