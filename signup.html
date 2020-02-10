@@ -36,41 +36,17 @@
     .disabled {
       cursor: no-drop;
     }
-
-    .message {
-      height: 40px;
-      line-height: 40px;
-      padding: 0 40px;
-      position: absolute;
-      top: -40px;
-      opacity: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      border-radius: 5px;
-      transition: all .2s linear;
-      z-index: 334;
-    }
-
-    .error {
-      background: #fef0f0;
-      border-color: #fde2e2;
-      color: #f56c6c;
-      opacity: 1;
-      top: 20px;
-      margin: 0;
-    }
   </style>
 </head>
 
 <body>
-  <div class="message">123</div>
   <div style="margin: 0 0 100px 0">
     <div class="toper">
       <div class="wp">
         <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png" /></a>
         <div class="navs pr">
-          <a href="/login.html">登录</a>
-          <a href="/signup.html">注册</a>
+          <a href="/login">登录</a>
+          <a href="/signup">注册</a>
         </div>
       </div>
     </div>
@@ -85,7 +61,6 @@
           <input id="username" datatype="m" nullmsg="请输入手机号码！" errormsg="手机号码格式有误！" name="user.username" type="text"
             size="20" class="form-control" alt="用户名" placeholder="请输入手机号码" validate="['required']"
             onblur="return findUsername();">
-
         </div>
         <div class="form-group flex">
           <input id="code" datatype="s" nullmsg="请输入验证码！" name="user.code" type="text" size="20" class="form-control"
@@ -98,22 +73,21 @@
         </div>
         <div class="form-group">
           <input id="password" name="user.password" type="password" size="20" class="form-control" alt="登录密码"
-            datatype="*6-16" nullmsg="请设置密码！" errormsg="密码范围在6~16位之间！" placeholder="请输入密码6~16位之间"
+            datatype="*6-16" nullmsg="请设置密码！" errormsg="密码范围在6~16位之间！" placeholder="密码6~16位之间，建议包含英文和标点符号！"
             validate="['required']">
         </div>
         <div class="form-group">
           <input id="confirmPassword" name="user.confirmPassword" size="20" type="password" class="form-control"
             datatype="*" recheck="user.password" nullmsg="请再输入一次密码！" placeholder="请再输入一次密码！" validate="['required']">
         </div>
-        <div style="height:30px;font-size:12px;color:red;">*强烈建议密码中包含英文和标点符号</div>
         <div class="checkbox">
           <label>
-            <input type="checkbox" id="checkButton" checked> 点击注册表示您已阅读并同意<span class="text-success"><a
+            <input type="checkbox" id="checkButton" checked> 点击注册表示您同意<span class="text-success"><a
                 href="https://www.easyapi.com/info/terms" target="_blank">《EasyAPI服务条款》</a></span>
           </label>
         </div>
         <div class="form-group">
-          <input onclick="signup()" id="btn_sub" name="login" class="btn-block btn btn-lg btn-info" value="注 册" />
+          <input onclick="signup()" id="btn_sub" id="signupBtn" name="signupBtn" class="btn-block btn btn-lg btn-info" value="注 册" />
         </div>
 
         <div class="otherbox">
@@ -158,56 +132,63 @@
         tiptype: 3
       });
     })
-
-    function findUsername() {
-      // var username = $("#username").val();
-      // $.ajax({
-      //   url: "https://account-api.easyapi.com/api/account/find",
-      //   contentType: 'text/plain',
-      //   method: "POST",
-      //   data: { username },
-      //   dataType: "text",
-      //   success: function (data) {
-      //     console.log(data)
-      //     $("#msg2").text("此手机号码已经被人注册").addClass("Validform_wrong");
-      //   }
-      // });
-      // return false;
-    }
-    var timer
     function checkPhone(phone) {
-      if (!(/^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/.test(phone))) {
+      if (!(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/.test(phone))) {
         return false;
       }
       return true
     }
-    var Message = {
-      error(msg) {
-        var message = $(".message").addClass('error')
-        message.text(msg)
-        setTimeout(() => {
-          message.removeClass('error')
-        }, 3000)
+    function findUsername() {
+      if($("#username").val() == '') {
+        layer.msg("请输入手机号码");
+        return false;
       }
+      if (!checkPhone($("#username").val())) {
+        layer.msg("请输入正确的手机号");
+        return false;
+      }
+      $.ajax({
+        url: "https://account-api.easyapi.com/api/account/find",
+        contentType: 'text/plain',
+        method: "POST",
+        data: $("#username").val(),
+        dataType: "text",
+        success: function (data) {
+          layer.msg("此手机号码已经被人注册");
+          return false;
+        }
+      });
+      return true;
     }
+    var timer
+    
     function sendCode() {
-      var username = $("#username").val();
-      let truePhone = checkPhone(username)
-      if (!truePhone) {
-        return Message.error('请输入正确的手机号')
+      if (!checkPhone($("#username").val())) {
+        return layer.msg('请输入正确的手机号')
       }
+      $.ajax({
+        url: "https://account-api.easyapi.com/api/captcha/send",
+        method: "POST",
+        contentType: 'application/json',
+        data: JSON.stringify({
+          mobile: $("#username").val()
+        }),
+        success: function (data) {
+          layer.msg("验证码发送成功");
+        }
+      });
       let btn = $("#sendCodeBtn")
-      var s = 60;
+      var second = 60;
       btn.attr('disabled', true).addClass('disabled');
       timer = setInterval(() => {
-        s--;
-        if (s == 0) {
+        second--;
+        if (second == 0) {
           btn.text('获取验证码');
           btn.attr('disabled', false).removeClass('disabled');
           clearInterval(timer)
           return
         }
-        btn.text(`剩余${s}秒`);
+        btn.text(`剩余${second}秒`);
       }, 1000)
     }
     function signup() {
@@ -216,9 +197,15 @@
       var nickname = $("#nickname").val()
       var password = $("#password").val()
       var confirmPassword = $("#confirmPassword").val()
+      if(password != confirmPassword) {
+        layer.msg("确认密码不一致");
+        return false;
+      }
       var checkbox = $("#checkButton")[0].checked
-      console.log(1)
-      return
+      if(!checkbox) {
+        layer.msg("请勾选同意EasyAPI用户协议");
+        return false;
+      }
       $.ajax({
         method: 'POST',
         url: 'https://account-api.easyapi.com/api/account/signup',
@@ -231,10 +218,10 @@
         }),
         dataType: "text",
         success: function (data) {
-          window.location.replace($.cookie('from') == '' ? "https://account.easyapi.com/signup/success" : $.cookie('from'));
+          window.location.replace($.cookie('from') == '' ? "https://www.easyapi.com" : $.cookie('from'));
         },
         error: function (data) {
-          layer.msg("验证码不正确");
+          layer.msg(data.message);
         }
       });
       return false;

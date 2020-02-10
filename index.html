@@ -51,7 +51,7 @@
     });
     $.ajax({
       method: 'GET',
-      url: '/api/authenticate',
+      url: 'https://account-api.easyapi.com/api/authenticate',
       beforeSend: function (request) {
         request.setRequestHeader("Authorization", "Bearer " + ($.cookie("authenticationToken")));
       },
@@ -65,7 +65,7 @@
       $.cookie("username", $("#username").val(), { expires: 7 });
       $.ajax({
         method: 'POST',
-        url: '/api/authenticate',
+        url: 'https://account-api.easyapi.com/api/authenticate',
         cache: false,
         contentType: 'application/json',
         data: JSON.stringify({
