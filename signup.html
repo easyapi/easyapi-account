@@ -74,7 +74,7 @@
         <div class="form-group">
           <input id="password" name="user.password" type="password" size="20" class="form-control" alt="登录密码"
             datatype="*6-16" nullmsg="请设置密码！" errormsg="密码范围在6~16位之间！" placeholder="密码6~16位之间，建议包含英文和标点符号！"
-            validate="['required']">
+            validate="['required']" onblur="return validPassword();">
         </div>
         <div class="form-group">
           <input id="confirmPassword" name="user.confirmPassword" size="20" type="password" class="form-control"
@@ -160,6 +160,15 @@
       });
       return true;
     }
+
+    function validPassword() {
+      if($("#password").val().length < 6 || $("#password").val().length > 16){
+        layer.msg("密码范围在6~16位之间");
+        return false
+      }
+      return true
+    }
+
     var timer
     
     function sendCode() {
