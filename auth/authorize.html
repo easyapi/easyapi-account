@@ -57,6 +57,7 @@
       var token = sessionStorage['token'];
 
       var url = window.location.search; //获取url中"?"符后的字串
+      sessionStorage['url'] = url;
 
       var theRequest = new Object(); //将URL后面的参数解析成对象
       if (url.indexOf("?") != -1) {

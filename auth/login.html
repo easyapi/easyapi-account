@@ -53,6 +53,8 @@
 
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript">
+
+      var url = sessionStorage['url'];
       //登录
       function _login() {
 
@@ -74,7 +76,10 @@
 
               sessionStorage['token'] = data.id_token;
 
-              window.history.back(-1)
+              var _url = "http://127.0.0.1:8848/easyapi-account/auth/authorize.html"+url;
+              console.log(_url)
+
+              window.location.href = _url;
             }
           },
           error: function(res) {
