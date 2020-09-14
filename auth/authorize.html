@@ -39,10 +39,20 @@
       <div class="w_bottom">
         <div class="btn_w">
           <div class="btn_left">
-            <input id="btn_sub" type="button" name="login" class=" btn-block btn btn-lg btn-info" value="授 权" onclick="accredit()" />
+            <form action="https://account.easyapi.com/oauth/authorize" method="post">
+              <input name="user_oauth_approval" value="true" type="hidden">
+              <input name="authorize" value="Authorize" type="hidden">
+              <input name="scope.client" value="true" type="hidden">
+              <input id="btn_sub" type="submit" class=" btn-block btn btn-lg btn-info" value="授 权" />
+            </form>
           </div>
           <div class="btn_right">
-            <input id="btn_sub" type="button" name="login" class=" btn-block btn btn-lg btn-info" value="取 消" onclick="cancel()" />
+            <form action="https://account.easyapi.com/oauth/authorize" method="post">
+              <input name="user_oauth_approval" value="true" type="hidden">
+              <input name="authorize" value="Authorize" type="hidden">
+              <input name="scope.client" value="false" type="hidden">
+              <input id="btn_sub" type="submit" class=" btn-block btn btn-lg btn-info" value="取 消" />
+            </form>
           </div>
         </div>
 
@@ -59,6 +69,10 @@
       var url = window.location.search; //获取url中"?"符后的字串
       sessionStorage['url'] = url;
 
+      if (!token) {
+        window.location.href = "https://account.easyapi.com/auth/login.html";
+      }
+
       var theRequest = new Object(); //将URL后面的参数解析成对象
       if (url.indexOf("?") != -1) {
         var str = url.substr(1);
@@ -71,7 +85,7 @@
 
       $.ajax({
         type: 'GET',
-        url: 'http://10.0.0.92:8084/oauth/authorize',
+        url: 'https://account.easyapi.com/oauth/authorize',
         data: theRequest,
         dataType: "json",
         async: true,
@@ -79,70 +93,17 @@
           request.setRequestHeader("Authorization", "Bearer " + (token));
         },
         success: function(data) {
-          console.log(data.content.scope)
-          scope = data.content.scope
+          console.log(data)
+          // if (data.code == 1) {
+            
+          // }
         },
         error: function(res) {
-          console.log(res.status)
-          if (res.status == 403) {
-            console.log("去登录")
-            window.location.href = "http://127.0.0.1:8848/easyapi-account/auth/login.html";
-          }
+          console.log(res)
         }
       })
 
-      //授权
-      function accredit() {
 
-        $.ajax({
-          type: 'POST',
-          url: 'http://10.0.0.92:8084/oauth/authorize',
-          data: {
-            user_oauth_approval: true,
-            authorize: "Authorize",
-            "scope.ROLE_ADMIN": true
-          },
-          contentType: "application/x-www-form-urlencoded",
-          // dataType: "json",
-          // processData: false,
-          async: true,
-          beforeSend: function(request) {
-            request.setRequestHeader("Authorization", "Bearer " + (token));
-          },
-          success: function(data) {
-            console.log(data)
-          },
-          error: function(res) {
-            console.log(res.status)
-          }
-        })
-      }
-
-      //取消
-      function cancel() {
-
-        $.ajax({
-          type: 'GET',
-          url: 'http://10.0.0.92:8084/oauth/authorize',
-          data: theRequest,
-          dataType: "json",
-          async: true,
-          beforeSend: function(request) {
-            request.setRequestHeader("Authorization", "Bearer " + (token));
-          },
-          success: function(data) {
-            console.log(data.content.scope)
-            scope = data.content.scope
-          },
-          error: function(res) {
-            console.log(res.status)
-            if (res.status == 403) {
-              console.log("去登录")
-              window.location.href = "http://127.0.0.1:8848/easyapi-account/auth/login.html";
-            }
-          }
-        })
-      }
     </script>
   </body>
 

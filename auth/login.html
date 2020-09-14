@@ -60,7 +60,7 @@
 
         $.ajax({
           method: 'POST',
-          url: 'http://10.0.0.92:8084/api/authenticate',
+          url: 'https://account-api.easyapi.com/api/authenticate',
           cache: false,
           contentType: 'application/json',
           data: JSON.stringify({
@@ -76,7 +76,7 @@
 
               sessionStorage['token'] = data.id_token;
 
-              var _url = "http://127.0.0.1:8848/easyapi-account/auth/authorize.html"+url;
+              var _url = "https://account.easyapi.com/auth/authorize.html"+url;
               console.log(_url)
 
               window.location.href = _url;
