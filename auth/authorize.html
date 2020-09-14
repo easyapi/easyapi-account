@@ -26,13 +26,11 @@
       <div class="w_top">
 
         <div class="word_top">
-          <span>Easyapi发票管理<span>
-              <span>想要访问你的账户信息</span>
+          <span id="client">Easyapi发票管理 想要访问你的账户信息<span>
         </div>
 
         <div class="word_bottom">
-          <span>当前登录账号<span>
-              <span>18756407025</span>
+          <span id="account">当前登录账号: 18756407025</span>
         </div>
 
       </div>
@@ -94,16 +92,18 @@
         },
         success: function(data) {
           console.log(data)
-          // if (data.code == 1) {
-            
-          // }
+          if (data.code == 1) {
+            var client = data.content.name+" 想要访问你的账户信息";
+            var account = "当前登录账号："+data.content.username
+            $("#client").text(client);
+            $("#account").text(account);
+          }
         },
         error: function(res) {
           console.log(res)
+
         }
       })
-
-
     </script>
   </body>
 
