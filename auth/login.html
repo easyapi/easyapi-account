@@ -81,8 +81,11 @@
               window.location.href = _url;
             }
           },
-          error: function(res) {
-            layer.msg("用户名或密码不正确");
+          error: function(res) {         
+            layer.msg("用户名或密码不正确", {
+              icon: 2,
+              time: 2000
+            });
           }
         })
       }

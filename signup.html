@@ -196,7 +196,7 @@
           layer.msg("此手机号码已经被人注册");
         },
         error: function (data) {
-          console.log(111)
+
           $.ajax({
             url: "https://account-api.easyapi.com/api/captcha/send",
             method: "POST",
@@ -205,7 +205,10 @@
               mobile: $("#username").val()
             }),
             success: function (data) {
-              layer.msg("验证码发送成功");
+              layer.msg("验证码发送成功", {
+                icon: 1,
+                time: 2000
+              });
             }
           });
           let btn = $("#sendCodeBtn")
@@ -257,7 +260,11 @@
         window.location.replace(from);
       },
       error: function (data) {
-        layer.msg(data.responseJSON.message);
+        console.log(data)
+        layer.msg(data.responseJSON.message, {
+          icon: 2,
+          time: 2000
+        });
       }
     });
     return false;
