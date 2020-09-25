@@ -99,7 +99,7 @@
   }
   from = from != "" ? from : document.referrer;
   from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
-  
+
   var domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
   if ($.cookie("username") != null) {
     $("#username").val($.cookie("username"));
@@ -139,7 +139,6 @@
       }),
       processData: false,
       dataType: 'json',
-
       success: function (data, status, xhr) {
         var jwt = data.id_token;
         if ($("#rememberMe").is(":checked")) {
