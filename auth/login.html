@@ -50,10 +50,9 @@
       </div>
     </div>
 
-
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
     <script type="text/javascript">
-
       var url = sessionStorage['url'];
       //登录
       function _login() {
@@ -76,18 +75,17 @@
 
               sessionStorage['token'] = data.id_token;
 
-              var _url = "https://account.easyapi.com/auth/authorize.html"+url;
+              var _url = "https://account.easyapi.com/auth/authorize.html" + url;
               console.log(_url)
 
               window.location.href = _url;
             }
           },
           error: function(res) {
-            console.log(res)
+            layer.msg("用户名或密码不正确");
           }
         })
       }
-
     </script>
   </body>
 
