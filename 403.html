@@ -12,7 +12,17 @@
 
 <body>
 
-<div th:replace="fragments/header :: header"></div>
+<div style="margin: 0 0 100px 0">
+  <div class="toper">
+    <div class="wp">
+      <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png"/></a>
+      <div class="navs pr">
+        <a href="./login.html">登录</a>
+        <a href="./signup.html">注册</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="mheight wp">
   <div class="con_nofound">
@@ -21,13 +31,19 @@
       <span class="subTitle">访问被拒绝!</span>
       <span th:text="${message}"></span>
     </div>
-    <div>
-      <p><img src="https://qiniu.easyapi.com/photo/girl${#random.int[1,128]}.jpg" title="欣赏美女" width="600"></p>
-    </div>
   </div>
 </div>
 
-<div th:replace="fragments/footer :: footer"></div>
+<div class="foot clearfix">
+  <p>
+    <a href="https://www.easyapi.com/info/about">关于我们</a>
+    <a href="https://www.easyapi.com/info/together">合作伙伴</a>
+    <a href="https://www.easyapi.com/info/contact">联系我们</a>
+    <a href="https://www.easyapi.com/info/donate">支持我们</a>
+  </p>
+  <p>Copyright © 2014～2020 上海帮趣网络技术有限公司</p>
+</div>
+
 </body>
 
 </html>
