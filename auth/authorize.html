@@ -1,109 +1,107 @@
 <!DOCTYPE html>
 <html lang="zh">
 
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>授权 - EasyAPI服务平台</title>
-    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet" />
-    <link href="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/validationEngine.jquery.min.css" rel="stylesheet" />
-    <meta name="descriptions" content="EasyAPI账号登录" />
-    <meta name="keywords" content="登录" />
-    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
-    <link href="./authorize.css" rel="stylesheet" type="text/css" />
-  </head>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>授权 - EasyAPI服务平台</title>
+  <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet"/>
+  <link href="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/validationEngine.jquery.min.css" rel="stylesheet"/>
+  <meta name="descriptions" content="EasyAPI账号登录"/>
+  <meta name="keywords" content="登录"/>
+  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="./authorize.css" rel="stylesheet" type="text/css"/>
+</head>
 
-  <body>
-    <div style="margin: 0 0 100px 0">
-      <div class="toper">
-        <div class="wp">
-          <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png" /></a>
-        </div>
+<body>
+<div style="margin: 0 0 100px 0">
+  <div class="toper">
+    <div class="wp">
+      <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png"/></a>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper">
+  <div class="w_top">
+
+    <div class="word_top">
+      <span id="client">EasyAPI发票管理 想要访问你的账户信息</span>
+    </div>
+
+    <div class="word_bottom">
+      <span id="account">当前登录账号: 18756407025</span>
+    </div>
+
+  </div>
+  <div class="w_bottom">
+    <div class="btn_w">
+      <div class="btn_left">
+        <form action="https://account.easyapi.com/oauth/authorize" method="post">
+          <input name="user_oauth_approval" value="true" type="hidden">
+          <input name="authorize" value="Authorize" type="hidden">
+          <input name="scope.client" value="true" type="hidden">
+          <input type="submit" class=" btn-block btn btn-lg btn-info" value="授 权"/>
+        </form>
+      </div>
+      <div class="btn_right">
+        <form action="https://account.easyapi.com/oauth/authorize" method="post">
+          <input name="user_oauth_approval" value="true" type="hidden">
+          <input name="authorize" value="Authorize" type="hidden">
+          <input name="scope.client" value="false" type="hidden">
+          <input type="submit" class=" btn-block btn btn-lg btn-info" value="取 消"/>
+        </form>
       </div>
     </div>
 
-    <div class="wrapper">
-      <div class="w_top">
-
-        <div class="word_top">
-          <span id="client">Easyapi发票管理 想要访问你的账户信息<span>
-        </div>
-
-        <div class="word_bottom">
-          <span id="account">当前登录账号: 18756407025</span>
-        </div>
-
-      </div>
-      <div class="w_bottom">
-        <div class="btn_w">
-          <div class="btn_left">
-            <form action="https://account.easyapi.com/oauth/authorize" method="post">
-              <input name="user_oauth_approval" value="true" type="hidden">
-              <input name="authorize" value="Authorize" type="hidden">
-              <input name="scope.client" value="true" type="hidden">
-              <input id="btn_sub" type="submit" class=" btn-block btn btn-lg btn-info" value="授 权" />
-            </form>
-          </div>
-          <div class="btn_right">
-            <form action="https://account.easyapi.com/oauth/authorize" method="post">
-              <input name="user_oauth_approval" value="true" type="hidden">
-              <input name="authorize" value="Authorize" type="hidden">
-              <input name="scope.client" value="false" type="hidden">
-              <input id="btn_sub" type="submit" class=" btn-block btn btn-lg btn-info" value="取 消" />
-            </form>
-          </div>
-        </div>
-
-      </div>
-    </div>
+  </div>
+</div>
 
 
-    <script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-      var scope
+<script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+  var scope
 
-      var token = sessionStorage['token'];
+  var token = sessionStorage['token'];
 
-      var url = window.location.search; //获取url中"?"符后的字串
-      sessionStorage['url'] = url;
+  var url = window.location.search; //获取url中"?"符后的字串
+  sessionStorage['url'] = url;
 
-      if (!token) {
-        window.location.href = "https://account.easyapi.com/auth/login.html";
+  if (!token) {
+    window.location.href = "https://account.easyapi.com/auth/login.html";
+  }
+
+  var theRequest = new Object(); //将URL后面的参数解析成对象
+  if (url.indexOf("?") != -1) {
+    var str = url.substr(1);
+    strs = str.split("&");
+    for (var i = 0; i < strs.length; i++) {
+      theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+    }
+  }
+
+  $.ajax({
+    type: 'GET',
+    url: 'https://account.easyapi.com/oauth/authorize',
+    data: theRequest,
+    dataType: "json",
+    async: true,
+    beforeSend: function (request) {
+      request.setRequestHeader("Authorization", "Bearer " + (token));
+    },
+    success: function (data) {
+      if (data.code == 1) {
+        var client = data.content.name + " 想要访问你的账户信息";
+        var account = "当前登录账号：" + data.content.username
+        $("#client").text(client);
+        $("#account").text(account);
       }
-
-      var theRequest = new Object(); //将URL后面的参数解析成对象
-      if (url.indexOf("?") != -1) {
-        var str = url.substr(1);
-        strs = str.split("&");
-        for (var i = 0; i < strs.length; i++) {
-          theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-        }
-      }
-      console.log(theRequest)
-
-      $.ajax({
-        type: 'GET',
-        url: 'https://account.easyapi.com/oauth/authorize',
-        data: theRequest,
-        dataType: "json",
-        async: true,
-        beforeSend: function(request) {
-          request.setRequestHeader("Authorization", "Bearer " + (token));
-        },
-        success: function(data) {
-          console.log(data)
-          if (data.code == 1) {
-            var client = data.content.name+" 想要访问你的账户信息";
-            var account = "当前登录账号："+data.content.username
-            $("#client").text(client);
-            $("#account").text(account);
-          }
-        },
-        error: function(res) {
-          console.log(res)
-        }
-      })
-    </script>
-  </body>
+    },
+    error: function (res) {
+      console.log(res)
+    }
+  })
+</script>
+</body>
 
 </html>
