@@ -20,10 +20,10 @@
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script type="text/javascript" src="https://static.easyapi.com/scripts/libs/Validform_v5.3.2_min.js"></script>
 <script type="text/javascript">
-  var from = "";
+  let from = "";
   if (from != null && from != '') {
-    var expiresDate = new Date();
-    expiresDate.setTime(expiresDate.getTime() + (60 * 60 * 1000));
+    let expiresDate = new Date();
+    expiresDate.setTime(expiresDate + (60 * 60 * 1000));
     $.cookie('from', from, {expires: expiresDate});
   } else {
     from = $.cookie("from");

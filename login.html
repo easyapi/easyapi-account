@@ -81,14 +81,12 @@
 <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
 <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script type="text/javascript"
-        src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/jquery.validationEngine.min.js"></script>
-<script type="text/javascript"
-        src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/languages/jquery.validationEngine-zh_CN.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/jquery.validationEngine.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/languages/jquery.validationEngine-zh_CN.min.js"></script>
 <script type="text/javascript">
   let from = "";
   if (from != null && from != '') {
-    var expiresDate = new Date();
+    let expiresDate = new Date();
     expiresDate.setTime(expiresDate.getTime() + (60 * 60 * 1000));
     $.cookie('from', from, {expires: expiresDate});
   } else {
