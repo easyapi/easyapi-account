@@ -1,166 +1,301 @@
 <!DOCTYPE html>
 <html lang="zh">
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>登录 - EasyAPI服务平台</title>
-  <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet"/>
-  <link href="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/validationEngine.jquery.min.css" rel="stylesheet"/>
-  <meta name="descriptions" content="EasyAPI账号登录"/>
-  <meta name="keywords" content="登录"/>
-  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
-</head>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>登录 - EasyAPI服务平台</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet" /> -->
+    <link href="http://localhost:9696/styles/base.css" rel="stylesheet" />
+    <link href="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/validationEngine.jquery.min.css" rel="stylesheet" />
+    <meta name="descriptions" content="EasyAPI账号登录" />
+    <meta name="keywords" content="登录" />
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <!-- 引入element样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  </head>
 
-<body>
-<div style="margin: 0 0 100px 0">
-  <div class="toper">
-    <div class="wp">
-      <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png"/></a>
-      <div class="navs pr">
-        <a href="./login.html">登录</a>
-        <a href="./signup.html">注册</a>
+  <body>
+    <div id="app">
+      <div style="margin: 0 0 100px 0">
+        <div class="toper">
+          <div class="wp">
+            <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png" /></a>
+            <div class="navs pr">
+              <a href="./login.html">登录</a>
+              <a href="./signup.html">注册</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="container">
+        <div class="lg-form yahei">
+          <div class="lg-title ">用户登录</div>
+          <div class="lg-body bgf">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+              <el-form-item label="" prop="name">
+                <el-input v-model="ruleForm.name" style="width: 350px;"></el-input>
+              </el-form-item>
+              <el-form-item label="" prop="password">
+                <el-input v-model="ruleForm.password" @input="passwordInput" style="width: 350px;"></el-input>
+              </el-form-item>
+              <el-checkbox v-model="ruleForm.checked">记住密码</el-checkbox>
+              <input disabled id="btn_sub" type="button" name="login" @click="onSubmit" class="btn-block btn btn-lg btn-info"
+                value="登 录" />
+            </el-form>
+
+            <div class="otherbox">
+
+              <a href="./forget-password.html" class="btn btn-lg btn-default">忘记密码？重置</a>
+            </div>
+
+            <div class="otherlogin">
+
+              <a href="https://account-api.easyapi.com/auth/wechat"><i class="iconfont icon-weixing color-success"></i>
+              </a>
+              <a href="https://account-api.easyapi.com/auth/qq"><i class="iconfont icon-iconfonticon6"></i> </a>
+            </div>
+
+
+            <!-- <form method="post" class="login-form" id="loginForm" onsubmit="return handleLogin();">
+              <div id="alert" class="alert in alert-warning none">
+                无效用户名或密码，请重试。
+              </div>
+              <br />
+              <div class="form-group">
+                <input data-validation-engine="validate[required]" data-errormessage-value-missing="手机号码必填"
+                  data-errormessage-custom-error="手机号码格式有误" class="form-control" id="username" placeholder="请输入您注册时手机号码"
+                  name="username" type="text" />
+              </div>
+              <div class="form-group">
+                <input nullmsg="请输入密码！" placeholder="请输入密码" datatype="*" class="form-control" type="password" name="password"
+                  id="password" />
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="rememberMe" id="rememberMe" checked="checked" v />
+                  记住密码 </label> <span class="Validform_checktip" id="msg2"></span>
+              </div>
+              <input id="btn_sub" type="submit" name="login" class=" btn-block btn btn-lg btn-info" value="登 录" />
+
+              <div class="otherlogin">
+                <div class="name"><span>第三方登录</span></div>
+                <a href="https://account-api.easyapi.com/auth/wechat"><i class="iconfont icon-weixing color-success"></i>
+                </a>
+                <a href="https://account-api.easyapi.com/auth/qq"><i class="iconfont icon-iconfonticon6"></i> </a>
+              </div>
+
+              <div class="otherbox">
+                <a href="./signup.html" class="btn btn-lg btn-default btn-bor">还没有账号？免费注册</a>
+                <a href="./forget-password.html" class="btn btn-lg btn-default">忘记密码？重置</a>
+              </div>
+            </form> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="foot clearfix">
+        <p>
+          <a href="https://www.easyapi.com/info/about">关于我们</a>
+          <a href="https://www.easyapi.com/info/together">合作伙伴</a>
+          <a href="https://www.easyapi.com/info/contact">联系我们</a>
+          <a href="https://www.easyapi.com/info/donate">支持我们</a>
+        </p>
+        <p>Copyright © 2014～2020 上海帮趣网络技术有限公司</p>
       </div>
     </div>
-  </div>
-</div>
+    <!-- 引入vue -->
+    <script src="./vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <!-- 引入elemnet组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://static.easyapi.com/scripts/base.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/jquery.validationEngine.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/languages/jquery.validationEngine-zh_CN.min.js"></script>
+    <script type="text/javascript">
 
-<div class="container">
-  <div class="lg-form yahei">
-    <div class="lg-title ">用户登录</div>
-    <div class="lg-body bgf">
-      <form method="post" class="login-form" id="loginForm" onsubmit="return handleLogin();">
-        <div id="alert" class="alert in alert-warning none">
-          无效用户名或密码，请重试。
-        </div>
-        <br/>
-        <div class="form-group">
-          <input data-validation-engine="validate[required]" data-errormessage-value-missing="手机号码必填"
-                 data-errormessage-custom-error="手机号码格式有误" class="form-control" id="username" placeholder="请输入您注册时手机号码"
-                 name="username" type="text"/>
-        </div>
-        <div class="form-group">
-          <input nullmsg="请输入密码！" placeholder="请输入密码" datatype="*" class="form-control" type="password"
-                 name="password" id="password"/>
-        </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" name="rememberMe" id="rememberMe" checked="checked" v/>
-            记住密码 </label> <span class="Validform_checktip" id="msg2"></span>
-        </div>
-        <input id="btn_sub" type="submit" name="login" class=" btn-block btn btn-lg btn-info" value="登 录"/>
 
-        <div class="otherlogin">
-          <div class="name"><span>第三方登录</span></div>
-          <a href="https://account-api.easyapi.com/auth/wechat"><i class="iconfont icon-weixing color-success"></i> </a>
-          <a href="https://account-api.easyapi.com/auth/qq"><i class="iconfont icon-iconfonticon6"></i> </a>
-        </div>
-
-        <div class="otherbox">
-          <a href="./signup.html" class="btn btn-lg btn-default btn-bor">还没有账号？免费注册</a>
-          <a href="./forget-password.html" class="btn btn-lg btn-default">忘记密码？重置</a>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<div class="foot clearfix">
-  <p>
-    <a href="https://www.easyapi.com/info/about">关于我们</a>
-    <a href="https://www.easyapi.com/info/together">合作伙伴</a>
-    <a href="https://www.easyapi.com/info/contact">联系我们</a>
-    <a href="https://www.easyapi.com/info/donate">支持我们</a>
-  </p>
-  <p>Copyright © 2014～2020 上海帮趣网络技术有限公司</p>
-</div>
-
-<script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-<script src="https://cdn.bootcss.com/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://static.easyapi.com/scripts/base.js"></script>
-<script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/jquery.validationEngine.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/languages/jquery.validationEngine-zh_CN.min.js"></script>
-<script type="text/javascript">
-  let from = "";
-  if (from != null && from != '') {
-    let expiresDate = new Date();
-    expiresDate.setTime(expiresDate.getTime() + (60 * 60 * 1000));
-    $.cookie('from', from, {expires: expiresDate});
-  } else {
-    from = $.cookie("from");
-  }
-  if (typeof (from) == "undefined") {
-    from = '';
-  }
-  from = from != "" ? from : document.referrer;
-  from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
-
-  var domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
-  if ($.cookie("username") != null) {
-    $("#username").val($.cookie("username"));
-    $("#password").focus();
-  } else {
-    $("#username").focus();
-  }
-
-  $(document).ready(function () {
-    $("#loginForm").validationEngine();
-  });
-
-  $.ajax({
-    method: 'GET',
-    url: 'https://account-api.easyapi.com/api/authenticate',
-    beforeSend: function (request) {
-      request.setRequestHeader("Authorization", "Bearer " + ($.cookie("authenticationToken")));
-    },
-    success: function (data) {
-      if (data.length > 0) {
-        // window.location.replace(from);
+      let from = "";
+      if (from != null && from != '') {
+        let expiresDate = new Date();
+        expiresDate.setTime(expiresDate.getTime() + (60 * 60 * 1000));
+        $.cookie('from', from, {
+          expires: expiresDate
+        });
+      } else {
+        from = $.cookie("from");
       }
-    }
-  });
+      if (typeof(from) == "undefined") {
+        from = '';
+      }
+      from = from != "" ? from : document.referrer;
+      from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
 
-  function handleLogin() {
-    $.cookie("username", $("#username").val(), {expires: 7});
-    $.ajax({
-      method: 'POST',
-      url: 'https://account-api.easyapi.com/api/authenticate',
-      cache: false,
-      contentType: 'application/json',
-      data: JSON.stringify({
-        username: $("#username").val(),
-        password: $("#password").val(),
-        rememberMe: $("#rememberMe").is(":checked")
-      }),
-      processData: false,
-      dataType: 'json',
-      success: function (data, status, xhr) {
-        var jwt = data.id_token;
-        if ($("#rememberMe").is(":checked")) {
-          $.cookie("authenticationToken", jwt, {
-            expires: 30,
-            path: '/',
-            domain: domain
-          });
-        } else {
-          $.cookie("authenticationToken", jwt, {
-            expires: 0.05,
-            path: '/',
-            domain: domain
-          });
+      var domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
+
+      if ($.cookie("username") != null) {
+        $("#username").val($.cookie("username"));
+        $("#password").focus();
+      } else {
+        $("#username").focus();
+      }
+
+      $(document).ready(function() {
+        $("#loginForm").validationEngine();
+      });
+
+      $.ajax({
+        method: 'GET',
+        url: 'https://account-api.easyapi.com/api/authenticate',
+        beforeSend: function(request) {
+          request.setRequestHeader("Authorization", "Bearer " + ($.cookie("authenticationToken")));
+        },
+        success: function(data) {
+          if (data.length > 0) {
+          }
         }
-        window.location.replace(from);
-      },
-      error: function () {
-        $("#alert").removeClass("none");
+      });
+
+      function handleLogin() {
+        $.cookie("username", $("#username").val(), {
+          expires: 7
+        });
+        alert($("#rememberMe").is(":checked"))
+        $.ajax({
+          method: 'POST',
+          url: 'https://account-api.easyapi.com/api/authenticate',
+          cache: false,
+          contentType: 'application/json',
+          data: JSON.stringify({
+            username: $("#username").val(),
+            password: $("#password").val(),
+            rememberMe: $("#rememberMe").is(":checked")
+          }),
+          processData: false,
+          dataType: 'json',
+          success: function(data, status, xhr) {
+            var jwt = data.id_token;
+            if ($("#rememberMe").is(":checked")) {
+              $.cookie("authenticationToken", jwt, {
+                expires: 30,
+                path: '/',
+                domain: domain
+              });
+            } else {
+              $.cookie("authenticationToken", jwt, {
+                expires: 0.05,
+                path: '/',
+                domain: domain
+              });
+            }
+            window.location.replace(from);
+          },
+          error: function() {
+            $("#alert").removeClass("none");
+          }
+        });
+        return false;
       }
-    });
-    return false;
-  }
-</script>
-</body>
+
+      var vm = new Vue({
+        el: '#app',
+        data: {
+          ruleForm: {
+            name: '',
+            password: '',
+            checked: false,
+          },
+          rules: {
+            name: [{
+                required: true,
+                message: '请输入您注册时手机号码',
+                trigger: 'blur'
+              },
+              {
+                pattern: /^1[34578]\d{9}$/,
+                message: '手机号码格式有误',
+                trigger: 'change'
+              }
+            ],
+            password: [{
+              required: true,
+              message: '请输入密码',
+              trigger: 'blur'
+            }],
+          }
+        },
+        methods: {
+          onSubmit(formName) {
+            let that = this
+            console.log(this.ruleForm)
+            $.cookie("username", that.ruleForm.name, {
+              expires: 7
+            });
+            $.ajax({
+              method: 'POST',
+              url: 'https://account-api.easyapi.com/api/authenticate',
+              cache: false,
+              contentType: 'application/json',
+              data: JSON.stringify({
+                username: that.ruleForm.name,
+                password: that.ruleForm.password,
+                rememberMe: that.ruleForm.checked
+              }),
+              processData: false,
+              dataType: 'json',
+              success: function(data, status, xhr) {
+                var jwt = data.id_token;
+                if (that.ruleForm.checked) {
+                  $.cookie("authenticationToken", jwt, {
+                    expires: 30,
+                    path: '/',
+                    domain: domain
+                  });
+                } else {
+                  $.cookie("authenticationToken", jwt, {
+                    expires: 0.05,
+                    path: '/',
+                    domain: domain
+                  });
+                }
+                window.location.replace(from);
+              },
+              error: function() {
+                $("#alert").removeClass("none");
+              }
+            });
+            return false;
+          },
+          resetForm(formName) {
+            this.$refs[formName].resetFields();
+          },
+
+          //用户名和密码没输入按置灰
+          passwordInput(e) {
+            var telStr = /^1[34578]\d{9}$/
+            console.log(telStr.test(this.ruleForm.name))
+            console.log(this.ruleForm.password.length >= 6)
+            if (telStr.test(this.ruleForm.name) && this.ruleForm.password.length >= 6) {
+              $('#btn_sub').removeAttr("disabled");
+            } else {
+              $('##btn_sub').attr("disabled", true);
+            }
+          }
+        },
+        mounted() {
+          if ($.cookie("username") != null) {
+            this.ruleForm.name = $.cookie("username");
+          }
+        }
+      })
+    </script>
+  </body>
 
 </html>
