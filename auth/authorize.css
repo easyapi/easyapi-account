@@ -11,28 +11,28 @@
 }
 
 .w_top {
-  width: 600rpx;
+  width: 600 rpx;
   height: 169px;
   border-bottom: 1px solid #f5f5f5;
 
 }
 
 .w_bottom {
-  width: 600rpx;
+  width: 600 rpx;
   height: 180px;
 }
 
-.btn_w{
+.btn_w {
   width: 400px;
   /* height: 180px; */
   margin: 30px auto;
 }
 
-.btn_left{
+.btn_left {
   margin-bottom: 20px;
 }
 
-.word_top{
+.word_top {
   width: 400px;
   margin: 0 auto;
   text-align: center;
@@ -40,7 +40,7 @@
   margin-top: 50px;
 }
 
-.word_bottom{
+.word_bottom {
   width: 400px;
   margin: 0 auto;
   text-align: center;
