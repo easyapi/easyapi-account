@@ -33,7 +33,7 @@
         <div class="lg-form yahei">
           <div class="lg-title ">用户登录</div>
           <div class="lg-body bgf">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
               <el-form-item label="" prop="username">
                 <el-input v-model="ruleForm.username" placeholder="请输入手机号码" style="width: 350px;"></el-input>
               </el-form-item>
@@ -82,7 +82,6 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/jquery.validationEngine.min.js"></script>
     <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/languages/jquery.validationEngine-zh_CN.min.js"></script>
     <script type="text/javascript">
-
       let from = "";
       if (from != null && from != '') {
         let expiresDate = new Date();
@@ -101,18 +100,17 @@
 
       let domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
 
-      console.log('从哪来',from)
-      console.log('域名',domain)
-      
+      console.log('从哪来', from)
+      console.log('域名', domain)
+
       $.ajax({
         method: 'GET',
         url: 'https://account-api.easyapi.com/api/authenticate',
         beforeSend: function(request) {
           request.setRequestHeader("Authorization", "Bearer " + ($.cookie("authenticationToken")));
         },
-        success: function(data) {
-          if (data.length > 0) {
-          }
+        success: function(res) {
+
         }
       });
 
@@ -164,31 +162,38 @@
               }),
               processData: false,
               dataType: 'json',
-              success: function(data, status, xhr) {
-                let jwt = data.id_token;
-                if (that.ruleForm.checked) {
-                  $.cookie("authenticationToken", jwt, {
-                    expires: 30,
-                    path: '/',
-                    domain: domain
+              success: function(res, status, xhr) {
+                if (res.code == 1) {
+                  let jwt = res.id_token;
+                  if (that.ruleForm.checked) {
+                    $.cookie("authenticationToken", jwt, {
+                      expires: 30,
+                      path: '/',
+                      domain: domain
+                    });
+                    $.cookie("password", that.ruleForm.password, {
+                      expires: 7
+                    });
+                  } else {
+                    $.cookie("authenticationToken", jwt, {
+                      expires: 0.05,
+                      path: '/',
+                      domain: domain
+                    });
+                  }
+                  that.$message({
+                    message: res.message,
+                    type: 'success'
                   });
-                  $.cookie("password", that.ruleForm.password, {
-                    expires: 7
-                  });
+                  setTimeout(() => {
+                    window.location.replace(from);
+                  }, 1000);
                 } else {
-                  $.cookie("authenticationToken", jwt, {
-                    expires: 0.05,
-                    path: '/',
-                    domain: domain
-                  });
-                  $.cookie("password", that.ruleForm.password, {
-                    expires: 7
-                  });
+                  that.$message.error(res.message);
                 }
-                // window.location.replace(from);
               },
-              error: function() {
-                that.$message.error(data.responseJSON.message);
+              error: function(res) {
+                that.$message.error(res.message);
               }
             });
           },
@@ -200,14 +205,12 @@
           }
         },
         updated() {
-
-          if (this.ruleForm.password.length >= 6) {
+          if (this.ruleForm.username != '' && this.ruleForm.password.length >= 6) {
             $('#btn_sub').removeAttr("disabled");
           } else {
-            $('#2btn_sub').attr("disabled", true);
+            $('#btn_sub').attr("disabled", true);
           }
-
-          /* 校验手机号版本*/
+          //校验手机号版本
           /* let telStr = /^1[34578]\d{9}$/
           if (telStr.test(this.ruleForm.username) && this.ruleForm.password.length >= 6) {
             $('#btn_sub').removeAttr("disabled");

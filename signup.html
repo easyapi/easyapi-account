@@ -40,7 +40,7 @@
               </el-form-item>
               <el-form-item label="" prop="code">
                 <el-input placeholder="请输入验证码" v-model="ruleForm.code" style="width: 220px;"></el-input>
-                <input type="button" id="sendCodeBtn" @click="sendCodeV" value="获取验证码" />
+                <input type="button" id="sendCodeBtn" @click="sendCode" value="获取验证码" />
               </el-form-item>
               <el-form-item label="" prop="nickname">
                 <el-input placeholder="请输入姓名" v-model="ruleForm.nickname" style="width: 350px;"></el-input>
@@ -184,8 +184,18 @@
                     password: that.ruleForm.password
                   }),
                   dataType: "json",
-                  success: function(data) {
-                    window.location.replace(from);
+                  success: function(res) {
+                    if (res.code == 1) {
+                      that.$message({
+                        message: res.message,
+                        type: 'success'
+                      });
+                      setTimeout(() => {
+                        window.location.replace(from);
+                      }, 1000);
+                    } else {
+                      that.$message.error(data.responseJSON.message);
+                    }
                   },
                   error: function(data) {
                     that.$message.error(data.responseJSON.message);
@@ -205,7 +215,7 @@
                 method: "POST",
                 data: that.ruleForm.username,
                 dataType: "text",
-                success: function(data) {
+                success: function(res) {
                   that.$message.error('此手机号码已经被人注册');
                 }
               });
@@ -213,7 +223,7 @@
           },
 
           //发送验证码
-          sendCodeV() {
+          sendCode() {
             let that = this
             let timer
             let telStr = /^1[34578]\d{9}$/
@@ -224,10 +234,10 @@
                 method: "POST",
                 data: that.ruleForm.username,
                 dataType: "text",
-                success: function(data) {
+                success: function(res) {
                   that.$message.error('此手机号码已经被人注册');
                 },
-                error: function(data) {
+                error: function(res) {
                   $.ajax({
                     url: "https://account-api.easyapi.com/api/captcha/send",
                     method: "POST",
@@ -235,7 +245,7 @@
                     data: JSON.stringify({
                       mobile: that.ruleForm.username
                     }),
-                    success: function(data) {
+                    success: function(res) {
                       that.$message({
                         message: '验证码发送成功',
                         type: 'success'
@@ -257,21 +267,18 @@
                   }, 1000)
                 }
               });
-
             } else {
               that.$message.error('请输入正确的手机号码');
             }
-
           }
-
-
         },
         mounted() {
 
         },
         updated() {
           let telStr = /^1[34578]\d{9}$/
-          if (telStr.test(this.ruleForm.username) && this.ruleForm.password.length >= 6 && this.ruleForm.nickname !=
+          if (telStr.test(this.ruleForm.username) && this.ruleForm.password.length >= 6 && this.ruleForm.confirmPassword
+            .length >= 6 && this.ruleForm.nickname !=
             '' && this.ruleForm.code != '' && this.ruleForm.checked) {
             $('#btn_sub').removeAttr("disabled");
           } else {
