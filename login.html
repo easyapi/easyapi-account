@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>登录 - EasyAPI服务平台</title>
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
-     <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet" />
+    <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet" />
     <link href="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/validationEngine.jquery.min.css" rel="stylesheet" />
     <meta name="descriptions" content="EasyAPI账号登录" />
     <meta name="keywords" content="登录" />
@@ -59,7 +59,7 @@
 
       <div class="foot clearfix">
         <p>
-          <a href="https://www.easyapi.com/info/about">关于我们</a>
+          <a href="https://www.easyapi.com/info/about" class="firstA">关于我们</a>
           <a href="https://www.easyapi.com/info/together">合作伙伴</a>
           <a href="https://www.easyapi.com/info/contact">联系我们</a>
           <a href="https://www.easyapi.com/info/donate">支持我们</a>
@@ -80,6 +80,7 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/jquery.validationEngine.min.js"></script>
     <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/languages/jquery.validationEngine-zh_CN.min.js"></script>
     <script type="text/javascript">
+      let url = sessionStorage['url'];
       let from = "";
       if (from != null && from != '') {
         let expiresDate = new Date();
@@ -95,6 +96,10 @@
       }
       from = from != "" ? from : document.referrer;
       from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
+
+      if (url != '' && from == "https://account.easyapi.com/auth/authorize.html") {
+        console.log('三方登录')
+      }
 
       let domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
 
@@ -179,13 +184,18 @@
                       domain: domain
                     });
                   }
+                  if (url != '' && from == "https://account.easyapi.com/auth/authorize.html") {
+                    let _url = "https://account.easyapi.com/auth/authorize.html" + url;
+                    window.location.href = _url;
+                  } else {
+                    setTimeout(() => {
+                      window.location.replace(from);
+                    }, 1000);
+                  }
                   that.$message({
                     message: res.message,
                     type: 'success'
-                  });
-                  setTimeout(() => {
-                    window.location.replace(from);
-                  }, 1000);
+                  });                 
                 } else {
                   that.$message.error(res.message);
                 }
