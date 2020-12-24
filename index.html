@@ -1,108 +1,112 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh">
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>EasyAPI</title>
-  <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet"/>
-  <meta name="descriptions" content="EasyAPI"/>
-  <meta name="keywords" content="EasyAPI"/>
-  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
-</head>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>EasyAPI</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet" />
+    <meta name="descriptions" content="EasyAPI" />
+    <meta name="keywords" content="EasyAPI" />
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  </head>
 
-<body>
-<script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-<script src="https://cdn.bootcss.com/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://static.easyapi.com/scripts/base.js"></script>
-<script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script type="text/javascript" src="https://static.easyapi.com/scripts/libs/Validform_v5.3.2_min.js"></script>
-<script type="text/javascript">
-  let from = "";
-  if (from != null && from != '') {
-    let expiresDate = new Date();
-    expiresDate.setTime(expiresDate + (60 * 60 * 1000));
-    $.cookie('from', from, {expires: expiresDate});
-  } else {
-    from = $.cookie("from");
-  }
-  if (typeof (from) == "undefined") {
-    from = '';
-  }
-  from = from != "" ? from : document.referrer;
-  from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
-  var domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
-  if ($.cookie("username") != null) {
-    $("#username").val($.cookie("username"));
-    $("#password").focus();
-  } else {
-    $("#username").focus();
-  }
-  $(document).ready(function () {
-    $("#loginForm").Validform({
-      tiptype: function (msg, o, cssctl) {
-        var objtip = $("#msg2");
-        cssctl(objtip, o.type);
-        objtip.text(msg);
-      },
-    });
-  });
-  $.ajax({
-    method: 'GET',
-    url: 'https://account-api.easyapi.com/api/authenticate',
-    beforeSend: function (request) {
-      request.setRequestHeader("Authorization", "Bearer " + ($.cookie("authenticationToken")));
-    },
-    success: function (data) {
-      if (data.length > 0) {
-        window.location.replace(from);
+  <body>
+    <script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://static.easyapi.com/scripts/base.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript" src="https://static.easyapi.com/scripts/libs/Validform_v5.3.2_min.js"></script>
+    <script type="text/javascript">
+      let from = "";
+      if (from != null && from != '') {
+        let expiresDate = new Date();
+        expiresDate.setTime(expiresDate + (60 * 60 * 1000));
+        $.cookie('from', from, {
+          expires: expiresDate
+        });
+      } else {
+        from = $.cookie("from");
       }
-    }
-  });
-
-  function handleLogin() {
-    $.cookie("username", $("#username").val(), {expires: 7});
-    $.ajax({
-      method: 'POST',
-      url: 'https://account-api.easyapi.com/api/authenticate',
-      cache: false,
-      contentType: 'application/json',
-      data: JSON.stringify({
-        username: $("#username").val(),
-        password: $("#password").val(),
-        rememberMe: $("#rememberMe").is(":checked")
-      }),
-      processData: false,
-      dataType: 'json',
-      success: function (data, status, xhr) {
-        var bearerToken = xhr.getResponseHeader("Authorization");
-        if (bearerToken.substr(0, 7) == "Bearer ") {
-          var jwt = bearerToken.substr(7, bearerToken.length);
-          if ($("#rememberMe").is(":checked")) {
-            $.cookie("authenticationToken", jwt, {
-              expires: 30,
-              path: '/',
-              domain: domain
-            });
-          } else {
-            $.cookie("authenticationToken", jwt, {
-              expires: 0.05,
-              path: '/',
-              domain: domain
-            });
+      if (typeof(from) == "undefined") {
+        from = '';
+      }
+      from = from != "" ? from : document.referrer;
+      from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
+      var domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
+      if ($.cookie("username") != null) {
+        $("#username").val($.cookie("username"));
+        $("#password").focus();
+      } else {
+        $("#username").focus();
+      }
+      $(document).ready(function() {
+        $("#loginForm").Validform({
+          tiptype: function(msg, o, cssctl) {
+            var objtip = $("#msg2");
+            cssctl(objtip, o.type);
+            objtip.text(msg);
+          },
+        });
+      });
+      $.ajax({
+        method: 'GET',
+        url: 'https://account-api.easyapi.com/api/authenticate',
+        beforeSend: function(request) {
+          request.setRequestHeader("Authorization", "Bearer " + ($.cookie("authenticationToken")));
+        },
+        success: function(data) {
+          if (data.length > 0) {
+            window.location.replace(from);
           }
-          window.location.replace(from);
         }
-      },
-      error: function () {
-        $("#alert").removeClass("none");
+      });
+
+      function handleLogin() {
+        $.cookie("username", $("#username").val(), {
+          expires: 7
+        });
+        $.ajax({
+          method: 'POST',
+          url: 'https://account-api.easyapi.com/api/authenticate',
+          cache: false,
+          contentType: 'application/json',
+          data: JSON.stringify({
+            username: $("#username").val(),
+            password: $("#password").val(),
+            rememberMe: $("#rememberMe").is(":checked")
+          }),
+          processData: false,
+          dataType: 'json',
+          success: function(data, status, xhr) {
+            var bearerToken = xhr.getResponseHeader("Authorization");
+            if (bearerToken.substr(0, 7) == "Bearer ") {
+              var jwt = bearerToken.substr(7, bearerToken.length);
+              if ($("#rememberMe").is(":checked")) {
+                $.cookie("authenticationToken", jwt, {
+                  expires: 30,
+                  path: '/',
+                  domain: domain
+                });
+              } else {
+                $.cookie("authenticationToken", jwt, {
+                  expires: 0.05,
+                  path: '/',
+                  domain: domain
+                });
+              }
+              window.location.replace(from);
+            }
+          },
+          error: function() {
+            $("#alert").removeClass("none");
+          }
+        });
+        return false;
       }
-    });
-    return false;
-  }
-</script>
-</body>
+    </script>
+  </body>
 
 </html>

@@ -5,11 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>注册 - EasyAPI服务平台</title>
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet" /> -->
-    <link href="http://localhost:9696/styles/base.css" rel="stylesheet" />
+    <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet" />
     <meta name="descriptions" content="EasyAPI账号注册" />
     <meta name="keywords" content="注册" />
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <!-- 饿了吗样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
   </head>
 
@@ -27,11 +27,10 @@
         </div>
       </div>
 
-      <div class="container m-bottom-200">
+      <div class="container">
         <div class="lg-form">
           <div class="lg-title text-center">用户注册</div>
-          <div class="lg-body bgf">
-            <br />
+          <div class="lg-body bgf">           
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
               <el-form-item label="" prop="username">
                 <el-input placeholder="请输入手机号码" v-model="ruleForm.username" @input="findUsername" style="width: 350px;"></el-input>
@@ -76,14 +75,16 @@
     <script src="./vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
     <!-- 引入elemnet组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- jQuery -->
     <script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- easyapi -->
     <script src="https://static.easyapi.com/scripts/base.js"></script>
-    <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
+    <!-- 跨域读取数据 -->
     <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
+    <!-- cookie -->
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script type="text/javascript" src="https://static.easyapi.com/scripts/libs/Validform_v5.3.2_min.js"></script>
     <script type="text/javascript">
+      //从哪来
       let from = "";
       if (from != null && from != '') {
         var expiresDate = new Date();
@@ -99,8 +100,6 @@
       }
       from = from != "" ? from : document.referrer;
       from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
-
-      console.log('从哪来', from)
 
       var vm = new Vue({
         el: '#app',
@@ -155,11 +154,9 @@
           }
         },
         methods: {
-
+          //注册
           onSubmit() {
             let that = this
-            console.log(that.ruleForm)
-
             let username = that.ruleForm.username
             let code = that.ruleForm.code
             let nickname = that.ruleForm.nickname
@@ -193,11 +190,11 @@
                         window.location.replace(from);
                       }, 1000);
                     } else {
-                      that.$message.error(data.responseJSON.message);
+                      that.$message.error(res.message);
                     }
                   },
-                  error: function(data) {
-                    that.$message.error(data.responseJSON.message);
+                  error: function(res) {
+                    that.$message.error(res.responseJSON.message);
                   }
                 });
               }
@@ -271,10 +268,8 @@
             }
           }
         },
-        mounted() {
-
-        },
         updated() {
+          //校验
           let telStr = /^1[34578]\d{9}$/
           if (telStr.test(this.ruleForm.username) && this.ruleForm.password.length >= 6 && this.ruleForm.confirmPassword
             .length >= 6 && this.ruleForm.nickname !=
