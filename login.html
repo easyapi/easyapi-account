@@ -1,237 +1,232 @@
 <!DOCTYPE html>
 <html lang="zh">
 
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>登录 - EasyAPI服务平台</title>
-    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet" />
-    <link href="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/validationEngine.jquery.min.css" rel="stylesheet" />
-    <meta name="descriptions" content="EasyAPI账号登录" />
-    <meta name="keywords" content="登录" />
-    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
-    <!-- 饿了吗样式 -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-  </head>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>登录 - EasyAPI服务平台</title>
+  <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet"/>
+  <link href="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/validationEngine.jquery.min.css" rel="stylesheet"/>
+  <meta name="descriptions" content="EasyAPI账号登录"/>
+  <meta name="keywords" content="登录"/>
+  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <!-- 饿了吗样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
 
-  <body>
-    <div id="app">
-      <div style="margin: 0 0 100px 0">
-        <div class="toper">
-          <div class="wp">
-            <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png" /></a>
-            <div class="navs pr">
-              <a href="./login.html">登录</a>
-              <a href="./signup.html">注册</a>
-            </div>
-          </div>
+<body>
+<div id="app">
+  <div style="margin: 0 0 100px 0">
+    <div class="toper">
+      <div class="wp">
+        <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png"/></a>
+        <div class="navs pr">
+          <a href="./login.html">登录</a>
+          <a href="./signup.html">注册</a>
         </div>
-      </div>
-
-      <div class="container">
-        <div class="lg-form yahei">
-          <div class="lg-title ">用户登录</div>
-          <div class="lg-body bgf">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-              <el-form-item label="" prop="username">
-                <el-input v-model="ruleForm.username" placeholder="请输入手机号码" style="width: 350px;"></el-input>
-              </el-form-item>
-              <el-form-item label="" prop="password">
-                <el-input v-model="ruleForm.password" placeholder="请输入密码" type="password" style="width: 350px;"></el-input>
-              </el-form-item>
-              <el-checkbox v-model="ruleForm.checked">记住密码</el-checkbox>
-              <input disabled id="btn_sub" type="button" name="login" @click="onSubmit" class="btn-block btn btn-lg btn-info"
-                value="登 录" />
-            </el-form>
-
-            <div class="otherbox a-center">
-              <a class="signup" href="./signup.html">立即注册</a>
-              <a class="forget-password" href="./forget-password.html">忘记密码？</a>
-            </div>
-
-            <div class="otherlogin">
-              <a href="https://account-api.easyapi.com/auth/wechat"><i class="iconfont icon-weixing color-success"></i>
-              </a>
-              <a href="https://account-api.easyapi.com/auth/qq"><i class="iconfont icon-iconfonticon6"></i> </a>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="foot clearfix">
-        <p>
-          <span>Copyright © 2015～2021 帮趣团队</span>
-          <a href="https://www.easyapi.com/info/about" class="firstA">关于我们</a>
-          <a href="https://www.easyapi.com/info/together">合作伙伴</a>
-          <a href="https://www.easyapi.com/info/contact">联系我们</a>
-          <a href="https://www.easyapi.com/info/donate">支持我们</a>
-        </p>
       </div>
     </div>
-    <!-- 引入vue -->
-    <script src="./vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
-    <!-- 引入elemnet组件库 -->
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <!-- jQuery -->
-    <script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-    <!-- easyapi -->
-    <script src="https://static.easyapi.com/scripts/base.js"></script>
-    <!-- 跨域读取数据 -->
-    <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
-    <!-- cookie -->
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script type="text/javascript">
-      //三方登录存入sessionStorage的参数
-      let url = sessionStorage['url'];
-      //标识是从三方登录过来的
-      let auth = sessionStorage['auth']
-      //从哪来
-      let from = "";
-      if (from != null && from != '') {
-        let expiresDate = new Date();
-        expiresDate.setTime(expiresDate.getTime() + (60 * 60 * 1000));
-        $.cookie('from', from, {
-          expires: expiresDate
+  </div>
+
+  <div class="container">
+    <div class="lg-form yahei">
+      <div class="lg-title ">用户登录</div>
+      <div class="lg-body bgf">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+          <el-form-item label="" prop="username">
+            <el-input v-model="ruleForm.username" placeholder="请输入手机号码" style="width: 350px;"></el-input>
+          </el-form-item>
+          <el-form-item label="" prop="password">
+            <el-input v-model="ruleForm.password" placeholder="请输入密码" type="password" style="width: 350px;"></el-input>
+          </el-form-item>
+          <el-checkbox v-model="ruleForm.checked">记住密码</el-checkbox>
+          <input disabled id="btn_sub" type="button" name="login" @click="onSubmit"
+                 class="btn-block btn btn-lg btn-info"
+                 value="登 录"/>
+        </el-form>
+
+        <div class="otherbox a-center">
+          <a class="signup" href="./signup.html">立即注册</a>
+          <a class="forget-password" href="./forget-password.html">忘记密码？</a>
+        </div>
+
+        <div class="otherlogin">
+          <a href="https://account-api.easyapi.com/auth/wechat"><i class="iconfont icon-weixing color-success"></i>
+          </a>
+          <a href="https://account-api.easyapi.com/auth/qq"><i class="iconfont icon-iconfonticon6"></i> </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="foot clearfix">
+    <p>
+      <span>Copyright © 2015～2021 帮趣团队</span>
+      <a href="https://www.easyapi.com/info/about" class="firstA">关于我们</a>
+      <a href="https://www.easyapi.com/info/together">合作伙伴</a>
+      <a href="https://www.easyapi.com/info/contact">联系我们</a>
+      <a href="https://www.easyapi.com/info/donate">支持我们</a>
+    </p>
+  </div>
+</div>
+<script src="./vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://static.easyapi.com/scripts/base.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script type="text/javascript">
+  //三方登录存入sessionStorage的参数
+  let url = sessionStorage['url'];
+  //标识是从三方登录过来的
+  let auth = sessionStorage['auth']
+  //从哪来
+  let from = "";
+  if (from != null && from != '') {
+    let expiresDate = new Date();
+    expiresDate.setTime(expiresDate.getTime() + (60 * 60 * 1000));
+    $.cookie('from', from, {
+      expires: expiresDate
+    });
+  } else {
+    from = $.cookie("from");
+  }
+  if (typeof(from) == "undefined") {
+    from = '';
+  }
+  from = from != "" ? from : document.referrer;
+  from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
+
+  //域名
+  let domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
+
+  $.ajax({
+    method: 'GET',
+    url: 'https://account-api.easyapi.com/api/authenticate',
+    beforeSend: function (request) {
+      request.setRequestHeader("Authorization", "Bearer " + ($.cookie("authenticationToken")));
+    },
+    success: function (res) {
+
+    }
+  });
+
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      ruleForm: {
+        username: '',
+        password: '',
+        checked: false,
+      },
+      rules: {
+        username: [{
+          required: true,
+          message: '请输入您注册时手机号码',
+          trigger: 'blur'
+        },
+          // {
+          //   pattern: /^1[34578]\d{9}$/,
+          //   message: '手机号码格式有误',
+          //   trigger: 'change'
+          // }
+        ],
+        password: [{
+          required: true,
+          message: '请输入密码',
+          trigger: 'blur'
+        }],
+      }
+    },
+    methods: {
+      //登录
+      onSubmit() {
+        let that = this
+        console.log(this.ruleForm)
+        $.cookie("username", that.ruleForm.username, {
+          expires: 7
         });
-      } else {
-        from = $.cookie("from");
-      }
-      if (typeof(from) == "undefined") {
-        from = '';
-      }
-      from = from != "" ? from : document.referrer;
-      from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
-
-      //域名
-      let domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
-
-      $.ajax({
-        method: 'GET',
-        url: 'https://account-api.easyapi.com/api/authenticate',
-        beforeSend: function(request) {
-          request.setRequestHeader("Authorization", "Bearer " + ($.cookie("authenticationToken")));
-        },
-        success: function(res) {
-
-        }
-      });
-
-      var vm = new Vue({
-        el: '#app',
-        data: {
-          ruleForm: {
-            username: '',
-            password: '',
-            checked: false,
-          },
-          rules: {
-            username: [{
-                required: true,
-                message: '请输入您注册时手机号码',
-                trigger: 'blur'
-              },
-              // {
-              //   pattern: /^1[34578]\d{9}$/,
-              //   message: '手机号码格式有误',
-              //   trigger: 'change'
-              // }
-            ],
-            password: [{
-              required: true,
-              message: '请输入密码',
-              trigger: 'blur'
-            }],
-          }
-        },
-        methods: {
-          //登录
-          onSubmit() {
-            let that = this
-            console.log(this.ruleForm)
-            $.cookie("username", that.ruleForm.username, {
-              expires: 7
-            });
-            $.ajax({
-              method: 'POST',
-              url: 'https://account-api.easyapi.com/api/authenticate',
-              cache: false,
-              contentType: 'application/json',
-              data: JSON.stringify({
-                username: that.ruleForm.username,
-                password: that.ruleForm.password,
-                rememberMe: that.ruleForm.checked
-              }),
-              processData: false,
-              dataType: 'json',
-              success: function(res, status, xhr) {
-                if (res.code == 1) {
-                  let jwt = res.id_token;
-                  if (that.ruleForm.checked) {
-                    $.cookie("authenticationToken", jwt, {
-                      expires: 30,
-                      path: '/',
-                      domain: domain
-                    });
-                    $.cookie("password", that.ruleForm.password, {
-                      expires: 7
-                    });
-                  } else {
-                    $.cookie("authenticationToken", jwt, {
-                      expires: 0.05,
-                      path: '/',
-                      domain: domain
-                    });
-                  }
-                  //三方登录
-                  if (url != '' && auth == "三方登录") {
-                    let _url = "https://account.easyapi.com/auth/authorize.html" + url;
-                    window.location.href = _url;
-                  } else {
-                    setTimeout(() => {
-                      window.location.replace(from);
-                    }, 1000);
-                  }
-                  that.$message({
-                    message: res.message,
-                    type: 'success'
-                  });
-                } else {
-                  // that.$message.error(res.message);
-                  that.$message.error("账户或密码错误！");
-                }
-              },
-              error: function(res) {
-                // that.$message.error(res.message);
-                that.$message.error("账户或密码错误！");
+        $.ajax({
+          method: 'POST',
+          url: 'https://account-api.easyapi.com/api/authenticate',
+          cache: false,
+          contentType: 'application/json',
+          data: JSON.stringify({
+            username: that.ruleForm.username,
+            password: that.ruleForm.password,
+            rememberMe: that.ruleForm.checked
+          }),
+          processData: false,
+          dataType: 'json',
+          success: function (res, status, xhr) {
+            if (res.code == 1) {
+              let jwt = res.id_token;
+              if (that.ruleForm.checked) {
+                $.cookie("authenticationToken", jwt, {
+                  expires: 30,
+                  path: '/',
+                  domain: domain
+                });
+                $.cookie("password", that.ruleForm.password, {
+                  expires: 7
+                });
+              } else {
+                $.cookie("authenticationToken", jwt, {
+                  expires: 0.05,
+                  path: '/',
+                  domain: domain
+                });
               }
-            });
+              //三方登录
+              if (url != '' && auth == "三方登录") {
+                let _url = "https://account.easyapi.com/auth/authorize.html" + url;
+                window.location.href = _url;
+              } else {
+                setTimeout(() => {
+                  window.location.replace(from);
+                }, 1000);
+              }
+              that.$message({
+                message: res.message,
+                type: 'success'
+              });
+            } else {
+              // that.$message.error(res.message);
+              that.$message.error("账户或密码错误！");
+            }
           },
-        },
-        mounted() {
-          // 从cookie 中获取账号和密码
-          if ($.cookie("username") != null) {
-            this.ruleForm.username = $.cookie("username");
-            this.ruleForm.password = $.cookie("password");
+          error: function (res) {
+            // that.$message.error(res.message);
+            that.$message.error("账户或密码错误！");
           }
-        },
-        updated() {
-          // 校验
-          if (this.ruleForm.username != '' && this.ruleForm.password.length >= 6) {
-            $('#btn_sub').removeAttr("disabled");
-          } else {
-            $('#btn_sub').attr("disabled", true);
-          }
-          // 校验手机号版本
-          /* let telStr = /^1[34578]\d{9}$/
-          if (telStr.test(this.ruleForm.username) && this.ruleForm.password.length >= 6) {
-            $('#btn_sub').removeAttr("disabled");
-          } else {
-            $('#2btn_sub').attr("disabled", true);
-          } */
-        }
-      })
-    </script>
-  </body>
+        });
+      },
+    },
+    mounted() {
+      // 从cookie 中获取账号和密码
+      if ($.cookie("username") != null) {
+        this.ruleForm.username = $.cookie("username");
+        this.ruleForm.password = $.cookie("password");
+      }
+    },
+    updated() {
+      // 校验
+      if (this.ruleForm.username != '' && this.ruleForm.password.length >= 6) {
+        $('#btn_sub').removeAttr("disabled");
+      } else {
+        $('#btn_sub').attr("disabled", true);
+      }
+      // 校验手机号版本
+      /* let telStr = /^1[34578]\d{9}$/
+      if (telStr.test(this.ruleForm.username) && this.ruleForm.password.length >= 6) {
+        $('#btn_sub').removeAttr("disabled");
+      } else {
+        $('#2btn_sub').attr("disabled", true);
+      } */
+    }
+  })
+</script>
+</body>
 
 </html>

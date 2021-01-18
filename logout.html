@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head></head>
-  <body>
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.bootcss.com/js-cookie/latest/js.cookie.min.js"></script>
-    <script type="text/javascript">
-      Cookies.remove('authenticationToken', {
-        path: '',
-        domain: 'easyapi.com'
-      });
-      window.location.replace('/login?from=' + document.referrer ? document.referrer : "".indexOf("account.easyapi.com") >=
-        0 ? "https://www.easyapi.com" : document.referrer);
-    </script>
-  </body>
+<head></head>
+<body>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/js-cookie/latest/js.cookie.min.js"></script>
+<script type="text/javascript">
+  Cookies.remove('authenticationToken', {
+    path: '',
+    domain: 'easyapi.com'
+  });
+  window.location.replace('/login?from=' + document.referrer ? document.referrer : "".indexOf("account.easyapi.com") >=
+  0 ? "https://www.easyapi.com" : document.referrer);
+</script>
+</body>
 </html>
