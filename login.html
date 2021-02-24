@@ -39,7 +39,7 @@
           <el-form-item label="" prop="password">
             <el-input v-model="ruleForm.password" placeholder="请输入密码" type="password" style="width: 350px;"></el-input>
           </el-form-item>
-          <el-checkbox v-model="ruleForm.checked">记住密码</el-checkbox>
+          <el-checkbox v-model="ruleForm.rememberMe" checked>记住密码</el-checkbox>
           <input disabled id="btn_sub" type="button" name="login" @click="onSubmit"
                  class="btn-block btn btn-lg btn-info"
                  value="登 录"/>
@@ -101,24 +101,13 @@
   //域名
   let domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
 
-  $.ajax({
-    method: 'GET',
-    url: 'https://account-api.easyapi.com/api/authenticate',
-    beforeSend: function (request) {
-      request.setRequestHeader("Authorization", "Bearer " + ($.cookie("authenticationToken")));
-    },
-    success: function (res) {
-
-    }
-  });
-
   var vm = new Vue({
     el: '#app',
     data: {
       ruleForm: {
         username: '',
         password: '',
-        checked: false,
+        rememberMe: false,
       },
       rules: {
         username: [{
@@ -142,11 +131,8 @@
     methods: {
       //登录
       onSubmit() {
-        let that = this
-        console.log(this.ruleForm)
-        $.cookie("username", that.ruleForm.username, {
-          expires: 7
-        });
+        let that = this;
+        $.cookie("username", that.ruleForm.username, {expires: 7});
         $.ajax({
           method: 'POST',
           url: 'https://account-api.easyapi.com/api/authenticate',
@@ -155,29 +141,17 @@
           data: JSON.stringify({
             username: that.ruleForm.username,
             password: that.ruleForm.password,
-            rememberMe: that.ruleForm.checked
+            rememberMe: that.ruleForm.rememberMe
           }),
           processData: false,
           dataType: 'json',
           success: function (res, status, xhr) {
             if (res.code == 1) {
-              let jwt = res.id_token;
-              if (that.ruleForm.checked) {
-                $.cookie("authenticationToken", jwt, {
-                  expires: 30,
-                  path: '/',
-                  domain: domain
-                });
-                $.cookie("password", that.ruleForm.password, {
-                  expires: 7
-                });
-              } else {
-                $.cookie("authenticationToken", jwt, {
-                  expires: 0.05,
-                  path: '/',
-                  domain: domain
-                });
-              }
+              $.cookie("authenticationToken", res.content.idToken, {
+                expires: that.ruleForm.rememberMe ? 30 : 0.1,
+                path: '/',
+                domain: domain
+              });
               //三方登录
               if (url != '' && auth == "三方登录") {
                 let _url = "https://account.easyapi.com/auth/authorize.html" + url;
@@ -187,18 +161,13 @@
                   window.location.replace(from);
                 }, 1000);
               }
-              that.$message({
-                message: res.message,
-                type: 'success'
-              });
+              that.$message({message: res.message, type: 'success'});
             } else {
-              // that.$message.error(res.message);
-              that.$message.error("账户或密码错误！");
+              that.$message.error(error.responseJSON.message);
             }
           },
-          error: function (res) {
-            // that.$message.error(res.message);
-            that.$message.error("账户或密码错误！");
+          error: function (error) {
+            that.$message.error(error.responseJSON.message);
           }
         });
       },
@@ -207,7 +176,6 @@
       // 从cookie 中获取账号和密码
       if ($.cookie("username") != null) {
         this.ruleForm.username = $.cookie("username");
-        this.ruleForm.password = $.cookie("password");
       }
     },
     updated() {
