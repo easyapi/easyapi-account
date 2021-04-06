@@ -88,7 +88,7 @@
   function handleLogin() {
     $.ajax({
       method: 'POST',
-      url: '/api/authenticate',
+      url: 'https://account-api.easyapi.com/api/authenticate',
       cache: false,
       contentType: 'application/json',
       data: JSON.stringify({
@@ -120,7 +120,7 @@
   function bind() {
     $.ajax({
       method: 'POST',
-      url: '/auth/bind',
+      url: 'https://account-api.easyapi.com/auth/bind',
       data: {
         providerUserId: $("#providerUserId").val(),
         providerId: $("#providerId").val()
