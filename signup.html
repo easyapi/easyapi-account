@@ -33,11 +33,15 @@
       <div class="lg-body bgf">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="" prop="username">
-            <el-input placeholder="请输入手机号码" v-model="ruleForm.username" @input="findUsername"
-                      style="width: 350px;"></el-input>
+            <el-input placeholder="请输入手机号码" maxlength="11" v-model="ruleForm.username" @input="findUsername" style="width: 350px;">
+              <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:90px">
+                <el-option label="+86" value="1"></el-option>
+                <el-option label="+886" value="2"></el-option>
+              </el-select>
+            </el-input>
           </el-form-item>
           <el-form-item label="" prop="code">
-            <el-input placeholder="请输入验证码" v-model="ruleForm.code" style="width: 220px;"></el-input>
+            <el-input placeholder="请输入验证码" maxlength="6" v-model="ruleForm.code" style="width: 220px;"></el-input>
             <input type="button" id="sendCodeBtn" @click="sendCode" value="获取验证码"/>
           </el-form-item>
           <el-form-item label="" prop="nickname">
@@ -102,6 +106,7 @@
   var vm = new Vue({
     el: '#app',
     data: {
+      select:"1",
       ruleForm: {
         username: '',
         code: '',
@@ -119,14 +124,20 @@
           {
             pattern: /^1[34578]\d{9}$/,
             message: '手机号码格式有误',
-            trigger: 'change'
+            trigger: 'blur'
           }
         ],
         code: [{
           required: true,
           message: '请输入验证码',
           trigger: 'blur'
-        }],
+        },
+        {
+          pattern: /^\d{6}$/,
+          message: '验证码格式有误',
+          trigger: 'blur'
+        }
+      ],
         nickname: [{
           required: true,
           message: '请输入昵称',
@@ -141,7 +152,7 @@
             min: 6,
             max: 16,
             message: '密码6~16位之间，建议包含英文和标点符号',
-            trigger: 'change'
+            trigger: 'blur'
           }
         ],
         confirmPassword: [{

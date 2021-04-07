@@ -34,7 +34,12 @@
       <div class="lg-body bgf">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
           <el-form-item label="" prop="username">
-            <el-input v-model="ruleForm.username" placeholder="请输入手机号码" style="width: 350px;"></el-input>
+            <el-input v-model="ruleForm.username" class="input-with-select" maxlength="11" placeholder="请输入手机号码" style="width: 350px;">
+              <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:90px">
+                <el-option label="+86" value="1"></el-option>
+                <el-option label="+886" value="2"></el-option>
+              </el-select>
+            </el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
             <el-input v-model="ruleForm.password" placeholder="请输入密码" type="password" style="width: 350px;"></el-input>
@@ -104,6 +109,7 @@
   var vm = new Vue({
     el: '#app',
     data: {
+      select:"1",
       ruleForm: {
         username: '',
         password: '',
@@ -115,11 +121,11 @@
           message: '请输入您注册时手机号码',
           trigger: 'blur'
         },
-          // {
-          //   pattern: /^1[34578]\d{9}$/,
-          //   message: '手机号码格式有误',
-          //   trigger: 'change'
-          // }
+          {
+            pattern: /^1[34578]\d{9}$/,
+            message: '手机号码格式有误',
+            trigger: 'blur'
+          }
         ],
         password: [{
           required: true,
