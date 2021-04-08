@@ -33,11 +33,13 @@
       <div class="lg-body bgf">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="" prop="username">
-            <el-input placeholder="请输入手机号码" maxlength="11" v-model="ruleForm.username" @input="findUsername" style="width: 350px;">
-              <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:90px">
-                <el-option label="+86" value="1"></el-option>
-                <el-option label="+886" value="2"></el-option>
-              </el-select>
+            <el-input placeholder="请输入手机号码" class="input-with-select" maxlength="11" v-model="ruleForm.username" @input="findUsername" style="width: 350px;">
+              <template slot="prepend">+ </template>
+                <el-select v-model="select" filterable allow-create slot="prepend" style="width:80px;">
+                  <el-option v-for="item in options" :key="item.value" :value="item.value">
+                    {{item.label}}（+{{item.value}}）
+                  </el-option>
+                </el-select>
             </el-input>
           </el-form-item>
           <el-form-item label="" prop="code">
@@ -106,7 +108,23 @@
   var vm = new Vue({
     el: '#app',
     data: {
-      select:"1",
+      select: "86",
+      options: [{
+          value: '86',
+          label: '中国大陆'
+        }, {
+          value: '852',
+          label: '中国香港'
+        }, {
+          value: '886',
+          label: '中国台湾'
+        }, {
+          value: '81',
+          label: '日本'
+        }, {
+          value: '1',
+          label: '美国'
+      }],
       ruleForm: {
         username: '',
         code: '',
@@ -240,7 +258,7 @@
             data: that.ruleForm.username,
             dataType: "text",
             success: function (res) {
-              that.$message.error('此手机号码已经被人注册');
+              that.$message.error('该账号已注册，请直接登录');
             },
             error: function (res) {
               $.ajax({
