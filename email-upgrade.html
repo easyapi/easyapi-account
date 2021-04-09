@@ -33,8 +33,8 @@
         <div class="lg-title text-center">邮箱升级</div>
         <div class="lg-body bgf">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="" prop="password">
-              <el-input placeholder="请输入原邮箱账号" type="password" v-model="ruleForm.password" style="width: 350px;">
+            <el-form-item label="" prop="email">
+              <el-input placeholder="请输入原邮箱账号" v-model="ruleForm.email" style="width: 350px;">
               </el-input>
             </el-form-item>
             <el-form-item label="" prop="password">
@@ -53,7 +53,7 @@
               </el-input>
             </el-form-item>
             <el-form-item label="" prop="code">
-              <el-input placeholder="请输入验证码" maxlength="6" v-model="ruleForm.code" style="width: 220px;"></el-input>
+              <el-input placeholder="请输入验证码" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="ruleForm.code" style="width: 220px;"></el-input>
               <input type="button" id="sendCodeBtn" @click="sendCode" value="获取验证码" />
             </el-form-item>
 
@@ -124,11 +124,23 @@
           label: '美国'
         }],
         ruleForm: {
+          email: '',
           username: '',
           code: '',
           password: '',
         },
         rules: {
+          email: [{
+            required: true,
+            message: '请输入邮箱账号',
+            trigger: 'blur'
+          },
+          {
+            pattern: /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/,
+            message: '邮箱账号格式有误',
+            trigger: 'blur'
+          }
+        ],
           username: [{
               required: true,
               message: '请输入手机号码',
@@ -275,7 +287,8 @@
       updated() {
         //校验
         let telStr = /^1[34578]\d{9}$/
-        if (telStr.test(this.ruleForm.username) && this.ruleForm.password.length >= 6  && this.ruleForm.code != '') {
+        let email = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/
+        if (email.test(this.ruleForm.email) && telStr.test(this.ruleForm.username) && this.ruleForm.password.length >= 6  && this.ruleForm.code.length == 6) {
           $('#btn_sub').removeAttr("disabled");
         } else {
           $('#btn_sub').attr("disabled", true);
