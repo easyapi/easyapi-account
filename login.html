@@ -24,8 +24,8 @@
           <a href="https://www.easyapi.com/"><img class="logo pl"
               src="https://static.easyapi.com/images/logo.png" /></a>
           <div class="navs pr">
-            <a href="./login.html">登录</a>
-            <a href="./signup.html">注册</a>
+            <a href="./login">登录</a>
+            <a href="./signup">注册</a>
           </div>
         </div>
       </div>
@@ -56,9 +56,9 @@
           </el-form>
 
           <div class="otherbox a-center">
-            <a class="signup" href="./signup.html">立即注册</a>
-            <a href="./email-upgrade.html">邮箱升级为手机号码</a>
-            <a class="forget-password" href="./forget-password.html">忘记密码？</a>
+            <a class="signup" href="./signup">立即注册</a>
+            <a href="./email-upgrade">邮箱升级为手机号码</a>
+            <a class="forget-password" href="./forget-password">忘记密码？</a>
           </div>
 
           <div class="otherlogin">
@@ -184,7 +184,7 @@
                 });
                 //三方登录
                 if (url != '' && auth == "三方登录") {
-                  let _url = "https://account.easyapi.com/auth/authorize.html" + url;
+                  let _url = "https://account.easyapi.com/auth/authorize" + url;
                   window.location.href = _url;
                 } else {
                   setTimeout(() => {
