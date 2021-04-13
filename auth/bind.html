@@ -30,7 +30,7 @@
         <div class="lg-subtitle ">第一次使用QQ帐号登录，您需要填写账号和密码，以后您也可以使用此账号和密码登录</div>
         <div class="ath"><img :src="imageSrc">
           <img style="width: 40px;height: 40px;" src="../static/svg/bind.svg" alt="">
-          <img src="https://static.easyapi.com/images/ath.png"></div>
+          <img src="../static/easyApi.png"></div>
         <div class="lg-body bgf">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
             <el-form-item label="" prop="username">
@@ -73,12 +73,38 @@
   <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
   <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
   <script type="text/javascript" src="https://static.easyapi.com/scripts/libs/Validform_v5.3.2_min.js"></script>
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
   <script type="text/javascript">
+  //三方登录存入sessionStorage的参数
+  let url = sessionStorage['url'];
+    //标识是从三方登录过来的
+    let auth = sessionStorage['auth']
+    //从哪来
+    let from = "";
+    if (from != null && from != '') {
+      let expiresDate = new Date();
+      expiresDate.setTime(expiresDate.getTime() + (60 * 60 * 1000));
+      $.cookie('from', from, {
+        expires: expiresDate
+      });
+    } else {
+      from = $.cookie("from");
+    }
+    if (typeof (from) == "undefined") {
+      from = '';
+    }
+    from = from != "" ? from : document.referrer;
+    from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
+
+    //域名
+    let domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
     var vm = new Vue({
       el: '#app',
       data: {
         select: "86",
         imageSrc: "",
+        providerUserId: "",
+        providerId: "",
         options: [{
           value: '86',
           label: '中国大陆'
@@ -124,12 +150,17 @@
               trigger: 'blur'
             }
           ],
-
         }
       },
       mounted() {
-        if (this.$route.params.providerId === "qq") {
-          this.imageSrc = "./static/qq.jpg"
+        let providerUserId = window.location.href.split("?")[1].split("&")[0].split("=")[1];
+        let providerId = window.location.href.split("?")[1].split("&")[1].split("=")[1]
+        if (providerUserId && providerId) {
+          this.providerUserId = providerUserId;
+          this.providerId = providerId
+        }
+        if (providerId === "qq") {
+          this.imageSrc = "/static/qq.jpg"
         } else {
           this.imageSrc = "/static/weixin.jpg"
         }
@@ -176,8 +207,8 @@
             method: 'POST',
             url: 'https://account-api.easyapi.com/auth/bind',
             data: {
-              providerUserId: that.$route.params.providerUserId,
-              providerId: that.$route.params.providerId
+              providerUserId: that.providerUserId,
+              providerId: that.providerId
             },
             beforeSend: function (request) {
               request.setRequestHeader("Authorization", "Bearer " + (localStorage.getItem(
@@ -187,7 +218,12 @@
             },
             dataType: "text",
             success: function (data) {
-              window.location.replace("https://www.easyapi.com");
+              $.cookie("authenticationToken", localStorage.getItem("authenticationToken"), {
+                  expires: that.ruleForm.rememberMe ? 30 : 0.1,
+                  path: '/',
+                  domain: domain
+              });
+              window.location.replace(from);
             },
             error: function (data) {
               window.location.replace("/login");
