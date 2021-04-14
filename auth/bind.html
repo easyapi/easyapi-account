@@ -49,8 +49,8 @@
               </el-input>
             </el-form-item>
             <el-checkbox v-model="ruleForm.rememberMe" checked>记住密码</el-checkbox>
-            <input @click="handleLogin" type="button" disabled id="btn_sub" class="btn-block btn btn-lg btn-info"
-              value="绑定账号">
+            <input @click="handleLogin" type="button" :disabled="disabled" id="btn_sub"
+              class="btn-block btn btn-lg btn-info" value="绑定账号">
           </el-form>
         </div>
       </div>
@@ -66,6 +66,7 @@
     </div>
   </div>
   <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
   <script src="https://cdn.bootcss.com/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -75,8 +76,8 @@
   <script type="text/javascript" src="https://static.easyapi.com/scripts/libs/Validform_v5.3.2_min.js"></script>
   <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
   <script type="text/javascript">
-  //三方登录存入sessionStorage的参数
-  let url = sessionStorage['url'];
+    //三方登录存入sessionStorage的参数
+    let url = sessionStorage['url'];
     //标识是从三方登录过来的
     let auth = sessionStorage['auth']
     //从哪来
@@ -101,6 +102,7 @@
     var vm = new Vue({
       el: '#app',
       data: {
+        disabled: true,
         select: "86",
         imageSrc: "",
         providerUserId: "",
@@ -168,26 +170,23 @@
       methods: {
         handleLogin() {
           let that = this
-          $.ajax({
+          axios({
             method: 'POST',
             url: 'https://account-api.easyapi.com/api/authenticate',
-            contentType: 'application/json',
-            data: JSON.stringify({
+            data: {
               username: that.ruleForm.username,
               password: that.ruleForm.password,
               rememberMe: that.ruleForm.rememberMe
-            }),
-            dataType: "json",
-            success: function (data, status, xhr) {
-              if (data.code === 1) {
-                var jwt = data.content.idToken;
-                if (that.ruleForm.rememberMe) {
-                  localStorage.setItem('authenticationToken', jwt);
-                } else {
-                  sessionStorage.setItem('authenticationToken', jwt);
-                }
-                that.bind();
+            },
+          }).then(res => {
+            if (res.data.code === 1) {
+              var jwt = res.data.content.idToken;
+              if (that.ruleForm.rememberMe) {
+                localStorage.setItem('authenticationToken', jwt);
+              } else {
+                sessionStorage.setItem('authenticationToken', jwt);
               }
+              that.bind();
               // var bearerToken = xhr.getResponseHeader("Authorization");
               // if (bearerToken.substr(0, 7) == "Bearer ") {
               //   var jwt = bearerToken.substr(7, bearerToken.length);
@@ -198,8 +197,10 @@
               //   }
               //   this.bind();
               // }
-            },
-          });
+            }
+          }).catch(error=>{
+            that.$message.error(error.response.data.message);
+          })
         },
         bind() {
           let that = this
@@ -219,9 +220,9 @@
             dataType: "text",
             success: function (data) {
               $.cookie("authenticationToken", localStorage.getItem("authenticationToken"), {
-                  expires: that.ruleForm.rememberMe ? 30 : 0.1,
-                  path: '/',
-                  domain: domain
+                expires: that.ruleForm.rememberMe ? 30 : 0.1,
+                path: '/',
+                domain: domain
               });
               window.location.replace(from);
             },
@@ -234,9 +235,9 @@
       updated() {
         // 校验
         if (this.ruleForm.username != '' && this.ruleForm.password.length >= 6) {
-          $('#btn_sub').removeAttr("disabled");
+          this.disabled = false
         } else {
-          $('#btn_sub').attr("disabled", true);
+          this.disabled = true
         }
       }
     })

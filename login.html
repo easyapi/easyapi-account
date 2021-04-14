@@ -12,7 +12,6 @@
   <meta name="keywords" content="登录" />
   <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
   <!-- 饿了吗样式 -->
-  
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
 
@@ -37,7 +36,8 @@
         <div class="lg-body bgf">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
             <el-form-item label="" prop="username">
-              <el-input v-model="ruleForm.username" class="input-with-select" placeholder="请输入手机号码" style="width: 350px;">
+              <el-input v-model="ruleForm.username" class="input-with-select" placeholder="请输入手机号码"
+                style="width: 350px;">
                 <template slot="prepend">+ </template>
                 <el-select v-model="select" filterable allow-create slot="prepend" style="width:80px;">
                   <el-option v-for="item in options" :key="item.value" :value="item.value">
@@ -50,9 +50,8 @@
               <el-input v-model="ruleForm.password" placeholder="请输入密码" type="password" style="width: 350px;">
               </el-input>
             </el-form-item>
-            <el-checkbox v-model="ruleForm.rememberMe" checked>记住密码</el-checkbox>
-            <input disabled id="btn_sub" type="button" name="login" @click="onSubmit"
-              class="btn-block btn btn-lg btn-info" value="登 录" />
+            <el-checkbox v-model="ruleForm.rememberMe">记住密码</el-checkbox>
+            <input :disabled="disabled" type="button" id="btn_sub" @click="onSubmit" class="btn-block btn btn-lg btn-info" value="登录" />
           </el-form>
 
           <div class="otherbox a-center">
@@ -82,6 +81,7 @@
     </div>
   </div>
   <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
   <script src="https://static.easyapi.com/scripts/base.js"></script>
@@ -115,6 +115,7 @@
     var vm = new Vue({
       el: '#app',
       data: {
+        disabled: true,
         select: "86",
         options: [{
           value: '86',
@@ -163,21 +164,17 @@
           $.cookie("username", that.ruleForm.username, {
             expires: 7
           });
-          $.ajax({
+          axios({
             method: 'POST',
             url: 'https://account-api.easyapi.com/api/authenticate',
-            cache: false,
-            contentType: 'application/json',
-            data: JSON.stringify({
+            data:{
               username: that.ruleForm.username,
               password: that.ruleForm.password,
               rememberMe: that.ruleForm.rememberMe
-            }),
-            processData: false,
-            dataType: 'json',
-            success: function (res, status, xhr) {
-              if (res.code == 1) {
-                $.cookie("authenticationToken", res.content.idToken, {
+            },
+          }).then(res=>{
+            if(res.data.code === 1){
+              $.cookie("authenticationToken", res.data.content.idToken, {
                   expires: that.ruleForm.rememberMe ? 30 : 0.1,
                   path: '/',
                   domain: domain
@@ -192,17 +189,13 @@
                   }, 1000);
                 }
                 that.$message({
-                  message: res.message,
+                  message: res.data.message,
                   type: 'success'
                 });
-              } else {
-                that.$message.error(error.responseJSON.message);
-              }
-            },
-            error: function (error) {
-              that.$message.error(error.responseJSON.message);
             }
-          });
+          }).catch(error=>{
+            that.$message.error(error.response.data.message);
+          })
         },
       },
       mounted() {
@@ -214,17 +207,10 @@
       updated() {
         // 校验
         if (this.ruleForm.username != '' && this.ruleForm.password.length >= 6) {
-          $('#btn_sub').removeAttr("disabled");
+          this.disabled = false
         } else {
-          $('#btn_sub').attr("disabled", true);
+          this.disabled = true
         }
-        // 校验手机号版本
-        /* let telStr = /^1[34578]\d{9}$/
-        if (telStr.test(this.ruleForm.username) && this.ruleForm.password.length >= 6) {
-          $('#btn_sub').removeAttr("disabled");
-        } else {
-          $('#2btn_sub').attr("disabled", true);
-        } */
       }
     })
 
