@@ -67,14 +67,8 @@
   </div>
   <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-  <script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-  <script src="https://cdn.bootcss.com/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://static.easyapi.com/scripts/base.js"></script>
-  <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
-  <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
-  <script type="text/javascript" src="https://static.easyapi.com/scripts/libs/Validform_v5.3.2_min.js"></script>
-  <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
   <script type="text/javascript">
     //三方登录存入sessionStorage的参数
     let url = sessionStorage['url'];
@@ -85,11 +79,11 @@
     if (from != null && from != '') {
       let expiresDate = new Date();
       expiresDate.setTime(expiresDate.getTime() + (60 * 60 * 1000));
-      $.cookie('from', from, {
+      this.$cookies.set('from', from, {
         expires: expiresDate
       });
     } else {
-      from = $.cookie("from");
+      from = this.$cookies.get("from");
     }
     if (typeof (from) == "undefined") {
       from = '';
@@ -187,16 +181,6 @@
                 sessionStorage.setItem('authenticationToken', jwt);
               }
               that.bind();
-              // var bearerToken = xhr.getResponseHeader("Authorization");
-              // if (bearerToken.substr(0, 7) == "Bearer ") {
-              //   var jwt = bearerToken.substr(7, bearerToken.length);
-              //   if (this.ruleForm.rememberMe) {
-              //     localStorage.setItem('authenticationToken', jwt);
-              //   } else {
-              //     sessionStorage.setItem('authenticationToken', jwt);
-              //   }
-              //   this.bind();
-              // }
             }
           }).catch(error=>{
             that.$message.error(error.response.data.message);
@@ -204,32 +188,28 @@
         },
         bind() {
           let that = this
-          $.ajax({
+          axios({
             method: 'POST',
             url: 'https://account-api.easyapi.com/auth/bind',
             data: {
               providerUserId: that.providerUserId,
               providerId: that.providerId
             },
-            beforeSend: function (request) {
-              request.setRequestHeader("Authorization", "Bearer " + (localStorage.getItem(
-                  "authenticationToken") ==
-                null ? sessionStorage.getItem("authenticationToken") : localStorage.getItem(
-                  "authenticationToken")));
-            },
-            dataType: "text",
-            success: function (data) {
-              $.cookie("authenticationToken", localStorage.getItem("authenticationToken"), {
+            headers:{
+              "Authorization": `Bearer ${localStorage.getItem("authenticationToken") == null ? sessionStorage.getItem("authenticationToken") : localStorage.getItem("authenticationToken")}`   //请求头携带的token
+          }
+          }).then(res=>{
+            if(res.data.code === 1){
+              this.$cookies.set("authenticationToken", localStorage.getItem("authenticationToken"), {
                 expires: that.ruleForm.rememberMe ? 30 : 0.1,
                 path: '/',
                 domain: domain
               });
-              window.location.replace(from);
-            },
-            error: function (data) {
-              window.location.replace("/login");
+              // window.location.replace(from);
             }
-          });
+          }).catch(error=>{
+            // window.location.replace("/login");
+          })
         }
       },
       updated() {

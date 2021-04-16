@@ -6,8 +6,6 @@
   <title>登录 - EasyAPI服务平台</title>
   <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet" />
-  <link href="https://cdn.bootcss.com/jQuery-Validation-Engine/2.6.4/validationEngine.jquery.min.css"
-    rel="stylesheet" />
   <meta name="descriptions" content="EasyAPI账号登录" />
   <meta name="keywords" content="登录" />
   <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -80,13 +78,10 @@
       </p>
     </div>
   </div>
-  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-  <script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-  <script src="https://static.easyapi.com/scripts/base.js"></script>
-  <script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
-  <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
   <script type="text/javascript">
     //三方登录存入sessionStorage的参数
     let url = sessionStorage['url'];
@@ -97,18 +92,17 @@
     if (from != null && from != '') {
       let expiresDate = new Date();
       expiresDate.setTime(expiresDate.getTime() + (60 * 60 * 1000));
-      $.cookie('from', from, {
+      this.$cookies.set('from', from, {
         expires: expiresDate
       });
     } else {
-      from = $.cookie("from");
+      from = this.$cookies.get("from");
     }
     if (typeof (from) == "undefined") {
       from = '';
     }
     from = from != "" ? from : document.referrer;
     from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
-
     //域名
     let domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
 
@@ -136,7 +130,7 @@
         ruleForm: {
           username: '',
           password: '',
-          rememberMe: false,
+          rememberMe: true,
         },
         rules: {
           username: [{
@@ -157,11 +151,14 @@
           }],
         }
       },
+      mounted() {
+        
+      },
       methods: {
         //登录
         onSubmit() {
           let that = this;
-          $.cookie("username", that.ruleForm.username, {
+          that.$cookies.set("username", that.ruleForm.username, {
             expires: 7
           });
           axios({
@@ -174,7 +171,7 @@
             },
           }).then(res=>{
             if(res.data.code === 1){
-              $.cookie("authenticationToken", res.data.content.idToken, {
+              that.$cookies.set("authenticationToken", res.data.content.idToken, {
                   expires: that.ruleForm.rememberMe ? 30 : 0.1,
                   path: '/',
                   domain: domain
@@ -200,8 +197,8 @@
       },
       mounted() {
         // 从cookie 中获取账号和密码
-        if ($.cookie("username") != null) {
-          this.ruleForm.username = $.cookie("username");
+        if (this.$cookies.get("username") != null) {
+          this.ruleForm.username = this.$cookies.get("username");
         }
       },
       updated() {
