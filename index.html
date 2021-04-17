@@ -21,7 +21,7 @@
 <script type="text/javascript" src="https://static.easyapi.com/scripts/libs/Validform_v5.3.2_min.js"></script>
 <script type="text/javascript">
   let from = "";
-  if (from != null && from != '') {
+  if (from != null && from !== '') {
     let expiresDate = new Date();
     expiresDate.setTime(expiresDate + (60 * 60 * 1000));
     $.cookie('from', from, {
@@ -30,10 +30,10 @@
   } else {
     from = $.cookie("from");
   }
-  if (typeof(from) == "undefined") {
+  if (typeof(from) === "undefined") {
     from = '';
   }
-  from = from != "" ? from : document.referrer;
+  from = from !== "" ? from : document.referrer;
   from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
   var domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
   if ($.cookie("username") != null) {
@@ -86,9 +86,9 @@
       processData: false,
       dataType: 'json',
       success: function (data, status, xhr) {
-        var bearerToken = xhr.getResponseHeader("Authorization");
-        if (bearerToken.substr(0, 7) == "Bearer ") {
-          var jwt = bearerToken.substr(7, bearerToken.length);
+        let bearerToken = xhr.getResponseHeader("Authorization");
+        if (bearerToken.substr(0, 7) === "Bearer ") {
+          let jwt = bearerToken.substr(7, bearerToken.length);
           if ($("#rememberMe").is(":checked")) {
             $.cookie("authenticationToken", jwt, {
               expires: 30,
