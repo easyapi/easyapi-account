@@ -79,34 +79,11 @@
 </div>
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+<script src="https://unpkg.com/js-cookie/src/js.cookie.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script type="text/javascript" src="./static/js/account.js"></script>
 <script type="text/javascript">
-  //三方登录存入sessionStorage的参数
-  let url = sessionStorage['url'];
-  //标识是从三方登录过来的
-  let auth = sessionStorage['auth'];
-  //从哪来
-  let from = "";
-  if (from != null && from !== '') {
-    this.$cookies.set('from', from, {
-      expires: new Date().getTime() + (60 * 60 * 1000)
-    });
-  } else {
-    from = this.$cookies.get("from") ? this.$cookies.get("from") : "";
-  }
-  if (typeof (from) === "undefined") {
-    from = '';
-  }
-  console.log(from)
-  console.log(document.referrer)
-  from = from !== "" ? from : document.referrer;
-  console.log(from)
-  from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
-  //域名
-  let domain = document.domain.indexOf("easyapi") >= 0 ? "easyapi.com" : document.domain;
-
-  var vm = new Vue({
+  new Vue({
     el: '#app',
     data: {
       disabled: true,
@@ -158,7 +135,7 @@
       //登录
       onSubmit() {
         let that = this;
-        that.$cookies.set("username", that.ruleForm.username, {
+        Cookies.set("username", that.ruleForm.username, {
           expires: 7
         });
         axios({
@@ -171,7 +148,7 @@
           },
         }).then(res => {
           if (res.data.code === 1) {
-            that.$cookies.set("authenticationToken", res.data.content.idToken, {
+            Cookies.set("authenticationToken", res.data.content.idToken, {
               expires: that.ruleForm.rememberMe ? 30 : 0.1,
               path: '/',
               domain: domain
@@ -195,8 +172,8 @@
     },
     mounted() {
       // 从Cookie中获取账号
-      if (this.$cookies.get("username") != null) {
-        this.ruleForm.username = this.$cookies.get("username");
+      if (Cookies.get("username") != null) {
+        this.ruleForm.username = Cookies.get("username");
       }
     },
     updated() {

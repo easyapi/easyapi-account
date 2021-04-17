@@ -87,28 +87,11 @@
 </div>
 <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+<script src="https://unpkg.com/js-cookie/src/js.cookie.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-
+<script type="text/javascript" src="./static/js/account.js"></script>
 <script type="text/javascript">
-  //从哪来
-  let from = "";
-  if (from != null && from !== '') {
-    var expiresDate = new Date();
-    expiresDate.setTime(expiresDate.getTime() + (60 * 60 * 1000));
-    this.$cookies.set('from', from, {
-      expires: expiresDate
-    });
-  } else {
-    from = this.$cookies.get("from") ? this.$cookies.get("from") : "";
-  }
-  if (typeof (from) === "undefined") {
-    from = '';
-  }
-  from = from !== "" ? from : document.referrer;
-  from = from.indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : from;
-
-  var vm = new Vue({
+  new Vue({
     el: '#app',
     data: {
       disabled: true,
@@ -196,7 +179,7 @@
         let password = that.ruleForm.password
         let confirmPassword = that.ruleForm.confirmPassword
         let checked = that.ruleForm.checked
-        if (password != confirmPassword) {
+        if (password !== confirmPassword) {
           that.$message.error('确认密码不一致');
         } else {
           if (!checked) {
@@ -213,7 +196,7 @@
               },
             }).then(res => {
               if (res.data.code === 1) {
-                that.$cookies.set("authenticationToken", res.data.content.idToken, {
+                Cookies.set("authenticationToken", res.data.content.idToken, {
                   expires: that.ruleForm.rememberMe ? 30 : 0.1,
                   path: '/',
                   domain: domain
