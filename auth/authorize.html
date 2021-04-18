@@ -13,47 +13,50 @@
 </head>
 
 <body>
-<div style="margin: 0 0 100px 0">
-  <div class="toper">
-    <div class="wp">
-      <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png"/></a>
+<div id="app">
+  <div style="margin: 0 0 100px 0">
+    <div class="toper">
+      <div class="wp">
+        <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png"/></a>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="wrapper">
-  <div class="w_top">
-    <div class="word_top">
-      <span id="client">EasyAPI发票管理 想要访问你的账户信息</span>
-    </div>
-    <div class="word_bottom">
-      <span id="account">当前登录账号: </span>
-    </div>
-  </div>
-  <div class="w_bottom">
-    <div class="btn_w">
-      <div class="btn_left">
-        <form action="https://account.easyapi.com/oauth/authorize" method="post">
-          <input name="user_oauth_approval" value="true" type="hidden">
-          <input name="authorize" value="Authorize" type="hidden">
-          <input name="scope.client" value="true" type="hidden">
-          <input type="submit" class=" btn-block btn btn-lg btn-info" value="授 权"/>
-        </form>
+  <div class="wrapper">
+    <div class="w_top">
+      <div class="word_top">
+        <span>{{client}} 想要访问你的账户信息</span>
       </div>
-      <div class="btn_right">
-        <form action="https://account.easyapi.com/oauth/authorize" method="post">
-          <input name="user_oauth_approval" value="true" type="hidden">
-          <input name="authorize" value="Authorize" type="hidden">
-          <input name="scope.client" value="false" type="hidden">
-          <input type="submit" class="btn_right_input" value="取 消"/>
-        </form>
-        <p class="btn_right_p" id="changeUser">切换账号</p>
+      <div class="word_bottom">
+        <span>当前登录账号: {{account}}</span>
+      </div>
+    </div>
+    <div class="w_bottom">
+      <div class="btn_w">
+        <div class="btn_left">
+          <form action="https://account.easyapi.com/oauth/authorize" method="post">
+            <input name="user_oauth_approval" value="true" type="hidden">
+            <input name="authorize" value="Authorize" type="hidden">
+            <input name="scope.client" value="true" type="hidden">
+            <input type="submit" class=" btn-block btn btn-lg btn-info" value="授 权"/>
+          </form>
+        </div>
+        <div class="btn_right">
+          <form action="https://account.easyapi.com/oauth/authorize" method="post">
+            <input name="user_oauth_approval" value="true" type="hidden">
+            <input name="authorize" value="Authorize" type="hidden">
+            <input name="scope.client" value="false" type="hidden">
+            <input type="submit" class="btn_right_input" value="取 消"/>
+          </form>
+          <p class="btn_right_p" onclick="changeUser">切换账号</p>
+        </div>
       </div>
     </div>
   </div>
 </div>
-<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/js-cookie/src/js.cookie.js"></script>
 <script type="text/javascript">
   let url = window.location.search; //获取url中"?"符后的字串
   sessionStorage['url'] = url;
@@ -66,41 +69,47 @@
     sessionStorage['auth'] = "三方登录"; //添加三方登录标识
   }
 
-  let theRequest = new Object(); //将URL后面的参数解析成对象
-  if (url.indexOf("?") !== -1) {
-    let str = url.substr(1);
-    strs = str.split("&");
-    for (let i = 0; i < strs.length; i++) {
-      theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-    }
-  }
-
-  $.ajax({
-    type: 'GET',
-    url: 'https://account.easyapi.com/oauth/authorize',
-    data: theRequest,
-    dataType: "json",
-    async: true,
-    beforeSend: function (request) {
-      request.setRequestHeader("Authorization", "Bearer " + (token));
+  new Vue({
+    el: '#app',
+    data: {
+      account: "",
+      client: "EasyAPI发票管理",
     },
-    success: function (data) {
-      if (data.code == 1) {
-        let client = data.content.name + " 想要访问你的账户信息";
-        let account = "当前登录账号：" + data.content.username
-        $("#client").text(client);
-        $("#account").text(account);
+    methods: {
+      /**
+       * 切换账号
+       */
+      changeUser() {
+        window.location.href = "https://account.easyapi.com/login";
+        //添加三方登录标识
+        sessionStorage.setItem('auth', "三方登录");
       }
     },
-    error: function (res) {
-    }
-  });
-
-  //切换账号
-  $("#changeUser").click(function () {
-    window.location.href = "https://account.easyapi.com/login.html";
-    //添加三方登录标识
-    sessionStorage['auth'] = "三方登录";
+    mounted() {
+      //获取url中"?"符后的字串
+      let url = window.location.search;
+      sessionStorage.setItem('url', url);
+      //清空三方登录标识
+      sessionStorage.setItem('auth', "");
+      let token = Cookies.get("authenticationToken");
+      if (!token) {
+        this.changeUser();
+      }
+      axios({
+        type: 'GET',
+        url: 'https://account.easyapi.com/oauth/authorize' + url,
+        headers: {
+          'Authorization': "Bearer " + token
+        }
+      }).then(res => {
+        if (res.data.code === 1) {
+          this.client = res.data.content.name;
+          this.account = res.data.content.username;
+        }
+      }).catch(error => {
+        this.$message.error(error.response.data.message);
+      });
+    },
   });
 </script>
 </body>

@@ -12,27 +12,24 @@
 </head>
 
 <body>
-<script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-<script src="https://cdn.bootcss.com/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://static.easyapi.com/scripts/base.js"></script>
-<script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/jQuery-JSONP/2.4.0/jquery.jsonp.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script type="text/javascript" src="https://static.easyapi.com/scripts/libs/Validform_v5.3.2_min.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/js-cookie/src/js.cookie.js"></script>
 <script type="text/javascript" src="./static/js/account.js"></script>
 <script type="text/javascript">
   if (Cookies.get("authenticationToken")) {
-    $.ajax({
+    axios({
       method: 'GET',
       url: 'https://account-api.easyapi.com/api/authenticate',
-      beforeSend: function (request) {
-        request.setRequestHeader("Authorization", "Bearer " + (Cookies.get("authenticationToken")));
-      },
-      success: function (data) {
-        if (data.length > 0) {
-          window.location.replace(from);
-        }
+      headers: {
+        'Authorization': "Bearer " + (Cookies.get("authenticationToken"))
       }
+    }).then(res => {
+      if (res.data.content.length > 0) {
+        window.location.replace(from);
+      }
+    }).catch(error => {
+      this.$message.error(error.response.data.message);
     });
   } else {
     window.location.replace("login");

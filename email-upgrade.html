@@ -79,7 +79,7 @@
     </p>
   </div>
 </div>
-<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://unpkg.com/vue/dist/vue.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
@@ -178,10 +178,7 @@
           },
         }).then(res => {
           if (res.data.code === 1) {
-            that.$message({
-              message: res.data.message,
-              type: 'success'
-            });
+            that.$message.success(res.data.message);
             setTimeout(() => {
               window.location.replace(from);
             }, 1000);
@@ -193,7 +190,9 @@
         })
       },
 
-      //发送验证码
+      /**
+       * 发送验证码
+       */
       sendCode() {
         let that = this
         let timer
@@ -207,10 +206,7 @@
             },
           }).then(res => {
             if (res.data.code === 1) {
-              that.$message({
-                message: '验证码发送成功',
-                type: 'success'
-              });
+              that.$message.success('验证码发送成功');
               let second = 60;
               that.sendCodeBtn = true
               timer = setInterval(() => {

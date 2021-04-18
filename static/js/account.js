@@ -1,6 +1,6 @@
 //third-party login
-let url = sessionStorage['url'];
-let auth = sessionStorage['auth'];
+let url = sessionStorage.getItem('url');
+let auth = sessionStorage.getItem('auth');
 let from = "";
 if (from != null && from !== '') {
   Cookies.set('from', from, {

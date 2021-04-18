@@ -60,8 +60,7 @@
             <el-input placeholder="请再输入一次密码" type="password" v-model="ruleForm.confirmPassword" style="width: 350px;">
             </el-input>
           </el-form-item>
-          <el-checkbox v-model="ruleForm.checked">点击注册表示您同意<span class="text-success"><a href="terms"
-                                                                                         target="_blank">《EasyAPI服务条款》</a></span>
+          <el-checkbox v-model="ruleForm.checked">点击注册表示您同意<span class="text-success"><a href="terms" target="_blank">《EasyAPI服务条款》</a></span>
           </el-checkbox>
           <input :disabled="disabled" id="btn_sub" type="button" @click="onSubmit"
                  class="btn-block btn btn-lg btn-info" value="注 册"/>
@@ -85,7 +84,7 @@
     </p>
   </div>
 </div>
-<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://unpkg.com/vue/dist/vue.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/js-cookie/src/js.cookie.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
@@ -201,10 +200,7 @@
                   path: '/',
                   domain: domain
                 });
-                that.$message({
-                  message: res.data.message,
-                  type: 'success'
-                });
+                that.$message.success(res.data.message);
                 setTimeout(() => {
                   window.location.replace(from);
                 }, 1000);
@@ -220,7 +216,7 @@
       },
       //在手机号输入正确之后查询是否有此用户
       findUsername() {
-        let that = this
+        let that = this;
         let telStr = /^1[34578]\d{9}$/
         if (telStr.test(this.ruleForm.username)) {
           axios({
@@ -260,18 +256,15 @@
               }
             }).then(res => {
               if (res.data.code === 1) {
-                that.$message({
-                  message: '验证码发送成功',
-                  type: 'success'
-                });
+                that.$message.success("验证码发送成功");
                 let second = 60;
                 that.sendCodeBtn = true;
                 timer = setInterval(() => {
                   second--;
                   if (second === 0) {
                     that.sendCodeBtn = false;
-                    that.sendCodeCount = "获取验证码"
-                    clearInterval(timer)
+                    that.sendCodeCount = "获取验证码";
+                    clearInterval(timer);
                     return
                   }
                   that.sendCodeCount = `剩余${second}秒`

@@ -65,7 +65,7 @@
     </p>
   </div>
 </div>
-<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://unpkg.com/vue/dist/vue.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/js-cookie/src/js.cookie.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
@@ -165,7 +165,7 @@
         })
       },
       bind() {
-        let that = this
+        let that = this;
         axios({
           method: 'POST',
           url: 'https://account-api.easyapi.com/auth/bind',
