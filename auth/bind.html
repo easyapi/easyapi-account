@@ -152,7 +152,7 @@
           },
         }).then(res => {
           if (res.data.code === 1) {
-            var jwt = res.data.content.idToken;
+            let jwt = res.data.content.idToken;
             if (that.ruleForm.rememberMe) {
               localStorage.setItem('authenticationToken', jwt);
             } else {

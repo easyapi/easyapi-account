@@ -17,12 +17,13 @@
 <script src="https://unpkg.com/js-cookie/src/js.cookie.js"></script>
 <script type="text/javascript" src="./static/js/account.js"></script>
 <script type="text/javascript">
-  if (Cookies.get("authenticationToken")) {
+  let token = Cookies.get("authenticationToken");
+  if (token) {
     axios({
       method: 'GET',
       url: 'https://account-api.easyapi.com/api/authenticate',
       headers: {
-        'Authorization': "Bearer " + (Cookies.get("authenticationToken"))
+        'Authorization': "Bearer " + token
       }
     }).then(res => {
       if (res.data.content.length > 0) {
