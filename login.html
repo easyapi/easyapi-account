@@ -34,7 +34,7 @@
           <el-form-item label="" prop="username">
             <el-input v-model="ruleForm.username" class="input-with-select" placeholder="请输入手机号码"
                       style="width: 350px;">
-              <template slot="prepend">+</template>
+              <template slot="prepend">+&nbsp;</template>
               <el-select v-model="select" filterable allow-create slot="prepend" style="width:80px;">
                 <el-option v-for="item in options" :key="item.value" :value="item.value">
                   {{item.label}}（+{{item.value}}）
