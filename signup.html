@@ -196,7 +196,7 @@
               },
             }).then(res => {
               if (res.data.code === 1) {
-                Cookies.set("authenticationToken", res.data.content.idToken, {
+                Cookies.set("authenticationToken", res.data.content, {
                   expires: that.ruleForm.rememberMe ? 30 : 0.1,
                   path: '/',
                   domain: domain
