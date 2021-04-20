@@ -36,7 +36,7 @@
           <el-form-item label="" prop="username">
             <el-input placeholder="请输入手机号码" class="input-with-select" maxlength="11" v-model="ruleForm.username"
                       @input="findUsername" style="width: 350px;">
-              <template slot="prepend">+</template>
+              <template slot="prepend">+&nbsp;</template>
               <el-select v-model="select" filterable allow-create slot="prepend" style="width:80px;">
                 <el-option v-for="item in options" :key="item.value" :value="item.value">
                   {{item.label}}（+{{item.value}}）
@@ -190,12 +190,13 @@
               data: {
                 username: that.ruleForm.username,
                 code: that.ruleForm.code,
+                areaCode: that.select,
                 nickname: that.ruleForm.nickname,
                 password: that.ruleForm.password
               },
             }).then(res => {
               if (res.data.code === 1) {
-                Cookies.set("authenticationToken", res.data.content.idToken, {
+                Cookies.set("authenticationToken", res.data.content, {
                   expires: that.ruleForm.rememberMe ? 30 : 0.1,
                   path: '/',
                   domain: domain
