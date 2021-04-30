@@ -131,7 +131,7 @@
           trigger: 'blur'
         },
           {
-            pattern: /^1[34578]\d{9}$/,
+            pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
             message: '手机号码格式有误',
             trigger: 'blur'
           }
@@ -194,7 +194,7 @@
       sendCode() {
         let that = this
         let timer
-        let telStr = /^1[34578]\d{9}$/;
+        let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
         if (telStr.test(that.ruleForm.username)) {
           axios({
             url: "https://account-api.easyapi.com/api/captcha/send",
@@ -226,7 +226,7 @@
     },
     updated() {
       //校验
-      let telStr = /^1[34578]\d{9}$/
+      let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
       let email = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/
       this.disabled = !(email.test(this.ruleForm.email) && telStr.test(this.ruleForm.username) && this.ruleForm.password.length >= 6 && this.ruleForm.code.length == 6);
     }
