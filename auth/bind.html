@@ -11,193 +11,197 @@
 </head>
 
 <body>
-<div id="app">
-  <div style="margin: 0 0 100px 0">
-    <div class="toper">
-      <div class="wp">
-        <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png"></a>
-        <div class="navs pr">
-          <a href="/login">登录</a>
-          <a href="/signup">注册</a>
+  <div id="app">
+    <div style="margin: 0 0 100px 0">
+      <div class="toper">
+        <div class="wp">
+          <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png"></a>
+          <div class="navs pr">
+            <a href="/login">登录</a>
+            <a href="/signup">注册</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="container">
-    <div class="lg-form yahei">
-      <div class="lg-title">绑定账号</div>
-      <div class="lg-subtitle ">第一次使用QQ帐号登录，您需要填写账号和密码，以后您也可以使用此账号和密码登录</div>
-      <div class="ath"><img :src="imageSrc">
-        <img style="width: 40px;height: 40px;" src="../static/svg/bind.svg" alt="">
-        <img src="../static/easyapi.png"></div>
-      <div class="lg-body bgf">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-          <el-form-item label="" prop="username">
-            <el-input placeholder="请输入手机号码" class="input-with-select" maxlength="11" v-model="ruleForm.username"
-                      style="width: 350px;">
-              <template slot="prepend">+&nbsp;</template>
-              <el-select v-model="select" filterable allow-create slot="prepend" style="width:80px;">
-                <el-option v-for="item in options" :key="item.value" :value="item.value">
-                  {{item.label}}（+{{item.value}}）
-                </el-option>
-              </el-select>
-            </el-input>
-          </el-form-item>
-          <el-form-item label="" prop="password">
-            <el-input v-model="ruleForm.password" type="password" placeholder="请输入密码" style="width: 350px;">
-            </el-input>
-          </el-form-item>
-          <el-checkbox v-model="ruleForm.rememberMe" checked>记住密码</el-checkbox>
-          <input @click="handleLogin" type="button" :disabled="disabled" id="btn_sub"
-                 class="btn-block btn btn-lg btn-info" value="绑定账号">
-        </el-form>
+    <div class="container">
+      <div class="lg-form yahei">
+        <div class="lg-title">绑定账号</div>
+        <div class="lg-subtitle ">第一次使用QQ帐号登录，您需要填写账号和密码，以后您也可以使用此账号和密码登录</div>
+        <div class="ath"><img :src="imageSrc">
+          <img style="width: 40px;height: 40px;" src="../static/svg/bind.svg" alt="">
+          <img src="../static/easyapi.png"></div>
+        <div class="lg-body bgf">
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+            <el-form-item label="" prop="username">
+              <el-input placeholder="请输入手机号码" class="input-with-select" maxlength="11" v-model="ruleForm.username"
+                style="width: 350px;">
+                <template slot="prepend">+&nbsp;</template>
+                <el-select v-model="select" filterable allow-create slot="prepend" style="width:80px;">
+                  <el-option v-for="item in options" :key="item.value" :value="item.value">
+                    {{item.label}}（+{{item.value}}）
+                  </el-option>
+                </el-select>
+              </el-input>
+            </el-form-item>
+            <el-form-item label="" prop="password">
+              <el-input v-model="ruleForm.password" type="password" placeholder="请输入密码" style="width: 350px;">
+              </el-input>
+            </el-form-item>
+            <el-checkbox v-model="ruleForm.rememberMe" checked>记住密码</el-checkbox>
+            <input @click="handleLogin" type="button" :disabled="disabled" id="btn_sub"
+              class="btn-block btn btn-lg btn-info" value="绑定账号">
+          </el-form>
+        </div>
       </div>
     </div>
+    <div class="foot clearfix">
+      <p>
+        <span>Copyright © 2015～2021 帮趣团队</span>
+        <a href="https://www.easyapi.com/info/about" class="firstA">关于我们</a>
+        <a href="https://www.easyapi.com/info/together">合作伙伴</a>
+        <a href="https://www.easyapi.com/info/contact">联系我们</a>
+        <a href="https://www.easyapi.com/info/donate">支持我们</a>
+      </p>
+    </div>
   </div>
-  <div class="foot clearfix">
-    <p>
-      <span>Copyright © 2015～2021 帮趣团队</span>
-      <a href="https://www.easyapi.com/info/about" class="firstA">关于我们</a>
-      <a href="https://www.easyapi.com/info/together">合作伙伴</a>
-      <a href="https://www.easyapi.com/info/contact">联系我们</a>
-      <a href="https://www.easyapi.com/info/donate">支持我们</a>
-    </p>
-  </div>
-</div>
-<script src="https://unpkg.com/vue/dist/vue.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://unpkg.com/js-cookie/src/js.cookie.js"></script>
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
-<script type="text/javascript" src="../static/js/account.js"></script>
-<script type="text/javascript">
-  new Vue({
-    el: '#app',
-    data: {
-      disabled: true,
-      select: "86",
-      imageSrc: "",
-      providerUserId: "",
-      providerId: "",
-      options: [{
-        value: '86',
-        label: '中国大陆'
-      }, {
-        value: '852',
-        label: '中国香港'
-      }, {
-        value: '886',
-        label: '中国台湾'
-      }, {
-        value: '81',
-        label: '日本'
-      }, {
-        value: '1',
-        label: '美国'
-      }],
-      ruleForm: {
-        username: "",
-        password: "",
-        rememberMe: true,
-      },
-      rules: {
-        username: [{
-          required: true,
-          message: '请输入手机号码',
-          trigger: 'blur'
+  <script src="https://unpkg.com/vue/dist/vue.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/js-cookie/src/js.cookie.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script type="text/javascript" src="../static/js/account.js"></script>
+  <script type="text/javascript">
+    new Vue({
+      el: '#app',
+      data: {
+        disabled: true,
+        select: "86",
+        imageSrc: "",
+        providerUserId: "",
+        providerId: "",
+        options: [{
+          value: '86',
+          label: '中国大陆'
+        }, {
+          value: '852',
+          label: '中国香港'
+        }, {
+          value: '886',
+          label: '中国台湾'
+        }, {
+          value: '81',
+          label: '日本'
+        }, {
+          value: '1',
+          label: '美国'
+        }],
+        ruleForm: {
+          username: "",
+          password: "",
+          rememberMe: true,
         },
-          {
-            pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-            message: '手机号码格式有误',
-            trigger: 'blur'
-          }
-        ],
-        password: [{
-          required: true,
-          message: '密码6~16位之间，建议包含英文和标点符号',
-          trigger: 'blur'
-        },
-          {
-            min: 6,
-            max: 16,
-            message: '密码6~16位之间，建议包含英文和标点符号',
-            trigger: 'blur'
-          }
-        ],
-      }
-    },
-    mounted() {
-      let providerUserId = window.location.href.split("?")[1].split("&")[0].split("=")[1];
-      let providerId = window.location.href.split("?")[1].split("&")[1].split("=")[1]
-      if (providerUserId && providerId) {
-        this.providerUserId = providerUserId;
-        this.providerId = providerId
-      }
-      if (providerId === "qq") {
-        this.imageSrc = "/static/qq.jpg"
-      } else {
-        this.imageSrc = "/static/weixin.jpg"
-      }
-    },
-    methods: {
-      handleLogin() {
-        let that = this;
-        axios({
-          method: 'POST',
-          url: 'https://account-api.easyapi.com/api/authenticate',
-          data: {
-            username: that.ruleForm.username,
-            password: that.ruleForm.password,
-            areaCode: that.select,
-            rememberMe: that.ruleForm.rememberMe
-          },
-        }).then(res => {
-          if (res.data.code === 1) {
-            let jwt = res.data.content.idToken;
-            if (that.ruleForm.rememberMe) {
-              localStorage.setItem('authenticationToken', jwt);
-            } else {
-              sessionStorage.setItem('authenticationToken', jwt);
+        rules: {
+          username: [{
+              required: true,
+              message: '请输入手机号码',
+              trigger: 'blur'
+            },
+            {
+              pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
+              message: '手机号码格式有误',
+              trigger: 'blur'
             }
-            that.bind();
-          }
-        }).catch(error => {
-          that.$message.error(error.response.data.message);
-        })
+          ],
+          password: [{
+              required: true,
+              message: '密码6~16位之间，建议包含英文和标点符号',
+              trigger: 'blur'
+            },
+            {
+              min: 6,
+              max: 16,
+              message: '密码6~16位之间，建议包含英文和标点符号',
+              trigger: 'blur'
+            }
+          ],
+        }
       },
-      bind() {
-        let that = this;
-        axios({
-          method: 'POST',
-          url: 'https://account-api.easyapi.com/auth/bind',
-          params: {
-            providerUserId: that.providerUserId,
-            providerId: that.providerId
-          },
-          headers: {
-            "Authorization": `Bearer ${localStorage.getItem("authenticationToken") == null ? sessionStorage.getItem("authenticationToken") : localStorage.getItem("authenticationToken")}`   //请求头携带的token
-          }
-        }).then(res => {
-          if (res.data.code === 1) {
-            Cookies.set("authenticationToken", localStorage.getItem("authenticationToken"), {
-              expires: that.ruleForm.rememberMe ? 30 : 0.1,
-              path: '/',
-              domain: domain
-            });
-            window.location.replace(from);
-          }
-        }).catch(error => {
-          window.location.replace("/login");
-        })
+      mounted() {
+        let providerUserId = window.location.href.split("?")[1].split("&")[0].split("=")[1];
+        let providerId = window.location.href.split("?")[1].split("&")[1].split("=")[1]
+        if (providerUserId && providerId) {
+          this.providerUserId = providerUserId;
+          this.providerId = providerId
+        }
+        if (providerId === "qq") {
+          this.imageSrc = "/static/qq.jpg"
+        } else {
+          this.imageSrc = "/static/weixin.jpg"
+        }
+      },
+      methods: {
+        handleLogin() {
+          let that = this;
+          axios({
+            method: 'POST',
+            url: 'https://account-api.easyapi.com/api/authenticate',
+            data: {
+              username: that.ruleForm.username,
+              password: that.ruleForm.password,
+              areaCode: that.select,
+              rememberMe: that.ruleForm.rememberMe
+            },
+          }).then(res => {
+            if (res.data.code === 1) {
+              let jwt = res.data.content.idToken;
+              if (that.ruleForm.rememberMe) {
+                localStorage.setItem('authenticationToken', jwt);
+              } else {
+                sessionStorage.setItem('authenticationToken', jwt);
+              }
+              that.bind();
+            } else {
+              that.$message.error(res.data.message);
+            }
+          }).catch(error => {
+            that.$message.error(error.response.data.message);
+          })
+        },
+        bind() {
+          let that = this;
+          axios({
+            method: 'POST',
+            url: 'https://account-api.easyapi.com/auth/bind',
+            params: {
+              providerUserId: that.providerUserId,
+              providerId: that.providerId
+            },
+            headers: {
+              "Authorization": `Bearer ${localStorage.getItem("authenticationToken") == null ? sessionStorage.getItem("authenticationToken") : localStorage.getItem("authenticationToken")}` //请求头携带的token
+            }
+          }).then(res => {
+            if (res.data.code === 1) {
+              Cookies.set("authenticationToken", localStorage.getItem("authenticationToken"), {
+                expires: that.ruleForm.rememberMe ? 30 : 0.1,
+                path: '/',
+                domain: domain
+              });
+              window.location.replace(from);
+            } else {
+              that.$message.error(res.data.message);
+            }
+          }).catch(error => {
+            window.location.replace("/login");
+          })
+        }
+      },
+      updated() {
+        // 校验
+        this.disabled = !(this.ruleForm.username != '' && this.ruleForm.password.length >= 6);
       }
-    },
-    updated() {
-      // 校验
-      this.disabled = !(this.ruleForm.username != '' && this.ruleForm.password.length >= 6);
-    }
-  })
+    })
 
-</script>
+  </script>
 </body>
 
 </html>
