@@ -140,10 +140,8 @@
             method: 'POST',
             url: 'https://account-api.easyapi.com/api/authenticate',
             data: {
-              username: that.ruleForm.username,
+              ...that.ruleForm,
               areaCode: that.select,
-              password: that.ruleForm.password,
-              rememberMe: that.ruleForm.rememberMe
             },
           }).then(res => {
             if (res.data.code === 1) {
