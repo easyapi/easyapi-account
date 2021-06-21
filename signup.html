@@ -171,28 +171,19 @@
     methods: {
       //注册
       onSubmit() {
-        let that = this
-        let username = that.ruleForm.username
-        let code = that.ruleForm.code
-        let nickname = that.ruleForm.nickname
-        let password = that.ruleForm.password
-        let confirmPassword = that.ruleForm.confirmPassword
-        let checked = that.ruleForm.checked
-        if (password !== confirmPassword) {
+        let that = this;
+        if (that.ruleForm.password !== that.ruleForm.confirmPassword) {
           that.$message.error('确认密码不一致');
         } else {
-          if (!checked) {
+          if (!that.ruleForm.checked) {
             that.$message.error('请勾选同意EasyAPI用户协议');
           } else {
             axios({
               method: 'POST',
               url: 'https://account-api.easyapi.com/api/account/signup',
               data: {
-                username: that.ruleForm.username,
-                code: that.ruleForm.code,
+                ...that.ruleForm,
                 areaCode: that.select,
-                nickname: that.ruleForm.nickname,
-                password: that.ruleForm.password
               },
             }).then(res => {
               if (res.data.code === 1) {
@@ -218,15 +209,12 @@
       //在手机号输入正确之后查询是否有此用户
       findUsername() {
         let that = this;
-        let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
+        let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
         if (telStr.test(this.ruleForm.username)) {
           axios({
             url: "https://account-api.easyapi.com/api/account/find",
-            method: "POST",
-            data: that.ruleForm.username,
-            headers: {
-              'Content-Type': 'application/json'
-            }
+            method: "GET",
+            params: {"username": that.ruleForm.username}
           }).then(res => {
             that.$message.error('该账号已注册，请直接登录');
           });
@@ -235,9 +223,9 @@
 
       //发送验证码
       sendCode() {
-        let that = this
-        let timer
-        let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
+        let that = this;
+        let timer;
+        let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
         if (telStr.test(that.ruleForm.username)) {
           axios({
             url: "https://account-api.easyapi.com/api/account/find",
