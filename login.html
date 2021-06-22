@@ -133,9 +133,7 @@
         //登录
         onSubmit() {
           let that = this;
-          Cookies.set("username", that.ruleForm.username, {
-            expires: 7
-          });
+          Cookies.set("username", that.ruleForm.username, {expires: 7});
           axios({
             method: 'POST',
             url: 'https://account-api.easyapi.com/api/authenticate',
@@ -176,7 +174,6 @@
         this.disabled = !(this.ruleForm.username !== '' && this.ruleForm.password.length >= 6);
       }
     })
-
   </script>
 </body>
 

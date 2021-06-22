@@ -4,9 +4,7 @@ let auth = sessionStorage.getItem('auth');
 let from = "";
 if (from != null && from !== '') {
   if (from.indexOf("easyapi.com") > 0) {
-    Cookies.set('from', from, {
-      expires: 1
-    });
+    Cookies.set('from', from, {expires: 1});
   }
 } else {
   from = Cookies.get("from") ? Cookies.get("from") : "";
