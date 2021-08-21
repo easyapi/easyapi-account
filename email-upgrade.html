@@ -199,8 +199,8 @@
           if (telStr.test(that.ruleForm.username)) {
             axios({
               url: "https://account-api.easyapi.com/api/captcha/send",
-              method: "POST",
-              data: {
+              method: "GET",
+              params: {
                 mobile: that.ruleForm.username
               },
             }).then(res => {

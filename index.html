@@ -26,8 +26,11 @@
         'Authorization': "Bearer " + token
       }
     }).then(res => {
-      if (res.data.content.length > 0) {
+      if (res.data.code === 1) {
         window.location.replace(from);
+      }
+      else {
+        window.location.replace("login");
       }
     }).catch(error => {
       this.$message.error(error.response.data.message);
