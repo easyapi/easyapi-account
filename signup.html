@@ -38,7 +38,7 @@
             <el-input placeholder="请输入手机号码" class="input-with-select" maxlength="11" v-model="ruleForm.username"
                       @input="findUsername" style="width: 350px;">
               <template slot="prepend">+&nbsp;</template>
-              <el-select v-model="select" filterable allow-create slot="prepend" style="width:80px;">
+              <el-select v-model="ruleForm.areaCode" filterable allow-create slot="prepend" style="width:80px;">
                 <el-option v-for="item in options" :key="item.value" :value="item.value">
                   {{item.label}}（+{{item.value}}）
                 </el-option>
@@ -98,7 +98,6 @@
       disabled: true,
       sendCodeBtn: false,
       sendCodeCount: "获取验证码",
-      select: "86",
       options: [{
         value: '86',
         label: '中国大陆'
@@ -116,6 +115,7 @@
         label: '美国'
       }],
       ruleForm: {
+        areaCode: '86',
         username: '',
         code: '',
         nickname: '',
@@ -184,8 +184,7 @@
               method: 'POST',
               url: 'https://account-api.easyapi.com/api/account/signup',
               data: {
-                ...that.ruleForm,
-                areaCode: that.select,
+                ...that.ruleForm
               },
             }).then(res => {
               if (res.data.code === 1) {
