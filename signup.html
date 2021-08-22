@@ -238,7 +238,7 @@
             that.$message.error('该账号已注册，请直接登录');
           }).catch(error => {
             axios({
-              url: "https://account-api.easyapi.com/api/captcha/send",
+              url: "https://account-api.easyapi.com/captcha/send",
               method: "GET",
               params: {
                 mobile: that.ruleForm.username
