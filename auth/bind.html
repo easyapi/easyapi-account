@@ -28,7 +28,8 @@
     <div class="lg-form yahei">
       <div class="lg-title">绑定账号</div>
       <div class="lg-subtitle ">第一次使用QQ帐号登录，您需要填写账号和密码，以后您也可以使用此账号和密码登录</div>
-      <div class="ath"><img :src="imageSrc">
+      <div class="ath">
+        <img :src="imageSrc">
         <img style="width: 40px;height: 40px;" src="../static/svg/bind.svg" alt="">
         <img src="../static/easyapi.png"></div>
       <div class="lg-body bgf">
@@ -39,7 +40,7 @@
               <template slot="prepend">+&nbsp;</template>
               <el-select v-model="ruleForm.areaCode" filterable allow-create slot="prepend" style="width:80px;">
                 <el-option v-for="item in options" :key="item.value" :value="item.value">
-                  {{item.label}}（+{{item.value}}）
+                  {{ item.label }}（+{{ item.value }}）
                 </el-option>
               </el-select>
             </el-input>
@@ -66,36 +67,27 @@
   </div>
 </div>
 <script src="https://unpkg.com/vue/dist/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/js-cookie/dist/js.cookie.min.js"></script>
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script type="text/javascript" src="../static/js/account.js"></script>
 <script type="text/javascript">
   new Vue({
     el: '#app',
     data: {
       disabled: true,
-      select: "86",
       imageSrc: "",
       providerUserId: "",
       providerId: "",
-      options: [{
-        value: '86',
-        label: '中国大陆'
-      }, {
-        value: '852',
-        label: '中国香港'
-      }, {
-        value: '886',
-        label: '中国台湾'
-      }, {
-        value: '81',
-        label: '日本'
-      }, {
-        value: '1',
-        label: '美国'
-      }],
+      options: [
+        {value: 86, label: '中国大陆'},
+        {value: 852, label: '中国香港'},
+        {value: 886, label: '中国台湾'},
+        {value: 81, label: '日本'},
+        {value: 1, label: '美国'}
+      ],
       ruleForm: {
+        areaCode: 86,
         username: "",
         password: "",
         rememberMe: true,
@@ -123,9 +115,9 @@
         this.providerId = providerId
       }
       if (providerId === "qq") {
-        this.imageSrc = "/static/qq.jpg"
+        this.imageSrc = "/static/svg/qq.svg"
       } else {
-        this.imageSrc = "/static/weixin.jpg"
+        this.imageSrc = "/static/svg/weixin.svg"
       }
     },
     methods: {
