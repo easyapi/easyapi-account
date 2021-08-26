@@ -98,22 +98,13 @@
       disabled: true,
       sendCodeBtn: false,
       sendCodeCount: "获取验证码",
-      options: [{
-        value: '86',
-        label: '中国大陆'
-      }, {
-        value: '852',
-        label: '中国香港'
-      }, {
-        value: '886',
-        label: '中国台湾'
-      }, {
-        value: '81',
-        label: '日本'
-      }, {
-        value: '1',
-        label: '美国'
-      }],
+      options: [
+        {value: '86', label: '中国大陆'},
+        {value: '852', label: '中国香港'},
+        {value: '886', label: '中国台湾'},
+        {value: '81', label: '日本'},
+        {value: '1', label: '美国'}
+      ],
       ruleForm: {
         areaCode: 86,
         username: '',
@@ -124,50 +115,24 @@
         checked: true,
       },
       rules: {
-        username: [{
-          required: true,
-          message: '请输入手机号码',
-          trigger: 'blur'
-        },
-          {
-            pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-            message: '手机号码格式有误',
-            trigger: 'blur'
-          }
+        username: [
+          {required: true, message: '请输入手机号码', trigger: 'blur'},
+          {pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/, message: '手机号码格式有误', trigger: 'blur'}
         ],
-        code: [{
-          required: true,
-          message: '请输入验证码',
-          trigger: 'blur'
-        },
-          {
-            pattern: /^\d{6}$/,
-            message: '验证码格式有误',
-            trigger: 'blur'
-          }
+        code: [
+          {required: true, message: '请输入验证码', trigger: 'blur'},
+          {pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur'}
         ],
-        nickname: [{
-          required: true,
-          message: '请输入昵称',
-          trigger: 'blur'
-        }],
-        password: [{
-          required: true,
-          message: '密码6~16位之间，建议包含英文和标点符号',
-          trigger: 'blur'
-        },
-          {
-            min: 6,
-            max: 16,
-            message: '密码6~16位之间，建议包含英文和标点符号',
-            trigger: 'blur'
-          }
+        nickname: [
+          {required: true, message: '请输入姓名', trigger: 'blur'}
         ],
-        confirmPassword: [{
-          required: true,
-          message: '请再输入一次密码',
-          trigger: 'blur'
-        }],
+        password: [
+          {required: true, message: '密码6~16位之间，建议包含英文和标点符号', trigger: 'blur'},
+          {min: 6, max: 16, message: '密码6~16位之间，建议包含英文和标点符号', trigger: 'blur'}
+        ],
+        confirmPassword: [
+          {required: true, message: '请再输入一次密码', trigger: 'blur'}
+        ],
       }
     },
     methods: {
