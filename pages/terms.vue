@@ -12,20 +12,6 @@
 </head>
 
 <body>
-<div style="margin: 0 0 20px 0">
-  <div class="toper">
-    <div class="wp">
-      <a href="https://www.easyapi.com/">
-        <img class="logo pl" src="https://static.easyapi.com/images/logo.png"/>
-      </a>
-      <div class="navs pr">
-        <a href="./login">登录</a>
-        <a href="./signup">注册</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="wp">
   <div class="infopage about">
     <h2>服务条款</h2>
@@ -34,7 +20,7 @@
       <div class="p">
         <h3>一、服务条款的确认和接纳</h3>
 
-        <p> EasyAPI（<a href="http://www.easyapi.com">http://www.easyapi.com</a>）及其涉及到的产品、相关软件的所有权和运作权归帮趣团队（以下简称帮趣网络）所有，
+        <p> EasyAPI（<a href="https://www.easyapi.com">https://www.easyapi.com</a>）及其涉及到的产品、相关软件的所有权和运作权归帮趣团队（以下简称帮趣网络）所有，
           帮趣网络享有对EasyAPI上一切活动的监督、提示、检查、纠正及处罚等权利。用户通过注册EasyAPI服务平台系，即表示用户与帮趣网络已达成协议，自愿接受本服务条款的所有内容。如果用户不同意服务条款的条件，则不能获得使用www.easyapi.com服务以及注册成为EasyAPI用户的权利。
         </p>
 
@@ -145,17 +131,6 @@
     </div>
   </div>
 </div>
-
-<div class="foot clearfix">
-  <p>
-    <span>Copyright © 2015～2021 帮趣团队</span>
-    <a href="https://www.easyapi.com/info/about" class="firstA">关于我们</a>
-    <a href="https://www.easyapi.com/info/together">合作伙伴</a>
-    <a href="https://www.easyapi.com/info/contact">联系我们</a>
-    <a href="https://www.easyapi.com/info/donate">支持我们</a>
-  </p>
-</div>
-
 </body>
 
 </html>

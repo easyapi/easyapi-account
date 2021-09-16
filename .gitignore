@@ -1,4 +1,18 @@
-.DS_Store
+# dependencies
+node_modules
 
-# Editor directories and files
+# logs
+npm-debug.log
+
+# Nuxt build
+.nuxt
+
+# Nuxt generate
+dist
+
 .idea
+package-lock.json
+yarn.lock
+
+# Mac OSX
+.DS_Store

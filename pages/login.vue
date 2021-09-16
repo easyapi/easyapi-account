@@ -14,20 +14,6 @@
 
 <body>
 <div id="app">
-  <div style="margin: 0 0 100px 0">
-    <div class="toper">
-      <div class="wp">
-        <a href="https://www.easyapi.com/">
-          <img class="logo pl" src="https://static.easyapi.com/images/logo.png"/>
-        </a>
-        <div class="navs pr">
-          <a href="./login">登录</a>
-          <a href="./signup">注册</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="container">
     <div class="lg-form yahei">
       <div class="lg-title ">用户登录</div>
@@ -39,7 +25,7 @@
               <template slot="prepend">+&nbsp;</template>
               <el-select v-model="ruleForm.areaCode" filterable allow-create slot="prepend" style="width:80px;">
                 <el-option v-for="item in options" :key="item.value" :value="item.value">
-                  {{item.label}}（+{{item.value}}）
+                  {{ item.label }}（+{{ item.value }}）
                 </el-option>
               </el-select>
             </el-input>
@@ -68,43 +54,24 @@
       </div>
     </div>
   </div>
-
-  <div class="foot clearfix">
-    <p>
-      <span>Copyright © 2015～2021 帮趣团队</span>
-      <a href="https://www.easyapi.com/info/about" class="firstA">关于我们</a>
-      <a href="https://www.easyapi.com/info/together">合作伙伴</a>
-      <a href="https://www.easyapi.com/info/contact">联系我们</a>
-      <a href="https://www.easyapi.com/info/donate">支持我们</a>
-    </p>
-  </div>
 </div>
 <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/js-cookie/dist/js.cookie.min.js"></script>
-<script type="text/javascript" src="./static/js/account.js"></script>
+<script type="text/javascript" src="../static/js/account.js"></script>
 <script type="text/javascript">
   new Vue({
     el: '#app',
     data: {
       disabled: true,
-      options: [{
-        value: '86',
-        label: '中国大陆'
-      }, {
-        value: '852',
-        label: '中国香港'
-      }, {
-        value: '886',
-        label: '中国台湾'
-      }, {
-        value: '81',
-        label: '日本'
-      }, {
-        value: '1',
-        label: '美国'
-      }],
+      options: [
+        {value: '86', label: '中国大陆'},
+        {value: '852', label: '中国香港'},
+        {value: '886', label: '中国台湾'},
+        {value: '81', label: '日本'},
+        {value: '1', label: '美国'}
+      ],
       ruleForm: {
         areaCode: 86,
         username: '',

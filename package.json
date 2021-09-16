@@ -1,0 +1,43 @@
+{
+  "name": "easyapi-account",
+  "version": "1.0.0",
+  "description": "EasyAPI账户中心",
+  "author": "EasyAPI <leida@easyapi.com>",
+  "private": true,
+  "homepage": "https://account.easyapi.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/easyapi/easyapi-account.git"
+  },
+  "scripts": {
+    "dev": "nuxt --open",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "nuxt": "^2.15.8",
+    "@nuxtjs/axios": "^5.13.6",
+    "element-ui": "^2.15.6",
+    "js-cookie": "^3.0.1"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config": "^6.0.1",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/proxy": "^2.1.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": ">=16.0.3",
+    "eslint-plugin-import": ">=2.24.2",
+    "eslint-plugin-jest": ">=24.4.0",
+    "eslint-plugin-node": ">=11.1.0",
+    "eslint-plugin-nuxt": ">=2.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": ">=5.1.0",
+    "eslint-plugin-standard": ">=5.0.0",
+    "eslint-plugin-vue": "^7.17.0",
+    "less": "^4.1.1",
+    "less-loader": "^7.3.0",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.4.1"
+  }
+}

@@ -15,20 +15,6 @@
 
 <body>
 <div id="app">
-  <div style="margin: 0 0 100px 0">
-    <div class="toper">
-      <div class="wp">
-        <a href="https://www.easyapi.com/">
-          <img class="logo pl" src="https://static.easyapi.com/images/logo.png"/>
-        </a>
-        <div class="navs pr">
-          <a href="./login">登录</a>
-          <a href="./signup">注册</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="container">
     <div class="lg-form">
       <div class="lg-title text-center">用户注册</div>
@@ -71,26 +57,15 @@
         <div class="otherbox a-center">
           <a href="./login">我已有EasyAPI账号，直接登录</a>
         </div>
-
       </div>
     </div>
-  </div>
-
-  <div class="foot clearfix">
-    <p>
-      <span>Copyright © 2015～2021 帮趣团队</span>
-      <a href="https://www.easyapi.com/info/about" class="firstA">关于我们</a>
-      <a href="https://www.easyapi.com/info/together">合作伙伴</a>
-      <a href="https://www.easyapi.com/info/contact">联系我们</a>
-      <a href="https://www.easyapi.com/info/donate">支持我们</a>
-    </p>
   </div>
 </div>
 <script src="https://unpkg.com/vue/dist/vue.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/js-cookie/dist/js.cookie.min.js"></script>
-<script type="text/javascript" src="./static/js/account.js"></script>
+<script type="text/javascript" src="../static/js/account.js"></script>
 <script type="text/javascript">
   new Vue({
     el: '#app',

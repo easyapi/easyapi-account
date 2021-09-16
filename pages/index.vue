@@ -15,7 +15,7 @@
 <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/js-cookie/dist/js.cookie.min.js"></script>
-<script type="text/javascript" src="./static/js/account.js"></script>
+<script type="text/javascript" src="../static/js/account.js"></script>
 <script type="text/javascript">
   let token = Cookies.get("authenticationToken");
   if (token) {

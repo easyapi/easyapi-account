@@ -12,26 +12,14 @@
 
 <body>
 <div id="app">
-  <div style="margin: 0 0 100px 0">
-    <div class="toper">
-      <div class="wp">
-        <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png"></a>
-        <div class="navs pr">
-          <a href="/login">登录</a>
-          <a href="/signup">注册</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="container">
     <div class="lg-form yahei">
       <div class="lg-title">绑定账号</div>
       <div class="lg-subtitle ">第一次使用QQ帐号登录，您需要填写账号和密码，以后您也可以使用此账号和密码登录</div>
       <div class="ath">
         <img :src="imageSrc">
-        <img style="width: 40px;height: 40px;" src="../static/svg/bind.svg" alt="">
-        <img src="../static/easyapi.png"></div>
+        <img style="width: 40px;height: 40px;" src="../../static/svg/bind.svg" alt="">
+        <img src="../../static/easyapi.png"></div>
       <div class="lg-body bgf">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
           <el-form-item label="" prop="username">
@@ -70,7 +58,7 @@
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/js-cookie/dist/js.cookie.min.js"></script>
-<script type="text/javascript" src="../static/js/account.js"></script>
+<script type="text/javascript" src="../../static/js/account.js"></script>
 <script type="text/javascript">
   new Vue({
     el: '#app',

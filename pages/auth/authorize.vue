@@ -13,14 +13,6 @@
 
 <body>
 <div id="app">
-  <div style="margin: 0 0 100px 0">
-    <div class="toper">
-      <div class="wp">
-        <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png"/></a>
-      </div>
-    </div>
-  </div>
-
   <div class="wrapper">
     <div class="w_top">
       <div class="word_top">
@@ -64,7 +56,7 @@
   let token = Cookies.get("authenticationToken");
 
   if (!token) {
-    window.location.href = "https://account.easyapi.com/login.html";
+    window.location.href = "../login.vue";
     sessionStorage['auth'] = "三方登录"; //添加三方登录标识
   }
 

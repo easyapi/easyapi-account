@@ -14,20 +14,6 @@
 
 <body>
 <div id="app">
-  <div style="margin: 0 0 100px 0">
-    <div class="toper">
-      <div class="wp">
-        <a href="https://www.easyapi.com/">
-          <img class="logo pl" src="https://static.easyapi.com/images/logo.png"/>
-        </a>
-        <div class="navs pr">
-          <a href="./login">登录</a>
-          <a href="./signup">注册</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="container">
     <div class="lg-form">
       <div class="lg-title text-center">邮箱升级</div>
@@ -47,7 +33,7 @@
               <template slot="prepend">+&nbsp;</template>
               <el-select v-model="ruleForm.areaCode" filterable allow-create slot="prepend" style="width:80px;">
                 <el-option v-for="item in options" :key="item.value" :value="item.value">
-                  {{item.label}}（+{{item.value}}）
+                  {{ item.label }}（+{{ item.value }}）
                 </el-option>
               </el-select>
             </el-input>
@@ -68,16 +54,6 @@
 
       </div>
     </div>
-  </div>
-
-  <div class="foot clearfix">
-    <p>
-      <span>Copyright © 2015～2021 帮趣团队</span>
-      <a href="https://www.easyapi.com/info/about" class="firstA">关于我们</a>
-      <a href="https://www.easyapi.com/info/together">合作伙伴</a>
-      <a href="https://www.easyapi.com/info/contact">联系我们</a>
-      <a href="https://www.easyapi.com/info/donate">支持我们</a>
-    </p>
   </div>
 </div>
 <script src="https://unpkg.com/vue/dist/vue.min.js" type="text/javascript" charset="utf-8"></script>
