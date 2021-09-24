@@ -1,15 +1,20 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head></head>
-<body>
-<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
-<script src="https://unpkg.com/js-cookie/dist/js.cookie.min.js"></script>
-<script type="text/javascript">
-  Cookies.remove('authenticationToken', {
-    path: '',
-    domain: 'easyapi.com'
-  });
-  window.location.replace('/login?from=' + document.referrer ? document.referrer : "".indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : document.referrer);
+<template>
+
+</template>
+
+<script>
+export default {
+  name: 'Logout',
+  mounted() {
+    Cookies.remove('authenticationToken', {
+      path: '',
+      domain: 'easyapi.com'
+    });
+    window.location.replace('/login?from=' + document.referrer ? document.referrer : "".indexOf("account.easyapi.com") >= 0 ? "https://www.easyapi.com" : document.referrer);
+  }
+}
 </script>
-</body>
-</html>
+
+<style lang="less" scoped>
+
+</style>

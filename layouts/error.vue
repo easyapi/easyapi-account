@@ -2,8 +2,8 @@
   <div class="mheight wp">
     <div class="con_nofound">
       <div class="Title">
-        <span class="bigTitle">404!</span>
-        <span class="subTitle">你访问的页面不存在</span>
+        <span class="bigTitle">错误!</span>
+        <span class="subTitle">您访问了错误的信息</span>
         <span></span>
       </div>
     </div>
@@ -12,12 +12,8 @@
 
 <script>
 export default {
-  name: '404',
-  head() {
-    return {
-      title: '页面不存在 - EasyAPI服务平台'
-    }
-  },
+  props: ['error'],
+  layout: 'default'
 }
 </script>
 

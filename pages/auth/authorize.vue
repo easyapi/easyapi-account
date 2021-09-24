@@ -1,108 +1,107 @@
-<!DOCTYPE html>
-<html lang="zh">
-
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>授权 - EasyAPI服务平台</title>
-  <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet"/>
-  <meta name="descriptions" content="EasyAPI账号登录"/>
-  <meta name="keywords" content="登录"/>
-  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
-</head>
-
-<body>
-<div id="app">
-  <div class="wrapper">
-    <div class="w_top">
-      <div class="word_top">
-        <span>{{client}} 想要访问你的账户信息</span>
-      </div>
-      <div class="word_bottom">
-        <span>当前登录账号: {{account}}</span>
-      </div>
-    </div>
-    <div class="w_bottom">
-      <div class="btn_w">
-        <div class="btn_left">
-          <form action="https://account.easyapi.com/oauth/authorize" method="post">
-            <input name="user_oauth_approval" value="true" type="hidden">
-            <input name="authorize" value="Authorize" type="hidden">
-            <input name="scope.client" value="true" type="hidden">
-            <input type="submit" class=" btn-block btn btn-lg btn-info" value="授 权"/>
-          </form>
+<template>
+  <div id="app">
+    <div class="wrapper">
+      <div class="w_top">
+        <div class="word_top">
+          <span>{{ client }} 想要访问你的账户信息</span>
         </div>
-        <div class="btn_right">
-          <form action="https://account.easyapi.com/oauth/authorize" method="post">
-            <input name="user_oauth_approval" value="true" type="hidden">
-            <input name="authorize" value="Authorize" type="hidden">
-            <input name="scope.client" value="false" type="hidden">
-            <input type="submit" class="btn_right_input" value="取 消"/>
-          </form>
-          <p class="btn_right_p" @click="changeUser">切换账号</p>
+        <div class="word_bottom">
+          <span>当前登录账号: {{ account }}</span>
+        </div>
+      </div>
+      <div class="w_bottom">
+        <div class="btn_w">
+          <div class="btn_left">
+            <form action="https://account.easyapi.com/oauth/authorize" method="post">
+              <input name="user_oauth_approval" value="true" type="hidden">
+              <input name="authorize" value="Authorize" type="hidden">
+              <input name="scope.client" value="true" type="hidden">
+              <input type="submit" class=" btn-block btn btn-lg btn-info" value="授 权"/>
+            </form>
+          </div>
+          <div class="btn_right">
+            <form action="https://account.easyapi.com/oauth/authorize" method="post">
+              <input name="user_oauth_approval" value="true" type="hidden">
+              <input name="authorize" value="Authorize" type="hidden">
+              <input name="scope.client" value="false" type="hidden">
+              <input type="submit" class="btn_right_input" value="取 消"/>
+            </form>
+            <p class="btn_right_p" @click="changeUser">切换账号</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://unpkg.com/js-cookie/dist/js.cookie.min.js"></script>
-<script type="text/javascript">
-  let url = window.location.search; //获取url中"?"符后的字串
-  sessionStorage['url'] = url;
-  sessionStorage['auth'] = ""; //清空三方登录标识
+</template>
 
-  let token = Cookies.get("authenticationToken");
-
-  if (!token) {
-    window.location.href = "../login.vue";
-    sessionStorage['auth'] = "三方登录"; //添加三方登录标识
-  }
-
-  new Vue({
-    el: '#app',
-    data: {
+<script>
+export default {
+  name: 'Terms',
+  head() {
+    return {
+      title: '授权 - EasyAPI服务平台',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: '授权'
+        },
+        {
+          hid: 'keyword',
+          name: 'keyword',
+          content: '授权'
+        }
+      ]
+    }
+  },
+  data() {
+    return {
       account: "",
       client: "EasyAPI发票管理",
-    },
-    methods: {
-      /**
-       * 切换账号
-       */
-      changeUser() {
-        window.location.href = "https://account.easyapi.com/login";
-        //添加三方登录标识
-        sessionStorage.setItem('auth', "三方登录");
+    }
+  },
+  methods: {
+    /**
+     * 切换账号
+     */
+    changeUser() {
+      window.location.href = "https://account.easyapi.com/login";
+      //添加三方登录标识
+      sessionStorage.setItem('auth', "三方登录");
+    }
+  },
+  mounted() {
+    if (!token) {
+      window.location.href = "../login.vue";
+      sessionStorage['auth'] = "三方登录"; //添加三方登录标识
+    }
+    //获取url中"?"符后的字串
+    let url = window.location.search;
+    sessionStorage.setItem('url', url);
+    //清空三方登录标识
+    sessionStorage.setItem('auth', "");
+    let token = Cookies.get("authenticationToken");
+    if (!token) {
+      this.changeUser();
+    }
+    axios({
+      type: 'GET',
+      url: 'https://account.easyapi.com/oauth/authorize' + url,
+      headers: {
+        'Authorization': "Bearer " + token
       }
-    },
-    mounted() {
-      //获取url中"?"符后的字串
-      let url = window.location.search;
-      sessionStorage.setItem('url', url);
-      //清空三方登录标识
-      sessionStorage.setItem('auth', "");
-      let token = Cookies.get("authenticationToken");
-      if (!token) {
-        this.changeUser();
+    }).then(res => {
+      if (res.data.code === 1) {
+        this.client = res.data.content.name;
+        this.account = res.data.content.username;
       }
-      axios({
-        type: 'GET',
-        url: 'https://account.easyapi.com/oauth/authorize' + url,
-        headers: {
-          'Authorization': "Bearer " + token
-        }
-      }).then(res => {
-        if (res.data.code === 1) {
-          this.client = res.data.content.name;
-          this.account = res.data.content.username;
-        }
-      }).catch(error => {
-        this.$message.error(error.response.data.message);
-      });
-    },
-  });
+    }).catch(error => {
+      this.$message.error(error.response.data.message);
+    });
+  },
+}
 </script>
-</body>
 
-</html>
+<style lang="less" scoped>
+
+</style>

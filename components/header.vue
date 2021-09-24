@@ -2,7 +2,9 @@
   <div style="margin: 0 0 100px 0">
     <div class="toper">
       <div class="wp">
-        <a href="https://www.easyapi.com/"><img class="logo pl" src="https://static.easyapi.com/images/logo.png" alt=""/></a>
+        <a href="https://www.easyapi.com/">
+          <img class="logo pl" src="https://static.easyapi.com/images/logo.png" alt=""/>
+        </a>
         <div class="navs pr">
           <a href="./login">登录</a>
           <a href="./signup">注册</a>
@@ -14,7 +16,7 @@
 
 <script>
 export default {
-  name: 'Footer'
+  name: 'Header'
 }
 </script>
 

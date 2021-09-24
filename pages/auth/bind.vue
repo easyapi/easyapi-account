@@ -44,25 +44,22 @@
       </div>
     </div>
   </div>
-  <div class="foot clearfix">
-    <p>
-      <span>Copyright © 2015～2021 帮趣团队</span>
-      <a href="https://www.easyapi.com/info/about" class="firstA">关于我们</a>
-      <a href="https://www.easyapi.com/info/together">合作伙伴</a>
-      <a href="https://www.easyapi.com/info/contact">联系我们</a>
-      <a href="https://www.easyapi.com/info/donate">支持我们</a>
-    </p>
-  </div>
+
 </div>
-<script src="https://unpkg.com/vue/dist/vue.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://unpkg.com/js-cookie/dist/js.cookie.min.js"></script>
-<script type="text/javascript" src="../../static/js/account.js"></script>
-<script type="text/javascript">
-  new Vue({
-    el: '#app',
-    data: {
+<script>
+export default {
+  name: 'Bind',
+  head() {
+    return {
+      title: '用户绑定 - EasyAPI服务平台',
+      meta: [
+        {hid: 'description', name: 'description', content: '用户绑定'},
+        {hid: 'keyword', name: 'keyword', content: '用户绑定'}
+      ]
+    }
+  },
+  data() {
+    return{
       disabled: true,
       imageSrc: "",
       providerUserId: "",
@@ -94,80 +91,81 @@
           {min: 6, max: 16, message: '密码6~16位之间，建议包含英文和标点符号', trigger: 'blur'}
         ],
       }
-    },
-    mounted() {
-      let providerUserId = window.location.href.split("?")[1].split("&")[0].split("=")[1];
-      let providerId = window.location.href.split("?")[1].split("&")[1].split("=")[1]
-      if (providerUserId && providerId) {
-        this.providerUserId = providerUserId;
-        this.providerId = providerId
-      }
-      if (providerId === "qq") {
-        this.imageSrc = "/static/svg/qq.svg"
-      } else {
-        this.imageSrc = "/static/svg/weixin.svg"
-      }
-    },
-    methods: {
-      handleLogin() {
-        let that = this;
-        axios({
-          method: 'POST',
-          url: 'https://account-api.easyapi.com/authenticate',
-          data: {
-            ...that.ruleForm,
-          },
-        }).then(res => {
-          if (res.data.code === 1) {
-            let jwt = res.data.content.idToken;
-            if (that.ruleForm.rememberMe) {
-              localStorage.setItem('authenticationToken', jwt);
-            } else {
-              sessionStorage.setItem('authenticationToken', jwt);
-            }
-            that.bind();
-          } else {
-            that.$message.error(res.data.message);
-          }
-        }).catch(error => {
-          that.$message.error(error.response.data.message);
-        })
-      },
-      bind() {
-        let that = this;
-        axios({
-          method: 'POST',
-          url: 'https://account-api.easyapi.com/auth/bind',
-          params: {
-            providerUserId: that.providerUserId,
-            providerId: that.providerId
-          },
-          headers: {
-            "Authorization": `Bearer ${localStorage.getItem("authenticationToken") == null ? sessionStorage.getItem("authenticationToken") : localStorage.getItem("authenticationToken")}` //请求头携带的token
-          }
-        }).then(res => {
-          if (res.data.code === 1) {
-            Cookies.set("authenticationToken", localStorage.getItem("authenticationToken"), {
-              expires: that.ruleForm.rememberMe ? 30 : 0.1,
-              path: '/',
-              domain: domain
-            });
-            window.location.replace(from);
-          } else {
-            that.$message.error(res.data.message);
-          }
-        }).catch(error => {
-          window.location.replace("/login");
-        })
-      }
-    },
-    updated() {
-      // 校验
-      this.disabled = !(this.ruleForm.username !== '' && this.ruleForm.password.length >= 6);
     }
-  })
-
+  },
+  mounted() {
+    let providerUserId = window.location.href.split("?")[1].split("&")[0].split("=")[1];
+    let providerId = window.location.href.split("?")[1].split("&")[1].split("=")[1]
+    if (providerUserId && providerId) {
+      this.providerUserId = providerUserId;
+      this.providerId = providerId
+    }
+    if (providerId === "qq") {
+      this.imageSrc = "/static/svg/qq.svg"
+    } else {
+      this.imageSrc = "/static/svg/weixin.svg"
+    }
+  },
+  methods: {
+    handleLogin() {
+      let that = this;
+      axios({
+        method: 'POST',
+        url: 'https://account-api.easyapi.com/authenticate',
+        data: {
+          ...that.ruleForm,
+        },
+      }).then(res => {
+        if (res.data.code === 1) {
+          let jwt = res.data.content.idToken;
+          if (that.ruleForm.rememberMe) {
+            localStorage.setItem('authenticationToken', jwt);
+          } else {
+            sessionStorage.setItem('authenticationToken', jwt);
+          }
+          that.bind();
+        } else {
+          that.$message.error(res.data.message);
+        }
+      }).catch(error => {
+        that.$message.error(error.response.data.message);
+      })
+    },
+    bind() {
+      let that = this;
+      axios({
+        method: 'POST',
+        url: 'https://account-api.easyapi.com/auth/bind',
+        params: {
+          providerUserId: that.providerUserId,
+          providerId: that.providerId
+        },
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authenticationToken") == null ? sessionStorage.getItem("authenticationToken") : localStorage.getItem("authenticationToken")}` //请求头携带的token
+        }
+      }).then(res => {
+        if (res.data.code === 1) {
+          Cookies.set("authenticationToken", localStorage.getItem("authenticationToken"), {
+            expires: that.ruleForm.rememberMe ? 30 : 0.1,
+            path: '/',
+            domain: domain
+          });
+          window.location.replace(from);
+        } else {
+          that.$message.error(res.data.message);
+        }
+      }).catch(error => {
+        window.location.replace("/login");
+      })
+    }
+  },
+  updated() {
+    // 校验
+    this.disabled = !(this.ruleForm.username !== '' && this.ruleForm.password.length >= 6);
+  }
+}
 </script>
-</body>
 
-</html>
+<style lang="less" scoped>
+
+</style>

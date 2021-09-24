@@ -1,43 +1,43 @@
-<!DOCTYPE html>
-<html lang="zh">
+<template>
+</template>
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>EasyAPI</title>
-  <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://static.easyapi.com/styles/base.css" rel="stylesheet"/>
-  <meta name="descriptions" content="EasyAPI"/>
-  <meta name="keywords" content="EasyAPI"/>
-  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
-</head>
-
-<body>
-<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://unpkg.com/js-cookie/dist/js.cookie.min.js"></script>
-<script type="text/javascript" src="../static/js/account.js"></script>
-<script type="text/javascript">
-  let token = Cookies.get("authenticationToken");
-  if (token) {
-    axios({
-      method: 'GET',
-      url: 'https://account-api.easyapi.com/authenticate',
-      headers: {
-        'Authorization': "Bearer " + token
-      }
-    }).then(res => {
-      if (res.data.code === 1) {
-        window.location.replace(from);
-      } else {
-        window.location.replace("login");
-      }
-    }).catch(error => {
-      this.$message.error(error.response.data.message);
-    });
-  } else {
-    window.location.replace("login");
+<script>
+export default {
+  name: 'Index',
+  head() {
+    return {
+      title: '账户中心 - EasyAPI服务平台',
+      meta: [
+        {hid: 'description', name: 'description', content: '账户中心'},
+        {hid: 'keyword', name: 'keyword', content: '账户中心'}
+      ]
+    }
+  },
+  mounted() {
+    let token = Cookies.get("authenticationToken");
+    if (token) {
+      axios({
+        method: 'GET',
+        url: 'https://account-api.easyapi.com/authenticate',
+        headers: {
+          'Authorization': "Bearer " + token
+        }
+      }).then(res => {
+        if (res.data.code === 1) {
+          window.location.replace(from);
+        } else {
+          window.location.replace("login");
+        }
+      }).catch(error => {
+        this.$message.error(error.response.data.message);
+      });
+    } else {
+      window.location.replace("login");
+    }
   }
+}
 </script>
-</body>
 
-</html>
+<style lang="less" scoped>
+
+</style>
