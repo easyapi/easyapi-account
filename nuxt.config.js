@@ -3,7 +3,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: '{{ name }}',
+    title: '{{ name }} - EasyAPI',
     meta: [
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
@@ -15,6 +15,7 @@ module.exports = {
     script: []
   },
   css: [
+    '@/assets/scss/common.scss',
     '@/assets/scss/element-variables.scss'
   ],
   plugins: ['@/plugins/element-ui', '@/plugins/axios'],

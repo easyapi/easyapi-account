@@ -15,7 +15,14 @@ export default {
   name: '404',
   head() {
     return {
-      title: '页面不存在 - EasyAPI服务平台'
+      title: '页面不存在 - EasyAPI服务平台',
+      meta: [
+      {hid: 'description', name: 'description', content: '页面不存在'},
+      {hid: 'keyword', name: 'keyword', content: '页面不存在'}
+    ],
+      link: [
+      {rel: 'stylesheet', href: 'https://static.easyapi.com/styles/base.css'}
+    ]
     }
   },
 }

@@ -19,7 +19,6 @@ const store = () => new Vuex.Store({
   },
   actions: {},
   getters
-
 })
 
 export default store

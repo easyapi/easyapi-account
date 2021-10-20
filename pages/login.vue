@@ -36,7 +36,6 @@
             </a>
             <a href="https://account-api.easyapi.com/auth/qq"><i class="iconfont icon-iconfonticon6"></i> </a>
           </div>
-
         </div>
       </div>
     </div>
@@ -50,16 +49,8 @@ export default {
     return {
       title: '登录 - EasyAPI服务平台',
       meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'EasyAPI账号登录'
-        },
-        {
-          hid: 'keyword',
-          name: 'keyword',
-          content: '登录'
-        }
+        {hid: 'description', name: 'description', content: 'EasyAPI账号登录'},
+        {hid: 'keyword', name: 'keyword', content: '登录'}
       ]
     }
   },
