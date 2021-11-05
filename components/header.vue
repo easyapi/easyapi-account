@@ -1,41 +1,43 @@
 <template>
-  <div style="margin: 0 0 100px 0">
-    <div class="toper">
-      <div class="wp">
-        <a href="https://www.easyapi.com/">
-          <img class="logo pl" src="https://static.easyapi.com/images/logo.png" alt=""/>
-        </a>
-        <div class="navs pr">
-          <a href="./login">登录</a>
-          <a href="./signup">注册</a>
-        </div>
+  <div class="header">
+    <div class="header-wp">
+      <a href="https://www.easyapi.com/">
+        <img class="logo" src="https://static.easyapi.com/images/logo.png" alt=""/>
+      </a>
+      <div class="">
+        <a href="./login">登录</a>
+        <a href="./signup">注册</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'Header'
-}
+  export default {
+    name: "Header"
+  };
 </script>
 
-<style scoped lang="less">
-.footer {
-  text-align: center;
-  background: #fafafa;
-  color: #777;
-  margin: 20px 0 0 0;
-  padding: 70px 0 50px 0;
-  font-size: 12px;
-}
+<style scoped lang="scss">
+  .header {
+    width: 100%;
+    height: 72px;
+    background-color: #18c1d6;
 
-.footer p {
-  margin-bottom: 10px;
-}
+    .header-wp {
+      padding: 0 20px;
+      height: 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-.footer a {
-  color: #777;
-  padding: 0 20px;
-}
+      .logo {
+        width: 160px;
+      }
+
+      a {
+        color: #ffffff;
+      }
+    }
+  }
 </style>

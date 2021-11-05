@@ -20,9 +20,6 @@ export default {
         {hid: 'description', name: 'description', content: '访问被拒绝'},
         {hid: 'keyword', name: 'keyword', content: '访问被拒绝'}
       ],
-      link: [
-        {rel: 'stylesheet', href: 'https://static.easyapi.com/styles/base.css'}
-      ]
     }
   },
 }
