@@ -3,14 +3,14 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: '{{ name }} - EasyAPI',
+    title: "{{ name }} - EasyAPI",
     meta: [
-      {charset: 'utf-8'},
-      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {hid: 'description', name: 'description', content: '{{escape description }}'}
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: "{{escape description }}" }
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" }
     ],
     script: [
       {
@@ -20,19 +20,28 @@ module.exports = {
       }
     ]
   },
-  css: [
-    '@/assets/scss/common.scss',
-    '@/assets/scss/element-variables.scss'
+  postcss: [
+    require("postcss-pxtorem")({
+      rootValue: 40,
+      propList: ["*"]
+    }),
+    require("autoprefixer")({
+      browsers: ["Android >= 4.0", "iOS >= 7"]
+    })
   ],
-  plugins: ['@/plugins/element-ui', '@/plugins/axios'],
+  css: [
+    "@/assets/scss/common.scss",
+    "@/assets/scss/element-variables.scss"
+  ],
+  plugins: ["@/plugins/element-ui", "@/plugins/axios"],
   /*
   ** Customize the progress bar color
   */
   modules: [
-    '@nuxtjs/axios'
+    "@nuxtjs/axios"
   ],
   loading: {
-    color: '#3B8070'
+    color: "#3B8070"
   },
   /*
   ** Build configuration
@@ -47,4 +56,4 @@ module.exports = {
   server: {
     port: 3000
   }
-}
+};

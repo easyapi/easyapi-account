@@ -1,12 +1,11 @@
 <template>
-  <div class="mheight wp">
-    <div class="con_nofound">
+  <div class="main">
+    <el-col :span="12">
       <div class="Title">
         <span class="bigTitle">404!</span>
         <span class="subTitle">你访问的页面不存在</span>
-        <span></span>
       </div>
-    </div>
+    </el-col>
   </div>
 </template>
 

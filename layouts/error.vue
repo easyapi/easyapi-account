@@ -1,20 +1,19 @@
 <template>
-  <div class="mheight wp">
-    <div class="con_nofound">
+  <el-row class="main">
+    <el-col :span="12">
       <div class="Title">
         <span class="bigTitle">错误!</span>
         <span class="subTitle">您访问了错误的信息</span>
-        <span></span>
       </div>
-    </div>
-  </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
-export default {
-  props: ['error'],
-  layout: 'default'
-}
+  export default {
+    props: ["error"],
+    layout: "default"
+  };
 </script>
 
 <style lang="less" scoped>
