@@ -12,7 +12,16 @@
 <script>
   export default {
     props: ["error"],
-    layout: "default"
+    layout: "default",
+    head() {
+      return {
+        title: "错误 - EasyAPI服务平台",
+        meta: [
+          { hid: "description", name: "description", content: "错误" },
+          { hid: "keyword", name: "keyword", content: "错误" }
+        ]
+      };
+    }
   };
 </script>
 

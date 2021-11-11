@@ -13,8 +13,8 @@
 <body>
 <div id="app">
   <div class="container">
-    <div class="lg-form yahei">
-      <div class="lg-title">绑定账号</div>
+    <div class="form yahei">
+      <div class="headline">绑定账号</div>
       <div class="lg-subtitle ">第一次使用QQ帐号登录，您需要填写账号和密码，以后您也可以使用此账号和密码登录</div>
       <div class="ath">
         <img :src="imageSrc">

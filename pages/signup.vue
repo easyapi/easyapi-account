@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="lg-form">
-      <div class="lg-title text-center">用户注册</div>
+    <div class="form">
+      <div class="headline text-center">用户注册</div>
       <div class="lg-body bgf">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="" prop="username">

@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div class="container mt">
-      <div class="lg-form">
-        <div class="lg-title text-center">重置密码</div>
+      <div class="form">
+        <div class="headline text-center">重置密码</div>
         <div class="lg-body bgf">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
             <el-form-item label="" prop="username">

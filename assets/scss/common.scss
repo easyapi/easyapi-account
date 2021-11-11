@@ -114,3 +114,24 @@
     text-decoration: none;
   }
 }
+
+.container {
+  width: 100%;
+
+  .form {
+    width: 40%;
+    overflow: hidden;
+    margin: 60px auto 50px;
+    text-align: center;
+
+    .headline {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+  }
+
+  .yahei {
+    font-family: "微软雅黑", "Arial", HELVETICA;
+  }
+}
