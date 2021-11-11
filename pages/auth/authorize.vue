@@ -72,7 +72,7 @@ export default {
   },
   mounted() {
     if (!token) {
-      window.location.href = "../login.vue";
+      window.location.href = "../login/index.vue";
       sessionStorage['auth'] = "三方登录"; //添加三方登录标识
     }
     //获取url中"?"符后的字串

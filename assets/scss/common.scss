@@ -1,4 +1,4 @@
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 450px) {
   body, html {
     font-size: 12px
   }
@@ -59,11 +59,19 @@
         margin-bottom: 15px;
       }
 
+      .code {
+        width: 52%
+      }
+
+      .getCode {
+        width: 46%;
+      }
+
       .otherbox {
         margin: 20px auto;
         width: 100%;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
 
         a {
           color: #ACACAC;
@@ -99,7 +107,7 @@
   }
 }
 
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 450px) {
   body, html {
     font-size: 16px
   }
@@ -153,6 +161,14 @@
       margin: 60px auto 50px;
       text-align: center;
 
+      .code {
+        width: 71%
+      }
+
+      .getCode {
+        width: 27%;
+      }
+
       .headline {
         text-align: center;
         font-size: 18px;
@@ -163,7 +179,7 @@
         margin: 20px auto;
         width: 350px;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
 
         a {
           color: #ACACAC;

@@ -5,8 +5,7 @@
         <div class="headline ">用户登录</div>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
           <el-form-item label="" prop="username">
-            <el-input v-model="ruleForm.username" placeholder="请输入手机号码"
-                      style="width: 350px;">
+            <el-input v-model="ruleForm.username" placeholder="请输入手机号码">
               <template slot="prepend">+&nbsp;</template>
               <el-select style="width: 60px" v-model="ruleForm.areaCode" filterable allow-create slot="prepend">
                 <el-option v-for="item in options" :key="item.value" :value="item.value">
@@ -16,7 +15,7 @@
             </el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
-            <el-input v-model="ruleForm.password" placeholder="请输入密码" type="password" style="width: 350px;">
+            <el-input v-model="ruleForm.password" placeholder="请输入密码" type="password">
             </el-input>
           </el-form-item>
           <el-checkbox v-model="ruleForm.rememberMe">记住密码</el-checkbox>
@@ -48,7 +47,7 @@
         meta: [
           { hid: "description", name: "description", content: "EasyAPI账号登录" },
           { hid: "keyword", name: "keyword", content: "登录" }
-        ],
+        ]
         // link: [
         //   { rel: "stylesheet", href: "https://static.easyapi.com/styles/base.css" }
         // ]
