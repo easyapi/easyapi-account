@@ -48,9 +48,6 @@
           { hid: "description", name: "description", content: "EasyAPI账号登录" },
           { hid: "keyword", name: "keyword", content: "登录" }
         ]
-        // link: [
-        //   { rel: "stylesheet", href: "https://static.easyapi.com/styles/base.css" }
-        // ]
       };
     },
     data() {

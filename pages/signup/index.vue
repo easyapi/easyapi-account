@@ -55,9 +55,6 @@
           { hid: "description", name: "description", content: "EasyAPI账号注册" },
           { hid: "keyword", name: "keyword", content: "账号注册" }
         ]
-        // link: [
-        //   {rel: 'stylesheet', href: 'https://static.easyapi.com/styles/base.css'}
-        // ]
       };
     },
     data() {
