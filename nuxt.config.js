@@ -31,7 +31,8 @@ module.exports = {
   ],
   css: [
     "@/assets/scss/common.scss",
-    "@/assets/scss/element-variables.scss"
+    "@/assets/scss/element-variables.scss",
+    "@/assets/iconfont/iconfont.css"
   ],
   plugins: ["@/plugins/element-ui", "@/plugins/axios"],
   /*

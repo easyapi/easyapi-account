@@ -5,10 +5,10 @@
         <div class="headline ">用户登录</div>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
           <el-form-item label="" prop="username">
-            <el-input v-model="ruleForm.username" class="input-with-select" placeholder="请输入手机号码"
+            <el-input v-model="ruleForm.username" placeholder="请输入手机号码"
                       style="width: 350px;">
               <template slot="prepend">+&nbsp;</template>
-              <el-select v-model="ruleForm.areaCode" filterable allow-create slot="prepend">
+              <el-select style="width: 60px" v-model="ruleForm.areaCode" filterable allow-create slot="prepend">
                 <el-option v-for="item in options" :key="item.value" :value="item.value">
                   {{ item.label }}（+{{ item.value }}）
                 </el-option>
@@ -20,20 +20,19 @@
             </el-input>
           </el-form-item>
           <el-checkbox v-model="ruleForm.rememberMe">记住密码</el-checkbox>
-          <input :disabled="disabled" type="button" id="btn_sub" @click="onSubmit"
-                 class="btn-block btn btn-lg btn-info" value="登录"/>
+          <el-button :disabled="disabled" @click="onSubmit" size="mini">登录</el-button>
         </el-form>
 
-        <div class="otherbox a-center">
+        <div class="otherbox">
           <a class="signup" href="./signup">立即注册</a>
           <a href="email-upgrade">邮箱升级为手机号码</a>
           <a class="forget-password" href="./forget-password">忘记密码？</a>
         </div>
 
         <div class="otherlogin">
-          <a href="https://account-api.easyapi.com/auth/wechat"><i class="iconfont icon-weixing color-success"></i>
+          <a href="https://account-api.easyapi.com/auth/wechat"><i class="iconfont success icon-iconfontweixin"></i>
           </a>
-          <a href="https://account-api.easyapi.com/auth/qq"><i class="iconfont icon-iconfonticon6"></i> </a>
+          <a href="https://account-api.easyapi.com/auth/qq"><i class="iconfont icon-QQ"></i> </a>
         </div>
       </div>
     </div>
@@ -50,9 +49,9 @@
           { hid: "description", name: "description", content: "EasyAPI账号登录" },
           { hid: "keyword", name: "keyword", content: "登录" }
         ],
-        link: [
-          { rel: "stylesheet", href: "https://static.easyapi.com/styles/base.css" }
-        ]
+        // link: [
+        //   { rel: "stylesheet", href: "https://static.easyapi.com/styles/base.css" }
+        // ]
       };
     },
     data() {
