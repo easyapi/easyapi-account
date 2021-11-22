@@ -1,5 +1,5 @@
 <template>
-  <div class="wp">
+  <div class="terms-container">
     <div class="infopage about">
       <h2>服务条款</h2>
 
@@ -120,23 +120,26 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'Terms',
-  layout: 'default',
-  head() {
-    return {
-      title: '服务条款 - EasyAPI服务平台',
-      meta: [
-        {hid: 'description', name: 'description', content: 'EasyAPI服务条款'},
-        {hid: 'keyword', name: 'keyword', content: '服务条款'}
-      ],
-      link: [
-        {rel: 'stylesheet', href: 'https://static.easyapi.com/styles/base.css'}
-      ]
+  export default {
+    name: "Terms",
+    layout: "default",
+    head() {
+      return {
+        title: "服务条款 - EasyAPI服务平台",
+        meta: [
+          { hid: "description", name: "description", content: "EasyAPI服务条款" },
+          { hid: "keyword", name: "keyword", content: "服务条款" }
+        ],
+        link: [
+          { rel: "stylesheet", href: "https://static.easyapi.com/styles/base.css" }
+        ]
+      };
     }
-  },
-}
+  };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
+  .terms-container{
+    padding: 0 50px;
+  }
 </style>

@@ -105,6 +105,18 @@
       font-family: "微软雅黑", "Arial", HELVETICA;
     }
   }
+
+  .foot {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    color: #777;
+    font-size: 12px;
+
+    a {
+      color: #777777;
+    }
+  }
 }
 
 @media screen and (min-width: 450px) {
@@ -212,6 +224,17 @@
       font-family: "微软雅黑", "Arial", HELVETICA;
     }
   }
+
+  .foot {
+    width: 100%;
+    text-align: center;
+    color: #777;
+    font-size: 12px;
+
+    a {
+      color: #777777;
+    }
+  }
 }
 
 
@@ -225,17 +248,6 @@
   padding: 10px 20px;
   background-color: #f5f5f5;
   text-align: center;
-}
-
-.foot {
-  width: 100%;
-  text-align: center;
-  color: #777;
-  font-size: 12px;
-
-  a {
-    color: #777777;
-  }
 }
 
 a {
