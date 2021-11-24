@@ -5,17 +5,17 @@
         <img class="logo" src="https://static.easyapi.com/images/logo.png" alt=""/>
       </a>
       <div class="">
-        <a href="./login">登录</a>
-        <a href="./signup">注册</a>
+        <nuxt-link to="login">登录</nuxt-link>
+        <nuxt-link to="signup">注册</nuxt-link>
       </div>
     </el-col>
   </el-row>
 </template>
 
 <script>
-  export default {
-    name: "Header"
-  };
+export default {
+  name: "Header"
+};
 </script>
 
 <style scoped lang="scss">
