@@ -27,11 +27,11 @@
                       v-model="ruleForm.code"></el-input>
             <el-button class="getCode" :disabled="sendCodeBtn" @click="sendCode">{{sendCodeCount}}</el-button>
           </el-form-item>
-          <el-button :disabled="disabled" @click="onSubmit" size="mini">升级</el-button>
+          <el-button :disabled="disabled" @click="onSubmit">升级</el-button>
         </el-form>
 
         <div class="otherbox">
-          <a href="./login">我已升级成功，直接登录</a>
+          <a href="../login">我已升级成功，直接登录</a>
         </div>
       </div>
     </div>

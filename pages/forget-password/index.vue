@@ -7,7 +7,7 @@
           <el-form-item label="" prop="username">
             <el-input placeholder="请输入手机号码" maxlength="11" v-model="ruleForm.username">
               <template slot="prepend">+&nbsp;</template>
-              <el-select v-model="ruleForm.areaCode" filterable allow-create slot="prepend" style="width:60px;">
+              <el-select v-model="ruleForm.areaCode" filterable allow-create slot="prepend" style="width:80px;">
                 <el-option v-for="item in options" :key="item.value" :value="item.value">
                   {{ item.label }}（+{{ item.value }}）
                 </el-option>
