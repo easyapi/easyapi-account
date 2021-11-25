@@ -129,9 +129,6 @@
         meta: [
           { hid: "description", name: "description", content: "EasyAPI服务条款" },
           { hid: "keyword", name: "keyword", content: "服务条款" }
-        ],
-        link: [
-          { rel: "stylesheet", href: "https://static.easyapi.com/styles/base.css" }
         ]
       };
     }
@@ -139,7 +136,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .terms-container{
+  .terms-container {
     padding: 0 50px;
   }
 </style>

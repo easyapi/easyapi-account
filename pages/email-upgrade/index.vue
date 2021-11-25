@@ -56,9 +56,6 @@
             content: "邮箱升级为手机号码"
           }
         ]
-        // link: [
-        //   { rel: "stylesheet", href: "https://static.easyapi.com/styles/base.css" }
-        // ]
       };
     },
     data() {
