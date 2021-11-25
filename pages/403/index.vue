@@ -1,9 +1,9 @@
 <template>
   <el-row class="main">
-    <el-col :span="12">
-      <div class="Title">
-        <span class="bigTitle">403!</span>
-        <span class="subTitle">访问被拒绝!</span>
+    <el-col :span="12" :offset="6">
+      <div class="error">
+        <span class="title">403!</span>
+        <span class="subtitle">访问被拒绝!</span>
       </div>
     </el-col>
   </el-row>

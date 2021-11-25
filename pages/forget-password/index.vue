@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="container">
+    <div class="main">
       <div class="form">
         <div class="headline">重置密码</div>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
@@ -35,6 +35,10 @@
 </template>
 
 <script>
+  import { reset } from "../../api/forget-password";
+  import { sendCode } from "../../api/signup";
+  import Cookies from "js-cookie";
+
   export default {
     name: "ForgetPassword",
     head() {
@@ -114,13 +118,10 @@
         if (that.ruleForm.password !== that.ruleForm.confirmPassword) {
           that.$message.error("确认密码不一致");
         } else {
-          axios({
-            method: "POST",
-            url: "https://account-api.easyapi.com/api/account/forget-password/reset",
-            data: {
-              ...that.ruleForm
-            }
-          }).then(res => {
+          let data = {
+            ...that.ruleForm
+          };
+          reset(data, this).then(res => {
             if (res.data.code === 1) {
               that.$message.success(res.data.message);
               setTimeout(() => {
@@ -140,13 +141,10 @@
         let timer;
         let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
         if (telStr.test(that.ruleForm.username)) {
-          axios({
-            url: "https://account-api.easyapi.com/captcha/send",
-            method: "GET",
-            params: {
-              mobile: that.ruleForm.username
-            }
-          }).then(res => {
+          let params = {
+            mobile: that.ruleForm.username
+          };
+          sendCode(params, this).then(res => {
             if (res.data.code === 1) {
               that.$message.success(res.data.message);
             } else {

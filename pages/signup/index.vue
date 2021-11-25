@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="main">
     <div class="form">
       <div class="headline">用户注册</div>
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
@@ -38,7 +38,7 @@
         </el-button>
       </el-form>
 
-      <div class="otherbox">
+      <div class="other-box">
         <a href="../login">我已有EasyAPI账号，直接登录</a>
       </div>
     </div>
@@ -46,6 +46,9 @@
 </template>
 
 <script>
+  import { signup, findUsername, sendCode } from "../../api/signup";
+  import Cookies from "js-cookie";
+
   export default {
     name: "Signup",
     head() {
@@ -114,13 +117,10 @@
           if (!that.ruleForm.checked) {
             that.$message.error("请勾选同意EasyAPI用户协议");
           } else {
-            axios({
-              method: "POST",
-              url: "https://account-api.easyapi.com/api/account/signup",
-              data: {
-                ...that.ruleForm
-              }
-            }).then(res => {
+            let data = {
+              ...that.ruleForm
+            };
+            signup(data, this).then(res => {
               if (res.data.code === 1) {
                 Cookies.set("authenticationToken", res.data.content, {
                   expires: that.ruleForm.rememberMe ? 30 : 0.1,
@@ -132,7 +132,6 @@
                   Cookies.remove("from");
                   window.location.replace(from);
                 }, 1000);
-
               } else {
                 that.$message.error(res.data.message);
               }
@@ -147,11 +146,10 @@
         let that = this;
         let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
         if (telStr.test(this.ruleForm.username)) {
-          axios({
-            url: "https://account-api.easyapi.com/api/account/find",
-            method: "GET",
-            params: { "username": that.ruleForm.username }
-          }).then(res => {
+          let params = {
+            username: that.ruleForm.username
+          };
+          findUsername(params, this).then(res => {
             that.$message.error("该账号已注册，请直接登录");
           });
         }
@@ -163,20 +161,16 @@
         let timer;
         let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
         if (telStr.test(that.ruleForm.username)) {
-          axios({
-            url: "https://account-api.easyapi.com/api/account/find",
-            method: "GET",
-            params: { "username": that.ruleForm.username }
-          }).then(res => {
+          let params = {
+            user: that.ruleForm.username
+          };
+          findUsername(params, this).then(res => {
             that.$message.error("该账号已注册，请直接登录");
           }).catch(error => {
-            axios({
-              url: "https://account-api.easyapi.com/captcha/send",
-              method: "GET",
-              params: {
-                mobile: that.ruleForm.username
-              }
-            }).then(res => {
+            let params = {
+              mobile: that.ruleForm.username
+            };
+            sendCode(params, this).then(res => {
               if (res.data.code === 1) {
                 that.$message.success("验证码发送成功");
                 let second = 60;

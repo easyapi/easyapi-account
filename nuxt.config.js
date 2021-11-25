@@ -2,6 +2,9 @@ module.exports = {
   /*
   ** Headers of the page
   */
+  router: {
+    middleware: "auth"
+  },
   head: {
     title: "{{ name }} - EasyAPI",
     meta: [
@@ -11,13 +14,6 @@ module.exports = {
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" }
-    ],
-    script: [
-      {
-        src: "/js/rem.js",
-        type: "text/javascript",
-        charset: "utf-8"
-      }
     ]
   },
   postcss: [

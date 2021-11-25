@@ -33,5 +33,8 @@
     "sass-loader": "^10.2.0",
     "nodemon": "^2.0.15",
     "prettier": "^2.4.1"
+  },
+  "dependencies": {
+    "js-cookie": "^3.0.1"
   }
 }
