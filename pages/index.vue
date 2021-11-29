@@ -3,6 +3,9 @@
 </template>
 
 <script>
+import Cookies from "js-cookie";
+import {getUser} from "../api/account";
+
 export default {
   name: 'Index',
   head() {
@@ -16,29 +19,20 @@ export default {
   },
   mounted() {
     let token = Cookies.get("authenticationToken");
+    let from = Cookies.get("from");
     if (token) {
-      axios({
-        method: 'GET',
-        url: 'https://account-api.easyapi.com/authenticate',
-        headers: {
-          'Authorization': "Bearer " + token
-        }
-      }).then(res => {
+      getUser(this).then(res => {
         if (res.data.code === 1) {
           window.location.replace(from);
         } else {
-          window.location.replace("login");
+          this.$router.push({path: `/login`})
         }
       }).catch(error => {
         this.$message.error(error.response.data.message);
       });
     } else {
-      window.location.replace("login");
+      this.$router.push({path: `/login`})
     }
   }
 }
 </script>
-
-<style lang="less" scoped>
-
-</style>

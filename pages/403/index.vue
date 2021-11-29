@@ -10,18 +10,18 @@
 </template>
 
 <script>
-  export default {
-    name: "403",
-    head() {
-      return {
-        title: "访问被拒绝 - EasyAPI服务平台",
-        meta: [
-          { hid: "description", name: "description", content: "访问被拒绝" },
-          { hid: "keyword", name: "keyword", content: "访问被拒绝" }
-        ]
-      };
-    }
-  };
+export default {
+  name: "403",
+  head() {
+    return {
+      title: "访问被拒绝 - EasyAPI服务平台",
+      meta: [
+        {hid: "description", name: "description", content: "访问被拒绝"},
+        {hid: "keyword", name: "keyword", content: "访问被拒绝"}
+      ]
+    };
+  }
+};
 </script>
 
 <style lang="less" scoped>

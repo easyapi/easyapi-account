@@ -17,7 +17,7 @@
           <el-form-item label="" prop="code">
             <el-input placeholder="请输入验证码" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"
                       v-model="ruleForm.code" class="code"></el-input>
-            <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">{{sendCodeCount}}</el-button>
+            <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">{{ sendCodeCount }}</el-button>
           </el-form-item>
           <el-form-item label="" prop="password">
             <el-input placeholder="请输入新密码" type="password" v-model="ruleForm.password">
@@ -35,146 +35,146 @@
 </template>
 
 <script>
-  import { reset } from "../../api/forget-password";
-  import { sendCode } from "../../api/signup";
-  import Cookies from "js-cookie";
+import {reset} from "../../api/forget-password";
+import {sendCode} from "../../api/signup";
+import Cookies from "js-cookie";
 
-  export default {
-    name: "ForgetPassword",
-    head() {
-      return {
-        title: "忘记密码 - EasyAPI服务平台",
-        meta: [
-          {
-            hid: "description",
-            name: "description",
-            content: "用户忘记密码找回密码"
-          },
-          {
-            hid: "keyword",
-            name: "keyword",
-            content: "忘记密码,找回密码"
-          }
-        ]
-      };
-    },
-    data() {
-      return {
-        disabled: true,
-        sendCodeBtn: false,
-        sendCodeCount: "获取验证码",
-        options: [{
-          value: "86",
-          label: "中国大陆"
-        }, {
-          value: "852",
-          label: "中国香港"
-        }, {
-          value: "886",
-          label: "中国台湾"
-        }, {
-          value: "81",
-          label: "日本"
-        }, {
-          value: "1",
-          label: "美国"
-        }],
-        ruleForm: {
-          areaCode: 86,
-          username: "",
-          code: "",
-          password: "",
-          confirmPassword: ""
+export default {
+  name: "ForgetPassword",
+  head() {
+    return {
+      title: "忘记密码 - EasyAPI服务平台",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: "用户忘记密码找回密码"
         },
-        rules: {
-          username: [{
-            required: true,
-            message: "请输入手机号码",
-            trigger: "blur"
-          },
-            {
-              pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-              message: "手机号码格式有误",
-              trigger: "blur"
-            }
-          ],
-          code: [
-            { required: true, message: "请输入验证码", trigger: "blur" },
-            { pattern: /^\d{6}$/, message: "验证码格式有误", trigger: "blur" }
-          ],
-          password: [
-            { required: true, message: "密码6~16位之间，建议包含英文和标点符号", trigger: "blur" },
-            { min: 6, max: 16, message: "密码6~16位之间，建议包含英文和标点符号", trigger: "blur" }
-          ],
-          confirmPassword: [
-            { required: true, message: "请再输入一次密码", trigger: "blur" }]
+        {
+          hid: "keyword",
+          name: "keyword",
+          content: "忘记密码,找回密码"
         }
-      };
-    },
-    methods: {
-      //确定
-      reset() {
-        let that = this;
-        if (that.ruleForm.password !== that.ruleForm.confirmPassword) {
-          that.$message.error("确认密码不一致");
-        } else {
-          let data = {
-            ...that.ruleForm
-          };
-          reset(data, this).then(res => {
-            if (res.data.code === 1) {
-              that.$message.success(res.data.message);
-              setTimeout(() => {
-                window.location.replace("login");
-              }, 1000);
-            } else {
-              that.$message.error(res.data.message);
-            }
-          }).catch(error => {
-            that.$message.error(error.response.data.message);
-          });
-        }
+      ]
+    };
+  },
+  data() {
+    return {
+      disabled: true,
+      sendCodeBtn: false,
+      sendCodeCount: "获取验证码",
+      options: [{
+        value: "86",
+        label: "中国大陆"
+      }, {
+        value: "852",
+        label: "中国香港"
+      }, {
+        value: "886",
+        label: "中国台湾"
+      }, {
+        value: "81",
+        label: "日本"
+      }, {
+        value: "1",
+        label: "美国"
+      }],
+      ruleForm: {
+        areaCode: 86,
+        username: "",
+        code: "",
+        password: "",
+        confirmPassword: ""
       },
-      //发送验证码
-      sendCode() {
-        let that = this;
-        let timer;
-        let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
-        if (telStr.test(that.ruleForm.username)) {
-          let params = {
-            mobile: that.ruleForm.username
-          };
-          sendCode(params, this).then(res => {
-            if (res.data.code === 1) {
-              that.$message.success(res.data.message);
-            } else {
-              that.$message.error(res.data.message);
-            }
-          }).catch(error => {
-            that.$message.error(error.response.data.message);
-          });
-          let second = 60;
-          that.sendCodeBtn = true;
-          timer = setInterval(() => {
-            second--;
-            if (second === 0) {
-              that.sendCodeBtn = false;
-              that.sendCodeCount = "获取验证码";
-              clearInterval(timer);
-              return;
-            }
-            that.sendCodeCount = `剩余${second}秒`;
-          }, 1000);
-        } else {
-          that.$message.error("请输入正确的手机号码");
-        }
+      rules: {
+        username: [{
+          required: true,
+          message: "请输入手机号码",
+          trigger: "blur"
+        },
+          {
+            pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
+            message: "手机号码格式有误",
+            trigger: "blur"
+          }
+        ],
+        code: [
+          {required: true, message: "请输入验证码", trigger: "blur"},
+          {pattern: /^\d{6}$/, message: "验证码格式有误", trigger: "blur"}
+        ],
+        password: [
+          {required: true, message: "密码6~16位之间，建议包含英文和标点符号", trigger: "blur"},
+          {min: 6, max: 16, message: "密码6~16位之间，建议包含英文和标点符号", trigger: "blur"}
+        ],
+        confirmPassword: [
+          {required: true, message: "请再输入一次密码", trigger: "blur"}]
+      }
+    };
+  },
+  methods: {
+    //确定
+    reset() {
+      let that = this;
+      if (that.ruleForm.password !== that.ruleForm.confirmPassword) {
+        that.$message.error("确认密码不一致");
+      } else {
+        let data = {
+          ...that.ruleForm
+        };
+        reset(data, this).then(res => {
+          if (res.data.code === 1) {
+            that.$message.success(res.data.message);
+            setTimeout(() => {
+              window.location.replace("login");
+            }, 1000);
+          } else {
+            that.$message.error(res.data.message);
+          }
+        }).catch(error => {
+          that.$message.error(error.response.data.message);
+        });
       }
     },
-    updated() {
-      // 校验
-      this.disabled = !(this.ruleForm.username !== "" && this.ruleForm.code !== "" && this.ruleForm.password.length >= 6 && this.ruleForm.confirmPassword.length >= 6);
+    //发送验证码
+    sendCode() {
+      let that = this;
+      let timer;
+      let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+      if (telStr.test(that.ruleForm.username)) {
+        let params = {
+          mobile: that.ruleForm.username
+        };
+        sendCode(params, this).then(res => {
+          if (res.data.code === 1) {
+            that.$message.success(res.data.message);
+          } else {
+            that.$message.error(res.data.message);
+          }
+        }).catch(error => {
+          that.$message.error(error.response.data.message);
+        });
+        let second = 60;
+        that.sendCodeBtn = true;
+        timer = setInterval(() => {
+          second--;
+          if (second === 0) {
+            that.sendCodeBtn = false;
+            that.sendCodeCount = "获取验证码";
+            clearInterval(timer);
+            return;
+          }
+          that.sendCodeCount = `剩余${second}秒`;
+        }, 1000);
+      } else {
+        that.$message.error("请输入正确的手机号码");
+      }
     }
-  };
+  },
+  updated() {
+    // 校验
+    this.disabled = !(this.ruleForm.username !== "" && this.ruleForm.code !== "" && this.ruleForm.password.length >= 6 && this.ruleForm.confirmPassword.length >= 6);
+  }
+};
 </script>
 
 <style lang="less" scoped>
