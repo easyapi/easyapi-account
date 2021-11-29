@@ -30,10 +30,10 @@
           <el-input placeholder="请再输入一次密码" type="password" v-model="ruleForm.confirmPassword">
           </el-input>
         </el-form-item>
-        <el-checkbox v-model="ruleForm.checked">点击注册表示您同意
+        <el-checkbox class="checkbox" v-model="ruleForm.checked">点击注册表示您同意
           <span class="text-success"><a href="terms" target="_blank">《EasyAPI服务条款》</a></span>
         </el-checkbox>
-        <el-button :disabled="disabled" id="btn_sub" @click="onSubmit"
+        <el-button style="width: 100%" type="primary" :disabled="disabled" id="btn_sub" @click="onSubmit"
                    class="btn-block btn btn-lg btn-info">注 册
         </el-button>
       </el-form>

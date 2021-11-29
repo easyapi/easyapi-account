@@ -1,6 +1,6 @@
 <template>
   <el-row class="main">
-    <el-col :span="12" :offset="6">>
+    <el-col :span="12" :offset="6">
       <div class="error">
         <span class="title">错误!</span>
         <span class="subtitle">您访问了错误的信息</span>

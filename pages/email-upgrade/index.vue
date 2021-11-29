@@ -26,7 +26,7 @@
                     v-model="ruleForm.code"></el-input>
           <el-button class="getCode" :disabled="sendCodeBtn" @click="sendCode">{{sendCodeCount}}</el-button>
         </el-form-item>
-        <el-button :disabled="disabled" @click="onSubmit">升级</el-button>
+        <el-button style="width: 100%" type="primary" :disabled="disabled" @click="onSubmit">升级</el-button>
       </el-form>
 
       <div class="other-box">

@@ -17,10 +17,9 @@
           <el-input v-model="ruleForm.password" placeholder="请输入密码" type="password">
           </el-input>
         </el-form-item>
-        <el-checkbox v-model="ruleForm.rememberMe">记住密码</el-checkbox>
-        <el-button :disabled="disabled" @click="onSubmit" size="mini">登录</el-button>
+        <el-checkbox class="checkbox" v-model="ruleForm.rememberMe">记住密码</el-checkbox>
+        <el-button style="width: 100%" :disabled="disabled" type="primary" @click="onSubmit">登录</el-button>
       </el-form>
-
       <div class="other-box">
         <a class="signup" href="./signup">立即注册</a>
         <a href="email-upgrade">邮箱升级为手机号码</a>
@@ -37,95 +36,95 @@
 </template>
 
 <script>
-import {login} from "../../api/login";
-import Cookies from "js-cookie";
+  import { login } from "../../api/login";
+  import Cookies from "js-cookie";
 
-export default {
-  name: "Terms",
-  head() {
-    return {
-      title: "登录 - EasyAPI服务平台",
-      meta: [
-        {hid: "description", name: "description", content: "EasyAPI账号登录"},
-        {hid: "keyword", name: "keyword", content: "登录"}
-      ]
-    };
-  },
-  data() {
-    return {
-      disabled: true,
-      options: [
-        {value: "86", label: "中国大陆"},
-        {value: "852", label: "中国香港"},
-        {value: "886", label: "中国台湾"},
-        {value: "81", label: "日本"},
-        {value: "1", label: "美国"}
-      ],
-      ruleForm: {
-        areaCode: 86,
-        username: "",
-        password: "",
-        rememberMe: true
-      },
-      rules: {
-        username: [{required: true, message: "请输入您注册时手机号码", trigger: "blur"}],
-        password: [{required: true, message: "请输入密码", trigger: "blur"}]
-      }
-    };
-  },
-  methods: {
-    //登录
-    onSubmit() {
-      let that = this;
-      let url = sessionStorage.getItem("url");
-      let auth = sessionStorage.getItem("auth");
-      let data = {
-        ...that.ruleForm
+  export default {
+    name: "Terms",
+    head() {
+      return {
+        title: "登录 - EasyAPI服务平台",
+        meta: [
+          { hid: "description", name: "description", content: "EasyAPI账号登录" },
+          { hid: "keyword", name: "keyword", content: "登录" }
+        ]
       };
-      login(data, this).then(res => {
-        if (res.data.code === 1) {
-          Cookies.set("authenticationToken", res.data.content.idToken, {
-            expires: that.ruleForm.rememberMe ? 30 : 0.1,
-            path: "/",
-            domain: domain
-          });
-          if (url !== "" && auth === "三方登录") {
-            window.location.href = "https://account.easyapi.com/auth/authorize.html" + url;
-          } else {
-            setTimeout(() => {
-              Cookies.remove("from");
-              window.location.replace(from);
-            }, 1000);
-          }
-          that.$message.success(res.data.message);
-        } else {
-          that.$message.error(res.data.message);
+    },
+    data() {
+      return {
+        disabled: true,
+        options: [
+          { value: "86", label: "中国大陆" },
+          { value: "852", label: "中国香港" },
+          { value: "886", label: "中国台湾" },
+          { value: "81", label: "日本" },
+          { value: "1", label: "美国" }
+        ],
+        ruleForm: {
+          areaCode: 86,
+          username: "",
+          password: "",
+          rememberMe: true
+        },
+        rules: {
+          username: [{ required: true, message: "请输入您注册时手机号码", trigger: "blur" }],
+          password: [{ required: true, message: "请输入密码", trigger: "blur" }]
         }
-      }).catch(error => {
-        that.$message.error(error.response.data.message);
-      });
-    }
+      };
+    },
+    methods: {
+      //登录
+      onSubmit() {
+        let that = this;
+        let url = sessionStorage.getItem("url");
+        let auth = sessionStorage.getItem("auth");
+        let data = {
+          ...that.ruleForm
+        };
+        login(data, this).then(res => {
+          if (res.data.code === 1) {
+            Cookies.set("authenticationToken", res.data.content.idToken, {
+              expires: that.ruleForm.rememberMe ? 30 : 0.1,
+              path: "/",
+              domain: domain
+            });
+            if (url !== "" && auth === "三方登录") {
+              window.location.href = "https://account.easyapi.com/auth/authorize.html" + url;
+            } else {
+              setTimeout(() => {
+                Cookies.remove("from");
+                window.location.replace(from);
+              }, 1000);
+            }
+            that.$message.success(res.data.message);
+          } else {
+            that.$message.error(res.data.message);
+          }
+        }).catch(error => {
+          that.$message.error(error.response.data.message);
+        });
+      }
 
-  }
-  ,
-  mounted() {
-    //从Cookie中获取账号;
-    if (Cookies.get("username") != null) {
-      this.ruleForm.username = Cookies.get("username");
     }
-  },
-  updated() {
-    this.disabled = !(this.ruleForm.username !== "" && this.ruleForm.password.length >= 6);
-  }
-};
+    ,
+    mounted() {
+      //从Cookie中获取账号;
+      if (Cookies.get("username") != null) {
+        this.ruleForm.username = Cookies.get("username");
+      }
+    },
+    updated() {
+      this.disabled = !(this.ruleForm.username !== "" && this.ruleForm.password.length >= 6);
+    }
+  };
 </script>
 
 <style>
-.el-select .el-input {
-  width: 75px;
-}
+  .el-select .el-input {
+    width: 75px;
+  }
 
-.input-with-select .el-input-group__prepend {
-  background-color: #fff;
-}
+  .input-with-select .el-input-group__prepend {
+    background-color: #fff;
+  }
 </style>

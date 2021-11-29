@@ -58,11 +58,12 @@
       .image-svg {
         width: 20px;
         height: 20px;
+        padding: 0 5px;
       }
 
       .image-png {
-        width: 100px;
-        height: 100px;
+        width: 40px;
+        height: 40px;
       }
 
       .code {
@@ -178,11 +179,12 @@
       .image-svg {
         width: 40px;
         height: 40px;
+        padding: 0 10px;
       }
 
       .image-png {
-        width: 200px;
-        height: 200px;
+        width: 80px;
+        height: 80px;
       }
 
       .code {
@@ -272,6 +274,11 @@ a {
 
 .ath {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+}
+
+.checkbox {
+  margin-bottom: 20px;
+  float: left;
 }
