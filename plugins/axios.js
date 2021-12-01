@@ -13,8 +13,6 @@ export default function ({$axios, redirect}) {
         window.location.href = 'https://account.easyapi.com/login?from=https://market.easyapi.com'
       } else if (error.response.data.code === -8) {
         window.location.href = 'https://team.easyapi.com/new?from=https://market.easyapi.com'
-      } else {
-        this.$message.warning(error.response.data.message)
       }
     }
   })
