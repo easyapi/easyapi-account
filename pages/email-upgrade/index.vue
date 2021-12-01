@@ -30,7 +30,7 @@
       </el-form>
 
       <div class="other-box">
-        <a href="../login">我已升级成功，直接登录</a>
+        <nuxt-link to="login">我已升级成功，直接登录</nuxt-link>
       </div>
     </div>
   </div>

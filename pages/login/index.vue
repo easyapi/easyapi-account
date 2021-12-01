@@ -21,9 +21,9 @@
         <el-button style="width: 100%" :disabled="disabled" type="primary" @click="onSubmit">登录</el-button>
       </el-form>
       <div class="other-box">
-        <a class="signup" href="./signup">立即注册</a>
-        <a href="email-upgrade">邮箱升级为手机号码</a>
-        <a class="forget-password" href="./forget-password">忘记密码？</a>
+        <nuxt-link to="signup" class="signup">立即注册</nuxt-link>
+        <nuxt-link to="email-upgrade">邮箱升级为手机号码</nuxt-link>
+        <nuxt-link to="forget-password" class="forget-password">忘记密码？</nuxt-link>
       </div>
 
       <div class="other-login">

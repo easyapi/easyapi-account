@@ -4,7 +4,7 @@
  * @see https://www.easyapi.com
  */
 export const signup = (data, context) => {
-  return context.$axios.post(`https://account-api.easyapi.com/api/account/signup`, data);
+  return context.$axios.post(`${process.env.baseUrl}/api/account/signup`, data);
 };
 
 /**
@@ -13,12 +13,12 @@ export const signup = (data, context) => {
  * @see https://www.easyapi.com
  */
 export const findUsername = (params, context) => {
-    return context.$axios.get(`https://account-api.easyapi.com/api/account/find`, {
-      params: {
-        ...params
-      }
-    });
-  };
+  return context.$axios.get(`${process.env.baseUrl}/api/account/find`, {
+    params: {
+      ...params
+    }
+  });
+};
 
 /**
  * 发送验证码
@@ -26,7 +26,7 @@ export const findUsername = (params, context) => {
  * @see https://www.easyapi.com
  */
 export const sendCode = (params, context) => {
-  return context.$axios.get(`https://account-api.easyapi.com/captcha/send`, {
+  return context.$axios.get(`${process.env.baseUrl}/captcha/send`, {
     params: {
       ...params
     }

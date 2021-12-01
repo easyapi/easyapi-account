@@ -27,25 +27,17 @@
 </template>
 
 <script>
-import {getAuthorize} from "../../api/auth";
+import {getAuthorize} from "../../../api/auth";
 import Cookies from "js-cookie";
 
 export default {
-  name: "Terms",
+  name: "Authorize",
   head() {
     return {
       title: "授权 - EasyAPI服务平台",
       meta: [
-        {
-          hid: "description",
-          name: "description",
-          content: "授权"
-        },
-        {
-          hid: "keyword",
-          name: "keyword",
-          content: "授权"
-        }
+        {hid: "description", name: "description", content: "授权"},
+        {hid: "keyword", name: "keyword", content: "授权"}
       ]
     };
   },
@@ -69,11 +61,15 @@ export default {
     let token = Cookies.get("authenticationToken");
 
     if (!token) {
-      window.location.href = "../login/index.vue";
+      window.location.href = "../../login/index.vue";
       sessionStorage["auth"] = "三方登录"; //添加三方登录标识
     }
     //获取url中"?"符后的字串
+    console.log(this.$router)
+    console.log(this.$router.params)
+    console.log(this.$router.query)
     let url = this.$router.query.search;
+
     sessionStorage.setItem("url", url);
     //清空三方登录标识
     sessionStorage.setItem("auth", "");
@@ -94,7 +90,3 @@ export default {
   }
 };
 </script>
-
-<style lang="less" scoped>
-
-</style>

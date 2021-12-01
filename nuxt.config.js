@@ -52,5 +52,8 @@ module.exports = {
   },
   server: {
     port: 3000
+  },
+  env: {
+    baseUrl: 'https://account-api.easyapi.com',
   }
 };
