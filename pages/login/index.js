@@ -32,20 +32,19 @@ export default {
     };
   },
   methods: {
-    //登录
-    onSubmit() {
+    login() {
       let that = this;
+      Cookies.set("username", that.ruleForm.username);
       let url = sessionStorage.getItem("url");
+      //todo url不对需要修改
       let auth = sessionStorage.getItem("auth");
-      let data = {
-        ...that.ruleForm
-      };
-      login(data, this).then(res => {
+      let from = Cookies.get("from")
+      login(that.ruleForm, this).then(res => {
         if (res.data.code === 1) {
           Cookies.set("authenticationToken", res.data.content.idToken, {
             expires: that.ruleForm.rememberMe ? 30 : 0.1,
             path: "/",
-            domain: domain
+            domain: Cookies.get("domain")
           });
           if (url !== "" && auth === "三方登录") {
             window.location.href = "https://account.easyapi.com/auth/authorize.html" + url;
@@ -63,12 +62,10 @@ export default {
         that.$message.error(error.response.data.message);
       });
     }
-
-  }
-  ,
+  },
   mounted() {
-    //从Cookie中获取账号;
     if (Cookies.get("username") != null) {
+      //从Cookie中获取登录账号
       this.ruleForm.username = Cookies.get("username");
     }
   },

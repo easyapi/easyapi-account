@@ -33,7 +33,7 @@
         <el-checkbox class="checkbox" v-model="ruleForm.checked">点击注册表示您同意
           <span class="text-success"><a href="terms" target="_blank">《EasyAPI服务条款》</a></span>
         </el-checkbox>
-        <el-button style="width: 100%" type="primary" :disabled="disabled" id="btn_sub" @click="onSubmit"
+        <el-button style="width: 100%" type="primary" :disabled="disabled" id="btn_sub" @click="signup"
                    class="btn-block btn btn-lg btn-info">注 册
         </el-button>
       </el-form>

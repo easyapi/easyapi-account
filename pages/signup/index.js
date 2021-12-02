@@ -2,6 +2,7 @@ import './index.scss'
 
 import {signup, findUsername, sendCode} from "../../api/signup";
 import {areaCodes} from '../../utils/area-code'
+import {isValidPhoneNumber} from 'libphonenumber-js'
 import Cookies from "js-cookie";
 
 export default {
@@ -23,6 +24,7 @@ export default {
       sendCodeCount: "获取验证码",
       ruleForm: {
         areaCode: 86,
+        country: 'CN',
         username: "",
         code: "",
         nickname: "",
@@ -57,8 +59,7 @@ export default {
     };
   },
   methods: {
-    //注册
-    onSubmit() {
+    signup() {
       let that = this;
       if (that.ruleForm.password !== that.ruleForm.confirmPassword) {
         that.$message.error("确认密码不一致");
@@ -68,15 +69,17 @@ export default {
         that.$message.error("请勾选同意EasyAPI用户协议");
         return;
       }
-      let data = {
-        ...that.ruleForm
-      };
-      signup(data, this).then(res => {
+      console.log(this.findUsername())
+      if (!this.findUsername()) {
+        return;
+      }
+      let from = Cookies.get("from")
+      signup(that.ruleForm, this).then(res => {
         if (res.data.code === 1) {
           Cookies.set("authenticationToken", res.data.content, {
             expires: that.ruleForm.rememberMe ? 30 : 0.1,
             path: "/",
-            domain: domain
+            domain: Cookies.get("domain")
           });
           that.$message.success(res.data.message);
           setTimeout(() => {
@@ -92,24 +95,33 @@ export default {
     },
     //在手机号输入正确之后查询是否有此用户
     findUsername() {
-      let params = {
-        username: this.ruleForm.username
-      };
-      findUsername(params, this).then(res => {
+      if (!isValidPhoneNumber(this.ruleForm.username, this.ruleForm.country) || this.ruleForm.username.length < 11) {
+        return false;
+      }
+      findUsername({username: this.ruleForm.username}, this).then(res => {
         this.$message.error("该账号已注册，请直接登录");
-        return;
+        return false;
+      }).catch(error => {
+        return true;
       });
     },
 
     //发送验证码
     sendCode() {
       let that = this;
-      this.findUsername();
+      if (!this.ruleForm.username) {
+        this.$message.error("请输入手机号码");
+        return;
+      }
+      if (!isValidPhoneNumber(this.ruleForm.username, this.ruleForm.country) || this.ruleForm.username.length < 11) {
+        this.$message.error("手机号码格式有误");
+        return;
+      }
+      if (!this.findUsername()) {
+        return;
+      }
       let timer;
-      let params = {
-        mobile: that.ruleForm.username
-      };
-      sendCode(params, this).then(res => {
+      sendCode({mobile: that.ruleForm.username}, this).then(res => {
         if (res.data.code === 1) {
           that.$message.success("验证码发送成功");
           let second = 60;
@@ -133,10 +145,6 @@ export default {
     }
   },
   updated() {
-    let telReg = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
-    this.disabled = !(telReg.test(this.ruleForm.username) && this.ruleForm.password.length >= 6 && this.ruleForm
-      .confirmPassword.length >= 6 && this.ruleForm.nickname !== "" && this.ruleForm.code !== "" && this
-      .ruleForm
-      .checked);
+    this.disabled = !(isValidPhoneNumber(this.ruleForm.username, this.ruleForm.country) && this.ruleForm.password.length >= 6 && this.ruleForm.confirmPassword.length >= 6 && this.ruleForm.nickname !== "" && this.ruleForm.code !== "" && this.ruleForm.checked);
   }
 };

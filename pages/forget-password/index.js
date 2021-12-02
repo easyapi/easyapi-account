@@ -1,6 +1,6 @@
 import './index.scss'
 
-import {reset} from "../../api/forget-password";
+import {forgePassword} from "../../api/forget-password";
 import {sendCode} from "../../api/signup";
 import {areaCodes} from '../../utils/area-code'
 
@@ -10,16 +10,8 @@ export default {
     return {
       title: "忘记密码 - EasyAPI服务平台",
       meta: [
-        {
-          hid: "description",
-          name: "description",
-          content: "用户忘记密码找回密码"
-        },
-        {
-          hid: "keyword",
-          name: "keyword",
-          content: "忘记密码,找回密码"
-        }
+        {hid: "description", name: "description", content: "用户忘记密码找回密码"},
+        {hid: "keyword", name: "keyword", content: "忘记密码,找回密码"}
       ]
     };
   },
@@ -62,16 +54,12 @@ export default {
     };
   },
   methods: {
-    //确定
-    reset() {
+    forgePassword() {
       let that = this;
       if (that.ruleForm.password !== that.ruleForm.confirmPassword) {
         that.$message.error("确认密码不一致");
       } else {
-        let data = {
-          ...that.ruleForm
-        };
-        reset(data, this).then(res => {
+        forgePassword(that.ruleForm, this).then(res => {
           if (res.data.code === 1) {
             that.$message.success(res.data.message);
             setTimeout(() => {

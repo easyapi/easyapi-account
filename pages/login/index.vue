@@ -18,7 +18,7 @@
           </el-input>
         </el-form-item>
         <el-checkbox class="checkbox" v-model="ruleForm.rememberMe">记住密码</el-checkbox>
-        <el-button style="width: 100%" :disabled="disabled" type="primary" @click="onSubmit">登录</el-button>
+        <el-button style="width: 100%" :disabled="disabled" type="primary" @click="login">登录</el-button>
       </el-form>
       <div class="other-box">
         <nuxt-link to="signup" class="signup">立即注册</nuxt-link>

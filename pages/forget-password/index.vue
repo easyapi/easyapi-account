@@ -27,7 +27,7 @@
             <el-input placeholder="请再输入一次密码" type="password" v-model="ruleForm.confirmPassword">
             </el-input>
           </el-form-item>
-          <el-button style="width: 100%" type="primary" :disabled="disabled" @click="reset">确定</el-button>
+          <el-button style="width: 100%" type="primary" :disabled="disabled" @click="forgePassword">确定</el-button>
         </el-form>
       </div>
     </div>

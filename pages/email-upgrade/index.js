@@ -11,16 +11,8 @@ export default {
     return {
       title: "邮箱升级 - EasyAPI服务平台",
       meta: [
-        {
-          hid: "description",
-          name: "description",
-          content: "EasyAPI邮箱升级为手机号码"
-        },
-        {
-          hid: "keyword",
-          name: "keyword",
-          content: "邮箱升级为手机号码"
-        }
+        {hid: "description", name: "description", content: "EasyAPI邮箱升级为手机号码"},
+        {hid: "keyword", name: "keyword", content: "邮箱升级为手机号码"}
       ]
     };
   },
@@ -69,10 +61,8 @@ export default {
     //升级
     onSubmit() {
       let that = this;
-      let data = {
-        ...that.ruleForm
-      };
-      updateEmail(data, this).then(res => {
+      let from = Cookies.get("from")
+      updateEmail(that.ruleForm, this).then(res => {
         if (res.data.code === 1) {
           that.$message.success(res.data.message);
           setTimeout(() => {
@@ -95,10 +85,7 @@ export default {
       let timer;
       let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
       if (telStr.test(that.ruleForm.mobile)) {
-        let params = {
-          mobile: that.ruleForm.mobile
-        };
-        sendCode(params, this).then(res => {
+        sendCode({mobile: that.ruleForm.mobile}, this).then(res => {
           if (res.data.code === 1) {
             that.$message.success("验证码发送成功");
             let second = 60;
@@ -129,6 +116,6 @@ export default {
     let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
     let email = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
     this.disabled = !(email.test(this.ruleForm.email) && telStr.test(this.ruleForm.mobile) && this.ruleForm
-      .password.length >= 6 && this.ruleForm.code.length == 6);
+      .password.length >= 6 && this.ruleForm.code.length === 6);
   }
 };
