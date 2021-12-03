@@ -132,6 +132,9 @@ export default {
 
 <style lang="scss" scoped>
 .terms {
+  color: #333333;
   padding: 0 50px;
+  margin: 0 auto;
+  max-width: 1200px;
 }
 </style>

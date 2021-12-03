@@ -56,22 +56,26 @@ export default {
   methods: {
     forgePassword() {
       let that = this;
-      if (that.ruleForm.password !== that.ruleForm.confirmPassword) {
-        that.$message.error("确认密码不一致");
-      } else {
-        forgePassword(that.ruleForm, this).then(res => {
-          if (res.data.code === 1) {
-            that.$message.success(res.data.message);
-            setTimeout(() => {
-              window.location.replace("login");
-            }, 1000);
+      this.$refs["ruleForm"].validate(valid => {
+        if (valid) {
+          if (that.ruleForm.password !== that.ruleForm.confirmPassword) {
+            that.$message.error("确认密码不一致");
           } else {
-            that.$message.error(res.data.message);
+            forgePassword(that.ruleForm, this).then(res => {
+              if (res.data.code === 1) {
+                that.$message.success(res.data.message);
+                setTimeout(() => {
+                  window.location.replace("login");
+                }, 1000);
+              } else {
+                that.$message.error(res.data.message);
+              }
+            }).catch(error => {
+              that.$message.error(error.response.data.message);
+            });
           }
-        }).catch(error => {
-          that.$message.error(error.response.data.message);
-        });
-      }
+        }
+      })
     },
     //发送验证码
     sendCode() {

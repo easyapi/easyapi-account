@@ -25,7 +25,6 @@
         <nuxt-link to="email-upgrade">邮箱升级为手机号码</nuxt-link>
         <nuxt-link to="forget-password" class="forget-password">忘记密码？</nuxt-link>
       </div>
-
       <div class="other-login">
         <a href="https://account-api.easyapi.com/auth/wechat"><i class="iconfont success icon-iconfontweixin"></i>
         </a>
