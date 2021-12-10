@@ -2,10 +2,11 @@ import './index.scss'
 
 import {login} from "../../api/login";
 import {areaCodes} from '../../utils/area-code'
+import from from "../../utils/from"
 import Cookies from "js-cookie";
 
 export default {
-  name: "Terms",
+  name: "Login",
   head() {
     return {
       title: "登录 - EasyAPI服务平台",
@@ -18,6 +19,7 @@ export default {
   data() {
     return {
       areaCodes,
+
       disabled: true,
       ruleForm: {
         areaCode: 86,
@@ -35,8 +37,7 @@ export default {
     login() {
       let that = this;
       Cookies.set("username", that.ruleForm.username);
-      let url = sessionStorage.getItem("url");
-      //todo url不对需要修改
+      let params = sessionStorage.getItem("params");
       let auth = sessionStorage.getItem("auth");
       let from = Cookies.get("from")
       login(that.ruleForm, this).then(res => {
@@ -46,8 +47,9 @@ export default {
             path: "/",
             domain: Cookies.get("domain")
           });
-          if (url !== "" && auth === "三方登录") {
-            window.location.href = "https://account.easyapi.com/auth/authorize.html" + url;
+          if (params !== "" && auth === "三方登录") {
+            let json = JSON.parse(params)
+            window.location.href = "/auth/authorize?client_id=" + json.client_id + "&response_type=" + json.response_type + "&scope=" + json.scope + "&redirect_uri=" + json.redirect_uri;
           } else {
             setTimeout(() => {
               Cookies.remove("from");
@@ -64,6 +66,7 @@ export default {
     }
   },
   mounted() {
+    from(this);
     if (Cookies.get("username") != null) {
       //从Cookie中获取登录账号
       this.ruleForm.username = Cookies.get("username");

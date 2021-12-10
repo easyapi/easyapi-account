@@ -2,9 +2,6 @@ module.exports = {
   /*
   ** Headers of the page
   */
-  router: {
-    middleware: "auth"
-  },
   head: {
     title: "{{ name }} - EasyAPI",
     meta: [
@@ -37,6 +34,10 @@ module.exports = {
   modules: [
     "@nuxtjs/axios"
   ],
+  router: {
+    extendRoutes(routes, resolve) {
+    }
+  },
   loading: {
     color: "#3B8070"
   },

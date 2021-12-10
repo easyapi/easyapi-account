@@ -4,6 +4,7 @@ import {signup, findUsername, sendCode} from "../../api/signup";
 import {areaCodes} from '../../utils/area-code'
 import {isValidPhoneNumber} from 'libphonenumber-js'
 import Cookies from "js-cookie";
+import from from "../../utils/from"
 
 export default {
   name: "Signup",
@@ -59,7 +60,7 @@ export default {
     };
   },
   methods: {
-    signup() {
+    async signup() {
       let that = this;
       if (that.ruleForm.password !== that.ruleForm.confirmPassword) {
         that.$message.error("确认密码不一致");
@@ -69,8 +70,9 @@ export default {
         that.$message.error("请勾选同意EasyAPI用户协议");
         return;
       }
-      console.log(this.findUsername())
-      if (!this.findUsername()) {
+      let exist = this.findUsername()
+      console.log(exist)
+      if (!exist) {
         return;
       }
       let from = Cookies.get("from")
@@ -94,7 +96,7 @@ export default {
       });
     },
     //在手机号输入正确之后查询是否有此用户
-    findUsername() {
+    async findUsername() {
       if (!isValidPhoneNumber(this.ruleForm.username, this.ruleForm.country) || this.ruleForm.username.length < 11) {
         return false;
       }
@@ -107,7 +109,7 @@ export default {
     },
 
     //发送验证码
-    sendCode() {
+    async sendCode() {
       let that = this;
       if (!this.ruleForm.username) {
         this.$message.error("请输入手机号码");
@@ -117,7 +119,8 @@ export default {
         this.$message.error("手机号码格式有误");
         return;
       }
-      if (!this.findUsername()) {
+
+      if (!await this.findUsername()) {
         return;
       }
       let timer;
@@ -143,6 +146,9 @@ export default {
         that.$message.error(error.response.data.message);
       });
     }
+  },
+  mounted() {
+    from(this);
   },
   updated() {
     this.disabled = !(isValidPhoneNumber(this.ruleForm.username, this.ruleForm.country) && this.ruleForm.password.length >= 6 && this.ruleForm.confirmPassword.length >= 6 && this.ruleForm.nickname !== "" && this.ruleForm.code !== "" && this.ruleForm.checked);

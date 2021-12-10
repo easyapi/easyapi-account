@@ -25,34 +25,31 @@ export default {
      * 切换账号
      */
     changeUser() {
-      window.location.href = "https://account.easyapi.com/login";
       //添加三方登录标识
       sessionStorage.setItem("auth", "三方登录");
+      window.location.href = "/login";
     }
   },
   mounted() {
     let token = Cookies.get("authenticationToken");
-
     if (!token) {
-      window.location.href = "../../login/index.vue";
-      sessionStorage["auth"] = "三方登录"; //添加三方登录标识
+      //添加三方登录标识
+      sessionStorage.setItem("auth", "三方登录");
+      window.location.href = "/login";
     }
-    //获取url中"?"符后的字串
-    console.log(this.$router)
-    console.log(this.$router.params)
-    console.log(this.$router.query)
-    let url = this.$router.query.search;
-
-    sessionStorage.setItem("url", url);
+    let params = {
+      client_id: this.$route.query.client_id,
+      response_type: this.$route.query.response_type,
+      scope: this.$route.query.scope,
+      redirect_uri: this.$route.query.redirect_uri,
+    }
+    sessionStorage.setItem("params", JSON.stringify(params));
     //清空三方登录标识
     sessionStorage.setItem("auth", "");
     if (!token) {
       this.changeUser();
     }
-    let params = {
-      search: url
-    };
-    getAuthorize(params).then(res => {
+    getAuthorize(params, this).then(res => {
       if (res.data.code === 1) {
         this.client = res.data.content.name;
         this.account = res.data.content.username;

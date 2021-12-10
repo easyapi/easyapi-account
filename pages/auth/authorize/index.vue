@@ -15,7 +15,7 @@
         <input name="scope.client" value="true" type="hidden">
         <el-button type="primary" class=" btn-block btn btn-lg btn-info">授 权</el-button>
       </form>
-      <form class="mg-b-10" action="https://account.easyapi.com/oauth/authorize" method="post">
+      <form class="mg-b-10" action="https://account-api.easyapi.com/oauth/authorize" method="post">
         <input name="user_oauth_approval" value="true" type="hidden">
         <input name="authorize" value="Authorize" type="hidden">
         <input name="scope.client" value="false" type="hidden">

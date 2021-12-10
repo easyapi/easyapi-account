@@ -10,11 +10,11 @@ const store = () => new Vuex.Store({
     user
   },
   state: {
-    serviceName: ''
+    domain: 'easyapi.com'
   },
   mutations: {
-    SET_SERVICE_NAME: (state, name) => {
-      state.serviceName = name
+    SET_DOMAIN: (state, domain) => {
+      state.domain = domain
     }
   },
   actions: {},
