@@ -60,7 +60,7 @@ export default {
     };
   },
   methods: {
-    async signup() {
+    signup() {
       let that = this;
       if (that.ruleForm.password !== that.ruleForm.confirmPassword) {
         that.$message.error("确认密码不一致");
@@ -70,46 +70,38 @@ export default {
         that.$message.error("请勾选同意EasyAPI用户协议");
         return;
       }
-      let exist = this.findUsername()
-      console.log(exist)
-      if (!exist) {
-        return;
-      }
-      let from = Cookies.get("from")
-      signup(that.ruleForm, this).then(res => {
-        if (res.data.code === 1) {
-          Cookies.set("authenticationToken", res.data.content, {
-            expires: that.ruleForm.rememberMe ? 30 : 0.1,
-            path: "/",
-            domain: Cookies.get("domain")
-          });
-          that.$message.success(res.data.message);
-          setTimeout(() => {
-            Cookies.remove("from");
-            window.location.replace(from);
-          }, 1000);
-        } else {
-          that.$message.error(res.data.message);
-        }
-      }).catch(error => {
-        that.$message.error(error.response.data.message);
-      });
-    },
-    //在手机号输入正确之后查询是否有此用户
-    async findUsername() {
       if (!isValidPhoneNumber(this.ruleForm.username, this.ruleForm.country) || this.ruleForm.username.length < 11) {
-        return false;
+        that.$message.error("手机号码格式有误");
+        return;
       }
       findUsername({username: this.ruleForm.username}, this).then(res => {
         this.$message.error("该账号已注册，请直接登录");
-        return false;
+        return;
       }).catch(error => {
-        return true;
+        let from = Cookies.get("from")
+        signup(that.ruleForm, this).then(res => {
+          if (res.data.code === 1) {
+            Cookies.set("authenticationToken", res.data.content, {
+              expires: that.ruleForm.rememberMe ? 30 : 0.1,
+              path: "/",
+              domain: Cookies.get("domain")
+            });
+            that.$message.success(res.data.message);
+            setTimeout(() => {
+              Cookies.remove("from");
+              window.location.replace(from);
+            }, 1000);
+          } else {
+            that.$message.error(res.data.message);
+          }
+        }).catch(error => {
+          that.$message.error(error.response.data.message);
+        });
       });
     },
 
     //发送验证码
-    async sendCode() {
+    sendCode() {
       let that = this;
       if (!this.ruleForm.username) {
         this.$message.error("请输入手机号码");
@@ -119,33 +111,40 @@ export default {
         this.$message.error("手机号码格式有误");
         return;
       }
-
-      if (!await this.findUsername()) {
-        return;
-      }
-      let timer;
-      sendCode({mobile: that.ruleForm.username}, this).then(res => {
-        if (res.data.code === 1) {
-          that.$message.success("验证码发送成功");
-          let second = 60;
-          that.sendCodeBtn = true;
-          timer = setInterval(() => {
-            second--;
-            if (second === 0) {
-              that.sendCodeBtn = false;
-              that.sendCodeCount = "获取验证码";
-              clearInterval(timer);
-              return;
-            }
-            that.sendCodeCount = `剩余${second}秒`;
-          }, 1000);
-        } else {
-          that.$message.error(res.data.message);
-        }
+      findUsername({username: this.ruleForm.username}, this).then(res => {
+        this.$message.error("该账号已注册，请直接登录");
       }).catch(error => {
-        that.$message.error(error.response.data.message);
+        let timer;
+        sendCode({mobile: that.ruleForm.username}, this).then(res => {
+          if (res.data.code === 1) {
+            that.$message.success("验证码发送成功");
+            let second = 60;
+            that.sendCodeBtn = true;
+            timer = setInterval(() => {
+              second--;
+              if (second === 0) {
+                that.sendCodeBtn = false;
+                that.sendCodeCount = "获取验证码";
+                clearInterval(timer);
+                return;
+              }
+              that.sendCodeCount = `剩余${second}秒`;
+            }, 1000);
+          } else {
+            that.$message.error(res.data.message);
+          }
+        }).catch(error => {
+          that.$message.error(error.response.data.message);
+        });
       });
-    }
+    },
+
+    //在手机号输入正确之后查询是否有此用户
+    findUsername() {
+      findUsername({username: this.ruleForm.username}, this).then(res => {
+        this.$message.error("该账号已注册，请直接登录");
+      })
+    },
   },
   mounted() {
     from(this);

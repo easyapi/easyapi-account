@@ -1,5 +1,5 @@
 <template>
-  <div class="foot">
+  <div class="footer">
     <p>
       <span>Copyright © 2015～2021 帮趣团队</span>
       <a href="https://www.easyapi.com/info/about" class="firstA">关于我们</a>

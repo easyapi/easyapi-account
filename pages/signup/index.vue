@@ -5,7 +5,7 @@
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
         <el-form-item label="" prop="username">
           <el-input placeholder="请输入手机号码" maxlength="11" v-model="ruleForm.username"
-                    @input="findUsername">
+                    @blur="findUsername">
             <template slot="prepend">+&nbsp;</template>
             <el-select v-model="ruleForm.areaCode" filterable allow-create slot="prepend" style="width:80px;">
               <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">
