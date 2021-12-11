@@ -30,7 +30,7 @@
           <el-button style="width: 100%" type="primary" :disabled="disabled" @click="forgePassword">确定</el-button>
         </el-form>
         <div class="other-box">
-          <nuxt-link to="login" class="login">返回登录</nuxt-link>
+          <nuxt-link to="/login" class="login">返回登录</nuxt-link>
         </div>
       </div>
     </div>

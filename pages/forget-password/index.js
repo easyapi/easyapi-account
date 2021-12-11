@@ -65,7 +65,7 @@ export default {
               if (res.data.code === 1) {
                 that.$message.success(res.data.message);
                 setTimeout(() => {
-                  window.location.replace("login");
+                  window.location.replace("/login");
                 }, 1000);
               } else {
                 that.$message.error(res.data.message);

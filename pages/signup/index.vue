@@ -31,14 +31,14 @@
           </el-input>
         </el-form-item>
         <el-checkbox class="checkbox" v-model="ruleForm.checked">点击注册表示您同意
-          <span class="text-success"><a href="terms" target="_blank">《EasyAPI服务条款》</a></span>
+          <span class="text-success"><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span>
         </el-checkbox>
-        <el-button style="width: 100%" type="primary" :disabled="disabled" id="btn_sub" @click="signup"
-                   class="btn-block btn btn-lg btn-info">注 册
+        <el-button style="width: 100%" type="primary" :disabled="disabled" id="btn_sub" @click="signup" class="btn-block btn btn-lg btn-info">
+          注 册
         </el-button>
       </el-form>
       <div class="other-box">
-        <nuxt-link to="login">我已有EasyAPI账号，直接登录</nuxt-link>
+        <nuxt-link to="/login">我已有EasyAPI账号，直接登录</nuxt-link>
       </div>
     </div>
   </div>

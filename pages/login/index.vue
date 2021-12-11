@@ -21,9 +21,9 @@
         <el-button style="width: 100%" :disabled="disabled" type="primary" @click="login">登录</el-button>
       </el-form>
       <div class="other-box">
-        <nuxt-link to="signup" class="signup">立即注册</nuxt-link>
-        <nuxt-link to="email-upgrade">邮箱升级为手机号码</nuxt-link>
-        <nuxt-link to="forget-password" class="forget-password">忘记密码？</nuxt-link>
+        <nuxt-link to="/signup" class="signup">立即注册</nuxt-link>
+        <nuxt-link to="/email-upgrade">邮箱升级为手机号码</nuxt-link>
+        <nuxt-link to="/forget-password" class="forget-password">忘记密码？</nuxt-link>
       </div>
       <div class="other-login">
         <a href="https://account-api.easyapi.com/auth/wechat"><i class="iconfont success icon-iconfontweixin"></i>
