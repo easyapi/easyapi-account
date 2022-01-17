@@ -1,4 +1,23 @@
 import Vue from 'vue'
-import Element from 'element-ui'
 
-Vue.use(Element)
+import {
+  Input,
+  Checkbox,
+  Select,
+  Option,
+  Button,
+  Form,
+  FormItem,
+  Row,
+  Col
+} from 'element-ui'
+
+Vue.use(Input)
+Vue.use(Checkbox)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Button)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Row)
+Vue.use(Col)
