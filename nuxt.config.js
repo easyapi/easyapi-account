@@ -13,21 +13,15 @@ module.exports = {
       {rel: "icon", type: "image/x-icon", href: "/favicon.ico"}
     ]
   },
-  postcss: [
-    require("postcss-pxtorem")({
-      rootValue: 40,
-      propList: ["*"]
-    }),
-    require("autoprefixer")({
-      browsers: ["Android >= 4.0", "iOS >= 7"]
-    })
-  ],
   css: [
     "@/assets/scss/common.scss",
     "@/assets/scss/element-variables.scss",
     "@/assets/iconfont/iconfont.css"
   ],
-  plugins: ["@/plugins/element-ui", "@/plugins/axios"],
+  plugins: [
+    "@/plugins/element-ui",
+    "@/plugins/axios"
+  ],
   /*
   ** Customize the progress bar color
   */
@@ -50,7 +44,18 @@ module.exports = {
     extend(config, ctx) {
     },
     maxChunkSize: 300000, // 单个包最大尺寸
-    extractCSS: true // 单独提取CSS
+    extractCSS: true, // 单独提取CSS
+    babel: {
+      plugins: [
+        [
+          'component',
+          {
+            libraryName: 'element-ui',
+            styleLibraryName: 'theme-chalk'
+          }
+        ]
+      ]
+    }
   },
   server: {
     port: 3000
