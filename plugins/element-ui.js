@@ -9,7 +9,8 @@ import {
   Form,
   FormItem,
   Row,
-  Col
+  Col,
+  Message
 } from 'element-ui'
 
 Vue.use(Input)
@@ -21,3 +22,5 @@ Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Row)
 Vue.use(Col)
+
+Vue.prototype.$message = Message
