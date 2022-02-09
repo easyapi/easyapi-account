@@ -10,3 +10,7 @@ export const getAuthorize = (params, context) => {
     }
   });
 };
+
+export const updateAuthorize = (data, context) => {
+  return context.$axios.post(`https://account.easyapi.com/oauth/authorize`, data);
+};

@@ -1,6 +1,6 @@
-import './index.scss'
+import "./index.scss";
 
-import {getAuthorize} from "../../../api/auth";
+import { getAuthorize, updateAuthorize } from "../../../api/auth";
 import Cookies from "js-cookie";
 
 export default {
@@ -9,8 +9,8 @@ export default {
     return {
       title: "授权 - EasyAPI服务平台",
       meta: [
-        {hid: "description", name: "description", content: "授权"},
-        {hid: "keyword", name: "keyword", content: "授权"}
+        { hid: "description", name: "description", content: "授权" },
+        { hid: "keyword", name: "keyword", content: "授权" }
       ]
     };
   },
@@ -21,6 +21,17 @@ export default {
     };
   },
   methods: {
+    authorization() {
+      let data = {
+        user_oauth_approval: true,
+        authorize: "Authorize",
+        client: true
+      };
+      updateAuthorize(data, this).then();
+    },
+    cancel() {
+      this.$router.go(-1);
+    },
     /**
      * 切换账号
      */
@@ -41,8 +52,8 @@ export default {
       client_id: this.$route.query.client_id,
       response_type: this.$route.query.response_type,
       scope: this.$route.query.scope,
-      redirect_uri: this.$route.query.redirect_uri,
-    }
+      redirect_uri: this.$route.query.redirect_uri
+    };
     sessionStorage.setItem("params", JSON.stringify(params));
     //清空三方登录标识
     sessionStorage.setItem("auth", "");
