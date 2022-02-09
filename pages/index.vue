@@ -19,7 +19,7 @@ export default {
   },
   mounted() {
     let token = Cookies.get("authenticationToken");
-    let from = Cookies.get("from");
+    let from = Cookies.get("from") ? Cookies.get("from") : "/login";
     if (token) {
       getUser(this).then(res => {
         if (res.data.code === 1) {

@@ -19,7 +19,7 @@
         <input name="user_oauth_approval" value="true" type="hidden">
         <input name="authorize" value="Authorize" type="hidden">
         <input name="scope.client" value="false" type="hidden">
-        <el-button type="primary" class="btn_right_input">取 消</el-button>
+        <el-button class="btn_right_input">取 消</el-button>
       </form>
       <el-button class="btn_right_p" @click="changeUser">切换账号</el-button>
     </div>
