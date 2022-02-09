@@ -12,5 +12,9 @@ export const getAuthorize = (params, context) => {
 };
 
 export const updateAuthorize = (data, context) => {
-  return context.$axios.post(`https://account.easyapi.com/oauth/authorize`, data);
+  return context.$axios.post(`${process.env.baseUrl}/oauth/authorize`, data, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+  });
 };

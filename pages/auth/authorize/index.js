@@ -1,7 +1,9 @@
 import "./index.scss";
 
-import { getAuthorize, updateAuthorize } from "../../../api/auth";
+import {getAuthorize, updateAuthorize} from "../../../api/auth";
 import Cookies from "js-cookie";
+import qs from "qs";
+
 
 export default {
   name: "Authorize",
@@ -9,8 +11,8 @@ export default {
     return {
       title: "授权 - EasyAPI服务平台",
       meta: [
-        { hid: "description", name: "description", content: "授权" },
-        { hid: "keyword", name: "keyword", content: "授权" }
+        {hid: "description", name: "description", content: "授权"},
+        {hid: "keyword", name: "keyword", content: "授权"}
       ]
     };
   },
@@ -22,15 +24,18 @@ export default {
   },
   methods: {
     authorization() {
-      let data = {
+      updateAuthorize(qs.stringify({
         user_oauth_approval: true,
         authorize: "Authorize",
-        client: true
-      };
-      updateAuthorize(data, this).then();
+        "scope.client": true
+      }), this).then();
     },
     cancel() {
-      this.$router.go(-1);
+      updateAuthorize({
+        user_oauth_approval: true,
+        authorize: "Authorize",
+        "scope.client": false
+      }, this).then();
     },
     /**
      * 切换账号
