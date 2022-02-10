@@ -45,7 +45,7 @@ export default {
           Cookies.set("authenticationToken", res.data.content.idToken, {
             expires: that.ruleForm.rememberMe ? 30 : 0.1,
             path: "/",
-            // domain: Cookies.get("domain")
+            domain: Cookies.get("domain")
           });
           if (params !== "" && auth === "三方登录") {
             let json = JSON.parse(params)

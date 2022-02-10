@@ -76,7 +76,6 @@ export default {
       }
       findUsername({username: this.ruleForm.username}, this).then(res => {
         this.$message.error("该账号已注册，请直接登录");
-        return;
       }).catch(error => {
         let from = Cookies.get("from")
         signup(that.ruleForm, this).then(res => {

@@ -62,11 +62,7 @@ export default {
   methods: {
     handleLogin() {
       let that = this;
-      let data = {
-        ...that.ruleForm
-
-      };
-      login(data, this).then(res => {
+      login(that.ruleForm, this).then(res => {
         if (res.data.code === 1) {
           let jwt = res.data.content.idToken;
           if (that.ruleForm.rememberMe) {
@@ -84,16 +80,16 @@ export default {
     },
     bind() {
       let that = this;
-      let data = {
+      let from = Cookies.get("from")
+      bind({
         providerUserId: that.providerUserId,
         providerId: that.providerId
-      };
-      bind(data, this).then(res => {
+      }, this).then(res => {
         if (res.data.code === 1) {
           Cookies.set("authenticationToken", localStorage.getItem("authenticationToken"), {
             expires: that.ruleForm.rememberMe ? 30 : 0.1,
             path: "/",
-            domain: domain
+            domain: Cookies.get("domain")
           });
           window.location.replace(from);
         } else {
@@ -105,7 +101,6 @@ export default {
     }
   },
   updated() {
-    // 校验
     this.disabled = !(this.ruleForm.username !== "" && this.ruleForm.password.length >= 6);
   }
 };

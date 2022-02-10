@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import from from "../utils/from"
 import Cookies from "js-cookie";
 import {getUser} from "../api/account";
 
@@ -19,7 +20,7 @@ export default {
   },
   mounted() {
     let token = Cookies.get("authenticationToken");
-    let from = Cookies.get("from") ? Cookies.get("from") : "/login";
+    let from = Cookies.get("from");
     if (token) {
       getUser(this).then(res => {
         if (res.data.code === 1) {

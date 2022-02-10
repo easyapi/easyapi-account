@@ -3,6 +3,6 @@
  *
  * @see https://www.easyapi.com
  */
-export const forgePassword = (data, context) => {
+export const forgetPassword = (data, context) => {
   return context.$axios.post(`${process.env.baseUrl}/api/account/forget-password/reset`, data);
 };

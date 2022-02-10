@@ -6,13 +6,13 @@ import Cookies from "js-cookie";
 export default function (context) {
   let from
   if (!context.$route.query.from) {
-    from = Cookies.get("from") ? Cookies.get("from") : "https://account.easyapi.com/login";
+    from = Cookies.get("from") ? Cookies.get("from") : "https://www.easyapi.com";
     from = from.indexOf("account.easyapi.com") > -1 ? "https://www.easyapi.com" : from;
     Cookies.set("from", from);
   } else {
     from = context.$route.query.from;
     if (from.indexOf("account.easyapi.com") > -1) {
-      Cookies.set("from", "www.easyapi.com");
+      Cookies.set("from", "https://www.easyapi.com");
     } else {
       Cookies.set("from", from);
     }

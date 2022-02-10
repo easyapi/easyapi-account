@@ -15,9 +15,9 @@ export default {
     if (document.referrer.indexOf("logout") > -1) {
       window.location.replace('/login')
     } else if (document.referrer.indexOf("account.easyapi.com") > -1) {
-      window.location.replace('/login?from=https://www.easyapi.com')
+      window.location.replace('/login/?from=https://www.easyapi.com')
     } else {
-      window.location.replace('/login?from=' + document.referrer)
+      window.location.replace('/login/?from=' + document.referrer)
     }
   }
 }

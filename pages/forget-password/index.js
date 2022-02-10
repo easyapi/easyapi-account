@@ -1,6 +1,6 @@
 import './index.scss'
 
-import {forgePassword} from "../../api/forget-password";
+import {forgetPassword} from "../../api/forget-password";
 import {sendCode} from "../../api/signup";
 import {areaCodes} from '../../utils/area-code'
 
@@ -54,14 +54,14 @@ export default {
     };
   },
   methods: {
-    forgePassword() {
+    forgetPassword() {
       let that = this;
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {
           if (that.ruleForm.password !== that.ruleForm.confirmPassword) {
             that.$message.error("确认密码不一致");
           } else {
-            forgePassword(that.ruleForm, this).then(res => {
+            forgetPassword(that.ruleForm, this).then(res => {
               if (res.data.code === 1) {
                 that.$message.success(res.data.message);
                 setTimeout(() => {
