@@ -19,12 +19,12 @@ export default {
     }
   },
   mounted() {
+    from(this);
     let token = Cookies.get("authenticationToken");
-    let from = Cookies.get("from");
     if (token) {
       getUser(this).then(res => {
         if (res.data.code === 1) {
-          window.location.replace(from);
+          window.location.replace(Cookies.get("from"));
         } else {
           this.$router.push({path: `/login`})
         }
