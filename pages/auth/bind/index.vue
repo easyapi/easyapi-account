@@ -2,7 +2,8 @@
   <div class="main">
     <div class="form">
       <div class="headline">绑定账号</div>
-      <div class="lg-subtitle mg-b-10">第一次使用QQ帐号登录，您需要填写账号和密码，以后您也可以使用此账号和密码登录</div>
+      <div class="lg-subtitle mg-b-10">第一次使用<span>{{providerId=="wechat"?"微信":"QQ"}}</span>帐号登录，您需要填写账号和密码，以后您也可以使用此账号和密码登录
+      </div>
       <div class="ath mg-b-10">
         <img class="image-png" :src="imageSrc">
         <img class="image-svg" src="../../../static/svg/bind.svg" alt="">
@@ -24,7 +25,7 @@
           </el-input>
         </el-form-item>
         <el-checkbox class="checkbox" v-model="ruleForm.rememberMe" checked>记住密码</el-checkbox>
-        <el-button style="width: 100%" @click="handleLogin" type="primary" :disabled="disabled" id="btn_sub"
+        <el-button style="width: 100%" @click="bind" type="primary" :disabled="disabled" id="btn_sub"
                    class="btn-block btn btn-lg btn-info">绑定账号
         </el-button>
       </el-form>
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import Index from './index.js'
+  import Index from "./index.js";
 
-export default Index
+  export default Index;
 </script>
