@@ -1,9 +1,8 @@
 import "./index.scss";
 
-import {getAuthorize, updateAuthorize} from "../../../api/auth";
+import {getAuthorize, oauthAuthorize} from "../../../api/auth";
 import Cookies from "js-cookie";
 import qs from "qs";
-
 
 export default {
   name: "Authorize",
@@ -24,18 +23,14 @@ export default {
   },
   methods: {
     authorization() {
-      updateAuthorize(qs.stringify({
-        user_oauth_approval: true,
-        authorize: "Authorize",
-        "scope.client": true
+      oauthAuthorize(qs.stringify({
+        user_oauth_approval: true
       }), this).then();
     },
     cancel() {
-      updateAuthorize({
-        user_oauth_approval: true,
-        authorize: "Authorize",
-        "scope.client": false
-      }, this).then();
+      oauthAuthorize(qs.stringify({
+        user_oauth_approval: false
+      }), this).then();
     },
     /**
      * 切换账号

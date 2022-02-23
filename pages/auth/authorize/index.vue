@@ -13,17 +13,11 @@
     </div>
     <div class="authorize-form-bottom">
       <div class="mg-b-10">
-        <input name="user_oauth_approval" value="true" type="hidden">
-        <input name="authorize" value="Authorize" type="hidden">
-        <input name="scope.client" value="true" type="hidden">
         <el-button type="primary" class=" btn-block btn btn-lg btn-info" size="small" @click="authorization">
           授 权
         </el-button>
       </div>
       <div class="mg-b-10 mg-l-10">
-        <input name="user_oauth_approval" value="true" type="hidden">
-        <input name="authorize" value="Authorize" type="hidden">
-        <input name="scope.client" value="false" type="hidden">
         <el-button class="btn_right_input" size="small" @click="cancel">取 消</el-button>
       </div>
     </div>
