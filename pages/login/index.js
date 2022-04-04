@@ -19,7 +19,6 @@ export default {
   data() {
     return {
       areaCodes,
-
       disabled: true,
       ruleForm: {
         areaCode: 86,
@@ -28,7 +27,7 @@ export default {
         rememberMe: true
       },
       rules: {
-        username: [{required: true, message: "请输入您注册时手机号码", trigger: "blur"}],
+        username: [{required: true, message: "请输入登录账号", trigger: "blur"}],
         password: [{required: true, message: "请输入密码", trigger: "blur"}]
       }
     };
@@ -67,7 +66,7 @@ export default {
   },
   mounted() {
     from(this);
-    if (Cookies.get("username") != null) {
+    if (Cookies.get("username")) {
       //从Cookie中获取登录账号
       this.ruleForm.username = Cookies.get("username");
     }
