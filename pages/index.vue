@@ -20,20 +20,20 @@ export default {
   },
   mounted() {
     from(this);
-    let token = Cookies.get("authenticationToken");
-    if (token) {
-      getUser(this).then(res => {
-        if (res.data.code === 1) {
-          window.location.replace(Cookies.get("from"));
-        } else {
-          this.$router.push({path: `/login`})
-        }
-      }).catch(error => {
-        this.$message.error(error.response.data.message);
-      });
-    } else {
+    if (!Cookies.get("authenticationToken")) {
       this.$router.push({path: `/login`})
+      return
     }
+    getUser(this).then(res => {
+      if (res.data.code === 1) {
+        window.location.replace(Cookies.get("from"));
+      } else {
+        this.$router.push({path: `/login`})
+      }
+    }).catch(error => {
+      this.$message.error(error.response.data.message);
+    });
+
   }
 }
 </script>

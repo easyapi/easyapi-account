@@ -115,26 +115,7 @@
   </div>
 </template>
 <script>
-export default {
-  name: "Terms",
-  layout: "default",
-  head() {
-    return {
-      title: "服务条款 - EasyAPI服务平台",
-      meta: [
-        {hid: "description", name: "description", content: "EasyAPI服务条款"},
-        {hid: "keyword", name: "keyword", content: "服务条款"}
-      ]
-    };
-  }
-};
-</script>
+import Index from './index.js'
 
-<style lang="scss" scoped>
-.terms {
-  color: #333333;
-  padding: 0 50px;
-  margin: 0 auto;
-  max-width: 1200px;
-}
-</style>
+export default Index
+</script>

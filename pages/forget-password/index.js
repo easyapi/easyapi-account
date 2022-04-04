@@ -60,24 +60,26 @@ export default {
         if (valid) {
           if (that.ruleForm.password !== that.ruleForm.confirmPassword) {
             that.$message.error("确认密码不一致");
-          } else {
-            forgetPassword(that.ruleForm, this).then(res => {
-              if (res.data.code === 1) {
-                that.$message.success(res.data.message);
-                setTimeout(() => {
-                  window.location.replace("/login");
-                }, 1000);
-              } else {
-                that.$message.error(res.data.message);
-              }
-            }).catch(error => {
-              that.$message.error(error.response.data.message);
-            });
+            return
           }
+          forgetPassword(that.ruleForm, this).then(res => {
+            if (res.data.code === 1) {
+              that.$message.success(res.data.message);
+              setTimeout(() => {
+                window.location.replace("/login");
+              }, 1000);
+            } else {
+              that.$message.error(res.data.message);
+            }
+          }).catch(error => {
+            that.$message.error(error.response.data.message);
+          });
         }
       })
     },
-    //发送验证码
+    /**
+     * 发送验证码
+     */
     sendCode() {
       let that = this;
       let timer;

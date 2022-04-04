@@ -1,6 +1,6 @@
 import './index.scss'
 
-import {updateEmail} from "../../api/email";
+import {upgradeEmail} from "../../api/email";
 import {sendCode} from "../../api/signup";
 import {areaCodes} from '../../utils/area-code'
 import Cookies from "js-cookie";
@@ -58,11 +58,13 @@ export default {
     };
   },
   methods: {
-    //升级
-    onSubmit() {
+    /**
+     * 邮箱升级
+     */
+    upgradeEmail() {
       let that = this;
       let from = Cookies.get("from")
-      updateEmail(that.ruleForm, this).then(res => {
+      upgradeEmail(that.ruleForm, this).then(res => {
         if (res.data.code === 1) {
           that.$message.success(res.data.message);
           setTimeout(() => {
