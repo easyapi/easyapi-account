@@ -26,9 +26,8 @@
         <nuxt-link to="/forget-password" class="forget-password">忘记密码？</nuxt-link>
       </div>
       <div class="other-login">
-        <a href="https://account-api.easyapi.com/auth/wechat"><i class="iconfont success icon-iconfontweixin"></i>
-        </a>
-        <a href="https://account-api.easyapi.com/auth/qq"><i class="iconfont icon-QQ"></i> </a>
+        <a href="https://account-api.easyapi.com/auth/wechat"><img class="image-svg" src="../../static/svg/weixin.svg" alt=""></a>
+        <a href="https://account-api.easyapi.com/auth/qq"><img class="image-svg" src="../../static/svg/qq.svg" alt=""></a>
       </div>
     </div>
   </div>

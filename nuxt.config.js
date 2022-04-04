@@ -15,8 +15,7 @@ module.exports = {
   },
   css: [
     "@/assets/scss/common.scss",
-    "@/assets/scss/element-variables.scss",
-    "@/assets/iconfont/iconfont.css"
+    "@/assets/scss/element-variables.scss"
   ],
   plugins: [
     "@/plugins/element-ui",

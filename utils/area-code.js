@@ -1,4 +1,6 @@
-//地区代码
+/**
+ * 地区代码
+ */
 export const areaCodes = [
   {value: 86, label: "中国大陆", country: "CN"},
   {value: 852, label: "中国香港", country: "HK"},

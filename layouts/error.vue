@@ -47,7 +47,7 @@ export default {
 
 .title {
   font-size: 30px;
-  font-family: "Trebuchet MS";
+  font-family: "Trebuchet MS",serif;
 }
 
 .subtitle {
