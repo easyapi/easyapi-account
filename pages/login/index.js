@@ -22,6 +22,7 @@ export default {
       disabled: true,
       ruleForm: {
         areaCode: 86,
+        country: 'CN',
         username: "",
         password: "",
         rememberMe: true

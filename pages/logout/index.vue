@@ -11,7 +11,8 @@ export default {
 
   mounted() {
     from(this)
-    Cookies.remove("authenticationToken", {path: '', domain: '.easyapi.com'})
+    Cookies.remove('authenticationToken')
+    Cookies.remove('authenticationToken', {path: '/', domain: '.easyapi.com'})
     if (document.referrer.indexOf("logout") > -1) {
       window.location.replace('/login')
     } else if (document.referrer.indexOf("account.easyapi.com") > -1) {

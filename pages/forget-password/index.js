@@ -63,14 +63,14 @@ export default {
             return
           }
           forgetPassword(that.ruleForm, this).then(res => {
-            if (res.data.code === 1) {
-              that.$message.success(res.data.message);
-              setTimeout(() => {
-                window.location.replace("/login");
-              }, 1000);
-            } else {
+            if (res.data.code !== 1) {
               that.$message.error(res.data.message);
+              return
             }
+            that.$message.success(res.data.message);
+            setTimeout(() => {
+              window.location.replace("/login");
+            }, 1000);
           }).catch(error => {
             that.$message.error(error.response.data.message);
           });
