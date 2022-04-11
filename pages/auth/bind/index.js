@@ -1,9 +1,11 @@
 import "./index.scss";
 
-import { login } from "../../../api/login";
-import { bind } from "../../../api/bind";
-import { areaCodes } from "../../../utils/area-code";
+import {login} from "../../../api/login";
+import {bind} from "../../../api/bind";
+import {isValidPhoneNumber} from 'libphonenumber-js'
+import {areaCodes} from "../../../utils/area-code";
 import Cookies from "js-cookie";
+import from from "../../../utils/from";
 
 export default {
   name: "bind",
@@ -11,12 +13,19 @@ export default {
     return {
       title: "用户绑定 - EasyAPI服务平台",
       meta: [
-        { hid: "description", name: "description", content: "用户绑定" },
-        { hid: "keyword", name: "keyword", content: "用户绑定" }
+        {hid: "description", name: "description", content: "用户绑定"},
+        {hid: "keyword", name: "keyword", content: "用户绑定"}
       ]
     };
   },
   data() {
+    let validPhoneNumber = (rule, value, callback) => {
+      if (isValidPhoneNumber(value, this.ruleForm.country)) {
+        callback()
+      } else {
+        callback(new Error('手机号码格式有误'))
+      }
+    }
     return {
       areaCodes,
       disabled: true,
@@ -32,16 +41,12 @@ export default {
       },
       rules: {
         username: [
-          { required: true, message: "请输入手机号码", trigger: "blur" },
-          {
-            pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-            message: "手机号码格式有误",
-            trigger: "blur"
-          }
+          {required: true, message: "请输入手机号码", trigger: "blur"},
+          {validator: validPhoneNumber, trigger: "blur"}
         ],
         password: [
-          { required: true, message: "密码6~16位之间，建议包含英文和标点符号", trigger: "blur" },
-          { min: 6, max: 16, message: "密码6~16位之间，建议包含英文和标点符号", trigger: "blur" }
+          {required: true, message: "密码6~16位之间，建议包含英文和标点符号", trigger: "blur"},
+          {min: 6, max: 16, message: "密码6~16位之间，建议包含英文和标点符号", trigger: "blur"}
         ]
       }
     };
@@ -49,7 +54,6 @@ export default {
   mounted() {
     let providerUserId = window.location.href.split("?")[1].split("&")[0].split("=")[1];
     let providerId = window.location.href.split("?")[1].split("&")[1].split("=")[1];
-    console.log(providerUserId, providerId);
     if (providerUserId && providerId) {
       this.providerUserId = providerUserId;
       this.providerId = providerId;
@@ -59,54 +63,45 @@ export default {
     } else {
       this.imageSrc = require("/static/svg/weixin.svg");
     }
+    from(this);
   },
   methods: {
-    handleLogin() {
-      let that = this;
-      let data = {
-        ...that.ruleForm
-      };
-      login(data, this).then(res => {
-        console.log(res);
-        if (res.data.code === 1) {
-          let jwt = res.data.content.idToken;
-          if (that.ruleForm.rememberMe) {
-            localStorage.setItem("authenticationToken", jwt);
-          } else {
-            sessionStorage.setItem("authenticationToken", jwt);
-          }
-          this.$message.success("绑定成功");
-        } else {
-          that.$message.error(res.data.message);
+    /**
+     * 登录获取账号
+     */
+    login() {
+      login(this.ruleForm, this).then(res => {
+        if (res.data.code !== 1) {
+          this.$message.error(res.data.message);
         }
+        Cookies.set("authenticationToken", res.data.content.idToken, {
+          expires: this.ruleForm.rememberMe ? 30 : 0.1,
+          path: "/",
+          domain: Cookies.get("domain")
+        });
+        this.bind();
+        this.$message.success("绑定成功");
       }).catch(error => {
-        console.log(error);
-        that.$message.error(error.response.data.message);
+        this.$message.error(error.response.data.message);
       });
     },
+    /**
+     * 绑定账号
+     */
     bind() {
-      let that = this;
       let from = Cookies.get("from");
       bind({
-        providerUserId: that.providerUserId,
-        providerId: that.providerId
+        providerUserId: this.providerUserId,
+        providerId: this.providerId
       }, this).then(res => {
-        if (res.data.code === 1) {
-          Cookies.set("authenticationToken", localStorage.getItem("authenticationToken"), {
-            expires: that.ruleForm.rememberMe ? 30 : 0.1,
-            path: "/",
-            domain: Cookies.get("domain")
-          });
-          window.location.replace(from);
-        } else {
-          that.$message.error(res.data.message);
+        if (res.data.code !== 1) {
+          this.$message.error(res.data.message);
         }
-      }).catch(error => {
-        window.location.replace("/login");
-      });
+        window.location.replace(from);
+      })
     }
   },
   updated() {
-    this.disabled = !(this.ruleForm.username !== "" && this.ruleForm.password.length >= 6);
+    this.disabled = !(isValidPhoneNumber(this.ruleForm.username, this.ruleForm.country) && this.ruleForm.password.length >= 6);
   }
 };
