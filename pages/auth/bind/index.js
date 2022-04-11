@@ -97,6 +97,7 @@ export default {
       }, this).then(res => {
         if (res.data.code !== 1) {
           this.$message.error(res.data.message);
+          return
         }
         window.location.replace(from);
       })
