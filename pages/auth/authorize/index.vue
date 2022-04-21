@@ -3,25 +3,25 @@
     <div class="authorize-header">
       授权登录
     </div>
-    <div class="authorize-form-top">
-      <div class="word_top">
-        <span><<{{ client }}>> 想要访问你的账户信息</span>
+    <div class="p-2">
+      <div class="mt-2">
+        <span class="text-gray-600"><<{{ client }}>> 想要访问你的账户信息</span>
       </div>
-      <div class="word_bottom">
+      <div class="mt-2">
         <span>当前登录账号: {{ account }}</span>
       </div>
     </div>
-    <div class="authorize-form-bottom">
-      <div class="mg-b-10">
-        <el-button type="primary" class=" btn-block btn btn-lg btn-info" size="small" @click="authorization">
+    <div class="pl-10 flex">
+      <div class="mb-10">
+        <el-button type="primary" size="small" @click="authorization">
           授 权
         </el-button>
       </div>
-      <div class="mg-b-10 mg-l-10">
-        <el-button class="btn_right_input" size="small" @click="cancel">取 消</el-button>
+      <div class="mb-10 ml-10">
+        <el-button size="small" @click="cancel">取 消</el-button>
       </div>
     </div>
-    <el-button class="btn_right_p" @click="changeUser" type="text">切换账号 ></el-button>
+    <el-button class="ml-10" @click="changeUser" type="text">切换账号 ></el-button>
   </div>
 </template>
 

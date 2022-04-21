@@ -1,5 +1,3 @@
-import './index.scss'
-
 import {signup, findUsername, sendCode} from "../../api/signup";
 import {areaCodes} from '../../utils/area-code'
 import {isValidPhoneNumber} from 'libphonenumber-js'

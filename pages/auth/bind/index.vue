@@ -2,9 +2,9 @@
   <div class="main">
     <div class="form">
       <div class="headline">绑定账号</div>
-      <div class="lg-subtitle mg-b-10">第一次使用<span>{{ providerId === "wechat" ? "微信" : "QQ" }}</span>帐号登录，您需要填写账号和密码，以后您也可以使用此账号和密码登录
+      <div class="lg-subtitle mb-10">第一次使用<span>{{ providerId === "wechat" ? "微信" : "QQ" }}</span>帐号登录，您需要填写账号和密码，以后您也可以使用此账号和密码登录
       </div>
-      <div class="ath mg-b-10">
+      <div class="ath mb-10">
         <img class="image-png" :src="imageSrc" alt="">
         <img class="image-svg" src="../../../static/svg/bind.svg" alt="">
         <img class="image-png" src="../../../static/easyapi.png" alt="">

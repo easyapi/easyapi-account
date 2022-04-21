@@ -1,6 +1,11 @@
 .terms {
-  color: #333333;
-  padding: 0 50px;
-  margin: 0 auto;
-  max-width: 1200px;
+  @apply text-gray-600 px-1 m-auto max-w-screen-xl
+}
+
+h2 {
+  @apply text-xl  font-bold my-3 text-center
+}
+
+h3 {
+  @apply font-bold my-2
 }

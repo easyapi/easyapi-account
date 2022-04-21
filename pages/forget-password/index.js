@@ -1,5 +1,3 @@
-import './index.scss'
-
 import {forgetPassword} from "../../api/forget-password";
 import {sendCode} from "../../api/signup";
 import {areaCodes} from '../../utils/area-code'
