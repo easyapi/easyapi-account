@@ -30,9 +30,6 @@ const user = {
     },
     SET_EMAIL: (state, email) => {
       state.email = email
-    },
-    SET_TOKEN: (state, token) => {
-      state.token = token
     }
   },
 

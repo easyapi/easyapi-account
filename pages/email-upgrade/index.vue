@@ -24,7 +24,7 @@
         <el-form-item label="" prop="code">
           <el-input class="code" placeholder="请输入验证码" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"
                     v-model="ruleForm.code"></el-input>
-          <el-button class="getCode" :disabled="sendCodeBtn" @click="sendCode">{{sendCodeCount}}</el-button>
+          <el-button class="getCode" :disabled="sendCodeBtn" @click="sendCode">{{ sendCodeCount }}</el-button>
         </el-form-item>
         <el-button style="width: 100%" type="primary" :disabled="disabled" @click="upgradeEmail">升级</el-button>
       </el-form>
