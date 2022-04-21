@@ -2,7 +2,7 @@
   <el-row class="header">
     <el-col :span="24" class="header-wp">
       <a href="https://www.easyapi.com/">
-        <img class="logo" src="https://static.easyapi.com/images/logo.png" alt=""/>
+        <img class="logo" src="https://qiniu.easyapi.com/market/logo.svg" alt=""/>
       </a>
       <div class="buttons">
         <nuxt-link to="/login">登录</nuxt-link>
@@ -17,7 +17,3 @@ export default {
   name: "Header"
 };
 </script>
-
-<style scoped lang="scss">
-
-</style>
