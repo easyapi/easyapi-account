@@ -18,18 +18,22 @@ export default {
   data() {
     return {
       account: "",
-      client: "EasyAPI发票管理"
+      client: ""
     };
   },
   methods: {
     authorization() {
       oauthAuthorize(qs.stringify({
-        user_oauth_approval: true
+        user_oauth_approval: true,
+        authorize: "Authorize",
+        "scope.client": true
       }), this).then();
     },
     cancel() {
       oauthAuthorize(qs.stringify({
-        user_oauth_approval: false
+        user_oauth_approval: true,
+        authorize: "Authorize",
+        "scope.client": false
       }), this).then();
     },
     /**
