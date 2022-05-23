@@ -1,3 +1,5 @@
+import './index.scss'
+
 import {login} from "../../../api/login";
 import {bind} from "../../../api/bind";
 import {isValidPhoneNumber} from 'libphonenumber-js'
