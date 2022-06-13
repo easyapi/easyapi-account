@@ -1,24 +1,20 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import user from './modules/user'
-import getters from './getters'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-const store = () => new Vuex.Store({
-  modules: {
-    user
-  },
-  state: {
-    domain: '.easyapi.com'
-  },
-  mutations: {
-    SET_DOMAIN: (state, domain) => {
-      state.domain = domain
-    }
-  },
-  actions: {},
-  getters
-})
+const modules = {};
+const files = require.context("./modules", false, /\.js$/);
+files.keys().forEach((key) => {
+  modules[key.replace(/(modules|\/|\.|js)/g, "")] = {
+    ...files(key).default,
+    namespaced: true,
+  };
+});
 
-export default store
+const store = () =>
+  new Vuex.Store({
+    modules,
+  });
+
+export default store;

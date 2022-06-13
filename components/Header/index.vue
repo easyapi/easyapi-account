@@ -2,19 +2,37 @@
   <el-row class="header">
     <el-col :span="24" class="header-wp">
       <a href="https://www.easyapi.com/">
-        <img class="logo" src="https://qiniu.easyapi.com/market/logo.svg" alt=""/>
+        <img
+          class="logo"
+          src="https://qiniu.easyapi.com/market/logo.svg"
+          alt=""
+        />
       </a>
-      <div class="buttons">
+      <div class="buttons" v-if="!$store.state.user.userInfo">
         <nuxt-link to="/login">登录</nuxt-link>
         <nuxt-link to="/signup">注册</nuxt-link>
+      </div>
+      <div v-else>
+        <img class="photo" :src="$store.state.user.userInfo.photo" alt />
       </div>
     </el-col>
   </el-row>
 </template>
 
 <script>
+import Cookies from "js-cookie";
 export default {
-  name: "Header"
+  name: "Header",
+  data() {
+    return {
+      authenticationToken: Cookies.get("authenticationToken"),
+    };
+  },
+  mounted() {
+    if (this.authenticationToken) {
+      this.$store.dispatch("user/getUser");
+    }
+  },
 };
 </script>
 
@@ -32,6 +50,11 @@ export default {
     a {
       color: #ffffff;
     }
+
+    .photo {
+      border-radius: 50%;
+      vertical-align: top;
+    }
   }
 }
 
@@ -45,10 +68,14 @@ export default {
       .logo {
         width: 160px;
       }
+
+      .photo {
+        width: 40px;
+        height: 40px;
+      }
     }
   }
 }
-
 
 @media screen and (max-width: 450px) {
   .header {
@@ -60,8 +87,12 @@ export default {
       .logo {
         width: 60px;
       }
+
+      .photo {
+        width: 20px;
+        height: 20px;
+      }
     }
   }
 }
 </style>
-
