@@ -1,8 +1,8 @@
-import './index.scss'
+import "./index.scss";
 
-import {login} from "../../api/login";
-import {areaCodes} from '../../utils/area-code'
-import from from "../../utils/from"
+import { login } from "../../api/login";
+import { areaCodes } from "../../utils/area-code";
+import from from "../../utils/from";
 import Cookies from "js-cookie";
 
 export default {
@@ -11,35 +11,39 @@ export default {
     return {
       title: "登录 - EasyAPI服务平台",
       meta: [
-        {hid: "description", name: "description", content: "EasyAPI账号登录"},
-        {hid: "keyword", name: "keyword", content: "登录"}
+        { hid: "description", name: "description", content: "EasyAPI账号登录" },
+        { hid: "keyword", name: "keyword", content: "登录" }
       ]
     };
   },
   data() {
     return {
       areaCodes,
+
       disabled: true,
       ruleForm: {
         areaCode: 86,
-        country: 'CN',
         username: "",
         password: "",
         rememberMe: true
       },
       rules: {
-        username: [{required: true, message: "请输入登录账号", trigger: "blur"}],
-        password: [{required: true, message: "请输入密码", trigger: "blur"}]
+        username: [{ required: true, message: "请输入您注册时手机号码", trigger: "blur" }],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
       }
     };
   },
   methods: {
     login() {
       let that = this;
-      Cookies.set("username", that.ruleForm.username);
+      const options = {
+        secure: true,
+        sameSite: "none"
+      };
+      Cookies.set("username", that.ruleForm.username, options);
       let params = sessionStorage.getItem("params");
       let auth = sessionStorage.getItem("auth");
-      let from = Cookies.get("from")
+      let from = Cookies.get("from");
       login(that.ruleForm, this).then(res => {
         if (res.data.code === 1) {
           Cookies.set("authenticationToken", res.data.content.idToken, {
@@ -48,7 +52,7 @@ export default {
             domain: Cookies.get("domain")
           });
           if (params !== "" && auth === "三方登录") {
-            let json = JSON.parse(params)
+            let json = JSON.parse(params);
             window.location.href = "/auth/authorize?client_id=" + json.client_id + "&response_type=" + json.response_type + "&scope=" + json.scope + "&redirect_uri=" + json.redirect_uri;
           } else {
             setTimeout(() => {
@@ -67,7 +71,7 @@ export default {
   },
   mounted() {
     from(this);
-    if (Cookies.get("username")) {
+    if (Cookies.get("username") != null) {
       //从Cookie中获取登录账号
       this.ruleForm.username = Cookies.get("username");
     }
