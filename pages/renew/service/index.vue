@@ -2,7 +2,7 @@
   <div>
     <div class='w-full h-auto'>
       <div class='w-full h-20 bg-gray-50'>
-        <span class='m-auto max-w-screen-lg text-lg block'>{{ service.name }}服务续费</span>
+        <span class='flex items-center h-20 m-auto max-w-screen-lg text-lg block'>{{ service.name }}服务续费</span>
       </div>
       <div class='renew_content max-w-screen-lg'>
         <div class='renew_service'>
