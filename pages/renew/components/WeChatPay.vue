@@ -4,7 +4,7 @@
       <div class='text-center'>
         <p class='text-lg	text-red-600'>支付{{ price }}元</p>
         <p>
-          <img class='my-8' :src='weChatPayUrl' alt='' />
+          <img class='my-8 inline-block' :src='weChatPayUrl' alt='' />
         </p>
         <p>请使用微信扫描二维码以完成支付</p>
       </div>

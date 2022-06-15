@@ -47,19 +47,20 @@ module.exports = {
   build: {
     transpile: [/^element-ui/],
     extend(config, ctx) {
-      const svgRule = config.module.rules.find((rule) =>
-        rule.test.test(".svg")
-      );
-      svgRule.exclude = [path.resolve(__dirname, "icons/svg")];
+      config.node = {
+        fs: 'empty'
+      }
+      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'))
+      svgRule.exclude = [path.resolve(__dirname, 'assets/svg')]
       // Includes /icons/svg for svg-sprite-loader
       config.module.rules.push({
         test: /\.svg$/,
-        include: [path.resolve(__dirname, "icons/svg")],
-        loader: "svg-sprite-loader",
+        include: [path.resolve(__dirname, 'assets/svg')],
+        loader: 'svg-sprite-loader',
         options: {
-          symbolId: "icon-[name]",
-        },
-      });
+          symbolId: 'icon-[name]'
+        }
+      })
     },
     maxChunkSize: 300000, // 单个包最大尺寸
     extractCSS: true, // 单独提取CSS

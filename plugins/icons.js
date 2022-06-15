@@ -8,5 +8,5 @@ Vue.component("svg-icon", SvgIcon);
 // 引用svg图标
 const requireAll = (requireContext) =>
   requireContext.keys().map(requireContext);
-const req = require.context("@/icons/svg", true, /\.svg$/);
+const req = require.context("@/assets/svg", true, /\.svg$/);
 requireAll(req);

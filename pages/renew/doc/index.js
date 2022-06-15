@@ -1,7 +1,4 @@
 import "./index.scss";
-import "@/icons/svg/money.svg";
-import "@/icons/svg/alipay.svg";
-import "@/icons/svg/wechatpay.svg";
 import { getExpirationTime } from "../../../utils/date";
 import { getPriceList, renew, getRenewPrice } from "../../../api/renew.js";
 import { getTeamUserList } from "../../../api/team";
@@ -191,9 +188,9 @@ export default {
         .then((res) => {
           if (this.payment === "支付宝") {
             const { href } = this.$router.resolve({
-              path: "/recharge/alipay",
+              path: "/renew/alipay",
               query: {
-                form: res.data.alipay,
+                form: res.data.content.alipay,
               },
             });
             window.open(href, "_blank");
