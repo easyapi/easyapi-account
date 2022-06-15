@@ -3,6 +3,7 @@ import { getUser } from "@/api/account";
 
 const state = () => ({
   userInfo: "",
+  domain: ".easyapi.com",
 });
 
 const getters = {
@@ -12,6 +13,9 @@ const getters = {
 const mutations = {
   SET_USER_INFO: (state, userInfo) => {
     state.userInfo = userInfo;
+  },
+  SET_DOMAIN: (state, domain) => {
+    state.domain = domain;
   },
 };
 
