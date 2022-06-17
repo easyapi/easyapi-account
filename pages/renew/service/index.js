@@ -1,7 +1,4 @@
 import "./index.scss";
-import "@/icons/svg/money.svg";
-import "@/icons/svg/alipay.svg";
-import "@/icons/svg/wechatpay.svg";
 import { getTeamMoney } from "../../../api/money";
 import {
   getServiceList,
@@ -77,8 +74,8 @@ export default {
      * 获取团队账户
      */
     getTeamInfo() {
-      let teamId = this.$store.state.user.team
-        ? this.$store.state.user.team.id
+      let teamId = this.$store.state.user.userInfo.team
+        ? this.$store.state.user.userInfo.team.id
         : "";
       getTeamMoney({ teamId: teamId }, this).then((res) => {
         if (res.data.code === 1) {
@@ -174,7 +171,7 @@ export default {
         if (res.data.code === 1) {
           if (this.payment === "支付宝") {
             const { href } = this.$router.resolve({
-              path: "/recharge/alipay",
+              path: "/renew/alipay",
               query: {
                 form: res.data.alipay,
               },

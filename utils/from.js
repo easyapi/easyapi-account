@@ -17,5 +17,5 @@ export default function (context) {
       Cookies.set("from", from);
     }
   }
-  Cookies.set("domain", context.$store.state.domain);
+  Cookies.set("domain", context.$store.state.user.domain);
 }
