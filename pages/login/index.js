@@ -59,6 +59,7 @@ export default {
               Cookies.remove("from");
               window.location.replace(from);
             }, 1000);
+            console.log(from)
           }
           that.$message.success(res.data.message);
         } else {
@@ -78,5 +79,6 @@ export default {
   },
   updated() {
     this.disabled = !(this.ruleForm.username !== "" && this.ruleForm.password.length >= 6);
-  }
+  },
+
 };
