@@ -3,6 +3,6 @@
  *
  * @see https://www.easyapi.com
  */
-export const getUser = (context) => {
+export const getUser = context => {
   return context.$axios.get(`${process.env.baseUrl}/account`)
 }

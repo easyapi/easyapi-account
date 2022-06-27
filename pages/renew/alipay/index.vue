@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p v-html='formHtml'></p>
+    <p v-html="formHtml"></p>
   </div>
 </template>
 

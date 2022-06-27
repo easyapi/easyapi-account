@@ -4,8 +4,8 @@
  * @see https://www.easyapi.com
  */
 export const signup = (data, context) => {
-  return context.$axios.post(`${process.env.baseUrl}/api/account/signup`, data);
-};
+  return context.$axios.post(`${process.env.baseUrl}/api/account/signup`, data)
+}
 
 /**
  * 对比账号
@@ -17,8 +17,8 @@ export const findUsername = (params, context) => {
     params: {
       ...params
     }
-  });
-};
+  })
+}
 
 /**
  * 发送验证码
@@ -30,5 +30,5 @@ export const sendCode = (params, context) => {
     params: {
       ...params
     }
-  });
-};
+  })
+}

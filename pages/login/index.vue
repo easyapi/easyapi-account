@@ -1,21 +1,18 @@
 <template>
   <div class="main">
     <div class="form">
-      <div class="headline ">用户登录</div>
+      <div class="headline">用户登录</div>
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
         <el-form-item label="" prop="username">
           <el-input v-model="ruleForm.username" placeholder="请输入手机号码">
             <template slot="prepend">+&nbsp;</template>
             <el-select style="width: 80px" v-model="ruleForm.areaCode" filterable allow-create slot="prepend">
-              <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">
-                {{ item.label }}（+{{ item.value }}）
-              </el-option>
+              <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">{{ item.label }}（+{{ item.value }}）</el-option>
             </el-select>
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input v-model="ruleForm.password" placeholder="请输入密码" type="password">
-          </el-input>
+          <el-input v-model="ruleForm.password" placeholder="请输入密码" type="password"></el-input>
         </el-form-item>
         <el-checkbox class="checkbox" v-model="ruleForm.rememberMe">记住密码</el-checkbox>
         <el-button style="width: 100%" :disabled="disabled" type="primary" @click="login">登录</el-button>
@@ -27,10 +24,10 @@
       </div>
       <div class="other-login">
         <a href="https://account-api.easyapi.com/auth/wechat">
-          <img class="image-svg" src="../../static/svg/weixin.svg" alt="">
+          <img class="image-svg" src="../../static/svg/weixin.svg" alt="" />
         </a>
         <a href="https://account-api.easyapi.com/auth/qq">
-          <img class="image-svg" src="../../static/svg/qq.svg" alt="">
+          <img class="image-svg" src="../../static/svg/qq.svg" alt="" />
         </a>
       </div>
     </div>

@@ -1,46 +1,42 @@
-const path = require("path");
+const path = require('path')
 
 module.exports = {
   /*
    ** Headers of the page
    */
   head: {
-    title: "{{ name }} - EasyAPI",
+    title: '{{ name }} - EasyAPI',
     meta: [
-      { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
-        hid: "description",
-        name: "description",
-        content: "{{escape description }}",
-      },
+        hid: 'description',
+        name: 'description',
+        content: '{{escape description }}'
+      }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
-  css: ["@/assets/scss/common.scss", "@/assets/scss/element-variables.scss"],
-  plugins: [
-    "@/plugins/element-ui",
-    "@/plugins/axios",
-    { src: "@/plugins/icons", ssr: false },
-  ],
+  css: ['@/assets/scss/common.scss', '@/assets/scss/element-variables.scss'],
+  plugins: ['@/plugins/element-ui', '@/plugins/axios', { src: '@/plugins/icons', ssr: false }],
   /*
    ** Customize the progress bar color
    */
-  modules: ["@nuxtjs/axios"],
-  buildModules: ["@nuxtjs/tailwindcss"],
+  modules: ['@nuxtjs/axios'],
+  buildModules: ['@nuxtjs/tailwindcss'],
   tailwindcss: {
-    cssPath: "@/assets/css/tailwind.css",
-    configPath: "tailwind.config.js",
+    cssPath: '@/assets/css/tailwind.css',
+    configPath: 'tailwind.config.js',
     exposeConfig: false,
-    config: {},
+    config: {}
   },
   router: {
-    extendRoutes(routes, resolve) {},
+    extendRoutes(routes, resolve) {}
   },
   loading: {
-    color: "#3B8070",
+    color: '#3B8070'
   },
-  target: "static",
+  target: 'static',
   /*
    ** Build configuration
    */
@@ -67,20 +63,20 @@ module.exports = {
     babel: {
       plugins: [
         [
-          "component",
+          'component',
           {
-            libraryName: "element-ui",
-            styleLibraryName: "theme-chalk",
-          },
-        ],
-      ],
-    },
+            libraryName: 'element-ui',
+            styleLibraryName: 'theme-chalk'
+          }
+        ]
+      ]
+    }
   },
   server: {
-    port: 3000,
+    port: 3000
   },
   env: {
-    baseUrl: "https://account-api.easyapi.com",
-    serviceUrl: "https://api.easyapi.com",
-  },
-};
+    baseUrl: 'https://account-api.easyapi.com',
+    serviceUrl: 'https://api.easyapi.com'
+  }
+}

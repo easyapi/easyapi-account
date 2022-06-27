@@ -13,8 +13,8 @@
 
 <script>
 export default {
-  name: "Footer"
-};
+  name: 'Footer'
+}
 </script>
 
 <style scoped lang="scss">
@@ -25,9 +25,8 @@ export default {
   color: #777;
   font-size: 12px;
 
-  p{
+  p {
     line-height: 36px;
   }
 }
 </style>
-

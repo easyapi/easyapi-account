@@ -1,12 +1,7 @@
 <template>
-  <div class='renew-price'>
-    <div
-      class='renew-price-item'
-      :class='{ eaActive: selectMoney === item.num }'
-      v-for='(item, index) in priceList'
-      :key='index'
-      @click='selectMoneyFn(item)'>
-      <strong> {{ item.num }}{{ item.type === 2 ? '次' : '个月' }}&nbsp;&nbsp;￥{{ item.price.toFixed(2) }} </strong>
+  <div class="renew-price">
+    <div class="renew-price-item" :class="{ eaActive: selectMoney === item.num }" v-for="(item, index) in priceList" :key="index" @click="selectMoneyFn(item)">
+      <strong>{{ item.num }}{{ item.type === 2 ? '次' : '个月' }}&nbsp;&nbsp;￥{{ item.price.toFixed(2) }}</strong>
       <p>￥{{ item.unitPrice }}/{{ item.type === 2 ? '次' : '月' }}</p>
     </div>
   </div>
@@ -36,7 +31,7 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .renew-price {
   width: 92%;
   height: auto;
@@ -98,7 +93,7 @@ export default {
     }
 
     &:first-child {
-      margin-left: 0
+      margin-left: 0;
     }
   }
 }

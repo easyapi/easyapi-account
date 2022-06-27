@@ -6,10 +6,10 @@
 export const getPriceList = (release, context) => {
   return context.$axios.get(`${process.env.baseUrl}/team/price`, {
     params: {
-      release: release,
-    },
-  });
-};
+      release: release
+    }
+  })
+}
 
 /**
  * 获取团队续费金额
@@ -19,10 +19,10 @@ export const getPriceList = (release, context) => {
 export const getRenewPrice = (params, context) => {
   return context.$axios.get(`${process.env.baseUrl}/team/renew-price`, {
     params: {
-      ...params,
-    },
-  });
-};
+      ...params
+    }
+  })
+}
 
 /**
  * 文档续费
@@ -30,5 +30,5 @@ export const getRenewPrice = (params, context) => {
  * @see https://account-api.easyapi.com
  */
 export const renew = (data, context) => {
-  return context.$axios.post(`${process.env.baseUrl}/team/renew`, data);
-};
+  return context.$axios.post(`${process.env.baseUrl}/team/renew`, data)
+}

@@ -4,17 +4,17 @@
       <div class="error" v-if="error.statusCode === 403">
         <span class="title">权限不足</span>
         <span class="subtitle">你无权访问当前的页面</span>
-        <img src="https://qiniu.easyapi.com/photo/girl32.jpg"/>
+        <img src="https://qiniu.easyapi.com/photo/girl32.jpg" />
       </div>
       <div class="error" v-if="error.statusCode === 404">
         <span class="title">404</span>
         <span class="subtitle">页面不存在</span>
-        <img src="https://qiniu.easyapi.com/photo/girl32.jpg"/>
+        <img src="https://qiniu.easyapi.com/photo/girl32.jpg" />
       </div>
       <div class="error" v-else>
         <span class="title">错误!</span>
         <span class="subtitle">您访问了错误的信息</span>
-        <img src="https://qiniu.easyapi.com/photo/girl32.jpg"/>
+        <img src="https://qiniu.easyapi.com/photo/girl32.jpg" />
       </div>
     </el-col>
   </el-row>
@@ -22,22 +22,21 @@
 
 <script>
 export default {
-  props: ["error"],
-  layout: "default",
+  props: ['error'],
+  layout: 'default',
   head() {
     return {
-      title: "错误 - EasyAPI服务平台",
+      title: '错误 - EasyAPI服务平台',
       meta: [
-        {hid: "description", name: "description", content: "错误"},
-        {hid: "keyword", name: "keyword", content: "错误"}
+        { hid: 'description', name: 'description', content: '错误' },
+        { hid: 'keyword', name: 'keyword', content: '错误' }
       ]
-    };
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
-
 .error {
   border: 1px solid #ccc;
   padding: 10px 20px;
@@ -47,7 +46,7 @@ export default {
 
 .title {
   font-size: 30px;
-  font-family: "Trebuchet MS",serif;
+  font-family: 'Trebuchet MS', serif;
 }
 
 .subtitle {

@@ -1,28 +1,24 @@
 <template>
-  <div class='payment'>
-    <div
-      class='payment-item'
-      :class="{ state: payment === '余额支付' }"
-      @click="stand('余额支付')"
-      v-if='balance >= price'>
-      <svg-icon icon-class='money' class='svg' />
+  <div class="payment">
+    <div class="payment-item" :class="{ state: payment === '余额支付' }" @click="stand('余额支付')" v-if="balance >= price">
+      <svg-icon icon-class="money" class="svg" />
       <span>余额支付(￥{{ balance }})</span>
     </div>
-    <div class='payment_p' :class="{ state: payment === '余额支付' }" @click="stand('余额支付')" v-if='balance < price'>
+    <div class="payment_p" :class="{ state: payment === '余额支付' }" @click="stand('余额支付')" v-if="balance < price">
       <span>
         <strong>余额支付(￥{{ balance }})</strong>
       </span>
-      <span style='display: block; color: #303030; line-height: 25px; width: 285px'>
+      <span style="display: block; color: #303030; line-height: 25px; width: 285px">
         余额不足，建议使用其他支付方式，或者
-        <a href='/account' style='color: #1cc0d6'>充值</a>
+        <a href="/account" style="color: #1cc0d6">充值</a>
       </span>
     </div>
-    <div class='payment-item' :class="{ state: payment === '微信支付' }" @click="stand('微信支付')">
-      <svg-icon icon-class='wechatpay' class='svg' />
+    <div class="payment-item" :class="{ state: payment === '微信支付' }" @click="stand('微信支付')">
+      <svg-icon icon-class="wechatpay" class="svg" />
       <span>微信支付</span>
     </div>
-    <div class='payment-item' :class="{ state: payment === '支付宝' }" @click="stand('支付宝')">
-      <svg-icon icon-class='alipay' class='svg' />
+    <div class="payment-item" :class="{ state: payment === '支付宝' }" @click="stand('支付宝')">
+      <svg-icon icon-class="alipay" class="svg" />
       <span>支付宝</span>
     </div>
   </div>
@@ -49,7 +45,7 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .payment {
   width: 92%;
   height: auto;
@@ -108,7 +104,7 @@ export default {
   }
 
   .payment-item:first-child {
-    margin-left: 0
+    margin-left: 0;
   }
 }
 </style>

@@ -15,49 +15,49 @@
       :key="index"
       @click="choseEdition(item)"
     >
-      <strong> {{ item.name }}</strong>
+      <strong>{{ item.name }}</strong>
       <div v-if="edition === item.name">(当前版本)</div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: ["edition"],
+  props: ['edition'],
   data() {
     return {
-      editionList: [{ name: "基础版" }, { name: "高级版" }, { name: "旗舰版" }],
-      selectEdition: "",
-    };
+      editionList: [{ name: '基础版' }, { name: '高级版' }, { name: '旗舰版' }],
+      selectEdition: ''
+    }
   },
   watch: {
     edition() {
-      this.select();
-    },
+      this.select()
+    }
   },
   methods: {
     choseEdition(item) {
-      if (this.edition === "旗舰版" && item.name === "旗舰版") {
-        this.selectEdition = item.name;
-        this.$emit("event", item);
-      } else if (this.edition === "高级版" && item.name !== "基础版") {
-        this.selectEdition = item.name;
-        this.$emit("event", item);
-      } else if (this.edition === "基础版" || this.edition === "") {
-        this.selectEdition = item.name;
-        this.$emit("event", item);
+      if (this.edition === '旗舰版' && item.name === '旗舰版') {
+        this.selectEdition = item.name
+        this.$emit('event', item)
+      } else if (this.edition === '高级版' && item.name !== '基础版') {
+        this.selectEdition = item.name
+        this.$emit('event', item)
+      } else if (this.edition === '基础版' || this.edition === '') {
+        this.selectEdition = item.name
+        this.$emit('event', item)
       }
     },
     select() {
-      if (this.edition !== "") {
-        this.selectEdition = this.edition;
+      if (this.edition !== '') {
+        this.selectEdition = this.edition
         let item = {
-          name: this.selectEdition,
-        };
-        this.$emit("event", item);
+          name: this.selectEdition
+        }
+        this.$emit('event', item)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .edition {
@@ -77,10 +77,10 @@ export default {
     position: absolute;
     left: 195px;
     top: 79px;
-    content: " ";
+    content: ' ';
     width: 20px;
     height: 20px;
-    background-image: url("../../../assets/images/checked.png");
+    background-image: url('../../../assets/images/checked.png');
     background-size: cover;
   }
 
