@@ -8,7 +8,7 @@ module.exports = {
   jsxSingleQuote: false,
   trailingComma: 'none',
   bracketSpacing: true,
-  bracketSameLine: false,
+  bracketSameLine: true,
   arrowParens: 'avoid',
   htmlWhitespaceSensitivity: 'ignore',
   vueIndentScriptAndStyle: false,

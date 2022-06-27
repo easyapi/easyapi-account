@@ -13,8 +13,7 @@
       "
       v-for="(item, index) in editionList"
       :key="index"
-      @click="choseEdition(item)"
-    >
+      @click="choseEdition(item)">
       <strong>{{ item.name }}</strong>
       <div v-if="edition === item.name">(当前版本)</div>
     </div>
