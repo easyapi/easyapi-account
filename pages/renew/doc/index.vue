@@ -47,15 +47,13 @@
           <el-button
             v-if="balance >= price || payment !== '余额支付'"
             style="border-radius: 4px; background-color: #1cc0d6; color: #fff; font-size: 14px"
-            @click="sure"
-          >
+            @click="sure">
             确定购买
           </el-button>
           <el-button
             v-if="balance < price && payment === '余额支付'"
             style="border-radius: 4px; background-color: #1cc0d6; color: #fff; font-size: 14px"
-            disabled
-          >
+            disabled>
             确定购买
           </el-button>
           <span style="display: block; padding-top: 5px; color: #888888; font-size: 12px">若在购买过程中遇到任何问题，请致电：13656171020</span>
