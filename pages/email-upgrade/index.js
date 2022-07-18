@@ -122,7 +122,7 @@ export default {
     //校验
     this.disabled = !(
       this.emailRegex.test(this.ruleForm.email) &&
-      isValidPhoneNumber(this.ruleForm.username, this.ruleForm.country) &&
+      isValidPhoneNumber(this.ruleForm.mobile, this.ruleForm.country) &&
       this.ruleForm.password.length >= 6 &&
       this.ruleForm.code.length === 6
     )
