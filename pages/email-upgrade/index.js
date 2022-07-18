@@ -92,10 +92,6 @@ export default {
      */
     sendCode() {
       let that = this
-      if (isValidPhoneNumber(that.ruleForm.mobile, that.ruleForm.country)) {
-        that.$message.error('请输入正确的手机号码')
-        return
-      }
       let timer
       sendCode({ mobile: that.ruleForm.mobile }, this)
         .then(res => {

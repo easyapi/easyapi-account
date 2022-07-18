@@ -62,6 +62,7 @@ export default {
       client_id: this.$route.query.client_id,
       response_type: this.$route.query.response_type,
       scope: this.$route.query.scope,
+      state: this.$route.query.state,
       redirect_uri: this.$route.query.redirect_uri
     }
     sessionStorage.setItem('params', JSON.stringify(params))

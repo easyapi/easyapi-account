@@ -93,6 +93,9 @@ export default {
       this.payment = event
     },
 
+    /**
+     *
+     */
     handleClose() {
       this.wechatPayDialog = false
     },
