@@ -40,7 +40,7 @@ const actions = {
       path: '/',
       domain: '.easyapi.com'
     })
-    window.location.href = 'https://account.easyapi.com/login/?from=https://team.easyapi.com'
+    window.location.href = 'https://account.easyapi.com/login'
   }
 }
 

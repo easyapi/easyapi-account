@@ -10,9 +10,8 @@ export default function ({ $axios, redirect }) {
     const code = parseInt(error.response && error.response.status)
     if (code === 400) {
       if (error.response.data.code === -9) {
-        window.location.href = 'https://account.easyapi.com/login/?from=https://market.easyapi.com'
-      } else if (error.response.data.code === -8) {
-        window.location.href = 'https://team.easyapi.com/new?from=https://market.easyapi.com'
+        //用户信息不存在
+        window.location.href = 'https://account.easyapi.com/login/?from=https://www.easyapi.com/home'
       }
     }
   })
