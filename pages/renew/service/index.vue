@@ -30,7 +30,7 @@
         <div class="renew_btn">
           <el-button type="primary" v-if="balance >= price || payment !== '余额支付'" @click="buy">确定购买</el-button>
           <el-button type="primary" v-if="balance < price && payment === '余额支付'" disabled>确定购买</el-button>
-          <span class="renew_btn_tips">若在购买过程中遇到任何问题，请致电：13656171020</span>
+          <span class="renew_btn_tips">若在购买过程中遇到任何问题，请联系13656171020，微信同号</span>
         </div>
       </div>
     </div>

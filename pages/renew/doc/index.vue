@@ -56,7 +56,7 @@
             disabled>
             确定购买
           </el-button>
-          <span style="display: block; padding-top: 5px; color: #888888; font-size: 12px">若在购买过程中遇到任何问题，请致电：13656171020</span>
+          <span style="display: block; padding-top: 5px; color: #888888; font-size: 12px">若在购买过程中遇到任何问题，请联系13656171020，微信同号</span>
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@
         <h2>续费成功，谢谢！</h2>
       </main>
       <footer>
-        <p class="text-sm">如果有任何问题，请发送邮件到leida@easyapi.com处理，谢谢您的支持</p>
+        <p class="text-sm">如果有任何问题，请发送邮件到leida@easyapi.com，或者微信13656171020处理，谢谢您的支持</p>
       </footer>
     </div>
   </div>
