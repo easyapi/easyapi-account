@@ -4,7 +4,7 @@
  * @see https://account-api.easyapi.com
  */
 export const getTeamUserList = (params, context) => {
-  return context.$axios.get(`${process.env.baseUrl}/api/team/users`, {
+  return context.$axios.get(`${process.env.baseUrl}/team/users`, {
     params: {
       ...params
     }

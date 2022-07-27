@@ -4,7 +4,7 @@
  * @see https://www.easyapi.com
  */
 export const signup = (data, context) => {
-  return context.$axios.post(`${process.env.baseUrl}/api/account/signup`, data)
+  return context.$axios.post(`${process.env.baseUrl}/account/signup`, data)
 }
 
 /**
@@ -13,7 +13,7 @@ export const signup = (data, context) => {
  * @see https://www.easyapi.com
  */
 export const findUsername = (params, context) => {
-  return context.$axios.get(`${process.env.baseUrl}/api/account/find`, {
+  return context.$axios.get(`${process.env.baseUrl}/account/find`, {
     params: {
       ...params
     }
