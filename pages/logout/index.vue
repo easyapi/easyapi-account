@@ -1,7 +1,7 @@
 <template></template>
 
 <script>
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import from from '../../utils/from'
 
 export default {

@@ -4,7 +4,7 @@
 
 <script>
 import from from '../utils/from'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { getUser } from '../api/account'
 
 export default {

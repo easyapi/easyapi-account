@@ -2,9 +2,9 @@ import './index.scss'
 
 import { login } from '../../../api/login'
 import { bind } from '../../../api/bind'
-import { isValidPhoneNumber } from 'libphonenumber-js'
+// import { isValidPhoneNumber } from 'libphonenumber-js'
 import { areaCodes } from '../../../utils/area-code'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import from from '../../../utils/from'
 
 export default {

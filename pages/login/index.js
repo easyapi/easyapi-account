@@ -3,7 +3,7 @@ import './index.scss'
 import { login } from '../../api/login'
 import { areaCodes } from '../../utils/area-code'
 import from from '../../utils/from'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 
 export default {
   name: 'Login',

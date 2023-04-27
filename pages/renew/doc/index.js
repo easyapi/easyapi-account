@@ -7,7 +7,7 @@ import Edition from '../components/Edition.vue'
 import SelectPrice from '../components/SelectPrice.vue'
 import Payment from '../components/Payment'
 import WeChatPay from '../components/WeChatPay'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 export default {
   components: { Edition, Payment, SelectPrice, WeChatPay },
@@ -129,7 +129,7 @@ export default {
         if (res.data.code === 1) {
           this.balance = res.data.content.balance
           this.team = res.data.content.team
-          this.date = moment(res.data.content.team.endTime).format('YYYY-MM-DD HH:mm:ss')
+          this.date = dayjs(res.data.content.team.endTime).format('YYYY-MM-DD HH:mm:ss')
           this.oldDate = getExpirationTime(res.data.content.team.endTime)
           this.edition = res.data.content.team.release
         }
@@ -150,7 +150,7 @@ export default {
     selectPrice(event) {
       this.selectMonth = event.num
       this.price = event.price
-      this.date = moment(this.oldDate).add(event.month, 'months').format('YYYY-MM-DD HH:mm:ss')
+      this.date = dayjs(this.oldDate).add(event.month, 'months').format('YYYY-MM-DD HH:mm:ss')
       this.getDocumentPrice()
     },
     /**

@@ -7,7 +7,7 @@ import { getExpirationTime } from '../../../utils/date'
 import WeChatPay from '../components/WeChatPay'
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 export default {
   components: { Payment, SelectPrice, WeChatPay },
@@ -79,7 +79,7 @@ export default {
       this.servicePriceId = event.servicePriceId
       this.price = event.price
       if (event.type === 3) {
-        this.date = moment(this.oldDate).add(event.num, 'months').format('YYYY-MM-DD HH:mm:ss')
+        this.date = dayjs(this.oldDate).add(event.num, 'months').format('YYYY-MM-DD HH:mm:ss')
       }
       if (event.type === 2) {
         this.num = this.oldNum + event.num
@@ -110,7 +110,7 @@ export default {
           this.service = res.data.content.service
           if (this.service.type === 3) {
             //页面显示的时间
-            this.date = moment(content.endTime).format('YYYY-MM-DD HH:mm:ss')
+            this.date = dayjs(content.endTime).format('YYYY-MM-DD HH:mm:ss')
             // 续费开始添加的时间
             this.oldDate = getExpirationTime(content.endTime)
           }

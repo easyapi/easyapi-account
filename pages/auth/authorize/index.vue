@@ -3,7 +3,7 @@
     <div class="authorize-header">授权登录</div>
     <div class="p-2">
       <div class="mt-2">
-        <span class="text-gray-600"><<{{ client }}>> 想要访问你的账户信息</span>
+        <span class="text-gray-600">{{ client }} 想要访问你的账户信息</span>
       </div>
       <div class="mt-2">
         <span>当前登录账号: {{ account }}</span>

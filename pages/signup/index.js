@@ -1,7 +1,7 @@
 import { signup, findUsername, sendCode } from '../../api/signup'
 import { areaCodes } from '../../utils/area-code'
-import { isValidPhoneNumber } from 'libphonenumber-js'
-import Cookies from 'js-cookie'
+// import { isValidPhoneNumber } from 'libphonenumber-js'
+// import Cookies from 'js-cookie'
 import from from '../../utils/from'
 
 export default {

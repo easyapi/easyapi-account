@@ -3,8 +3,8 @@ import './index.scss'
 import { upgradeEmail } from '../../api/email'
 import { sendCode } from '../../api/signup'
 import { areaCodes } from '../../utils/area-code'
-import Cookies from 'js-cookie'
-import { isValidPhoneNumber } from 'libphonenumber-js'
+// import Cookies from 'js-cookie'
+// import { isValidPhoneNumber } from 'libphonenumber-js'
 
 export default {
   name: 'EmailUpgrade',

@@ -1,8 +1,8 @@
 import './index.scss'
 
 import { getAuthorize, oauthAuthorize } from '../../../api/auth'
-import Cookies from 'js-cookie'
-import qs from 'qs'
+// import Cookies from 'js-cookie'
+// import qs from 'qs'
 
 export default {
   name: 'Authorize',
