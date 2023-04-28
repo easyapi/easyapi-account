@@ -1,11 +1,11 @@
 {
-  "name": "easyapi-www",
+  "name": "easyapi-account",
   "version": "1.0.0",
-  "description": "EasyAPI官网",
-  "homepage": "https://www.easyapi.com",
+  "description": "EasyAPI账户中心",
+  "homepage": "https://account.easyapi.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/easyapi/easyapi-www.git"
+    "url": "git+https://github.com/easyapi/easyapi-account.git"
   },
   "author": "EasyAPI <leida@easyapi.com>",
   "scripts": {
@@ -18,13 +18,13 @@
   },
   "dependencies": {
     "@vueuse/integrations": "^9.13.0",
+    "dayjs": "1.11.7",
     "nuxt": "^3.4.2",
     "sockjs-client": "1.6.1",
     "stompjs": "2.3.3",
     "universal-cookie": "^4.0.4",
     "vue-baidu-map": "^0.21.22",
-    "vuex": "4.1.0",
-    "dayjs": "1.11.7"
+    "vuex": "4.1.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.5",
