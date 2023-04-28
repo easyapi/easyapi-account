@@ -4,7 +4,7 @@ import { login } from '../../../api/login'
 import { bind } from '../../../api/bind'
 // import { isValidPhoneNumber } from 'libphonenumber-js'
 import { areaCodes } from '../../../utils/area-code'
-// import Cookies from 'js-cookie'
+// import useCookie() from 'js-cookie'
 import from from '../../../utils/from'
 
 export default {
@@ -76,10 +76,10 @@ export default {
           if (res.data.code !== 1) {
             this.$message.error(res.data.message)
           }
-          Cookies.set('authenticationToken', res.data.content.idToken, {
+          useCookie().set('authenticationToken', res.data.content.idToken, {
             expires: this.ruleForm.rememberMe ? 30 : 0.1,
             path: '/',
-            domain: Cookies.get('domain')
+            domain: useCookie().get('domain')
           })
           this.bind()
           this.$message.success('绑定成功')
@@ -92,7 +92,7 @@ export default {
      * 绑定账号
      */
     bind() {
-      let from = Cookies.get('from')
+      let from = useCookie().get('from')
       bind(
         {
           providerUserId: this.providerUserId,

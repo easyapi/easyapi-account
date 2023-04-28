@@ -3,7 +3,7 @@ import './index.scss'
 import { login } from '../../api/login'
 import { areaCodes } from '../../utils/area-code'
 import from from '../../utils/from'
-// import Cookies from 'js-cookie'
+// import useCookie() from 'js-cookie'
 
 export default {
   name: 'Login',
@@ -40,17 +40,17 @@ export default {
         secure: true,
         sameSite: 'none'
       }
-      Cookies.set('username', that.ruleForm.username, options)
+      useCookie().set('username', that.ruleForm.username, options)
       let params = sessionStorage.getItem('params')
       let auth = sessionStorage.getItem('auth')
-      let from = Cookies.get('from')
+      let from = useCookie().get('from')
       login(that.ruleForm, this)
         .then(res => {
           if (res.data.code === 1) {
-            Cookies.set('authenticationToken', res.data.content.idToken, {
+            useCookie().set('authenticationToken', res.data.content.idToken, {
               expires: that.ruleForm.rememberMe ? 30 : 0.1,
               path: '/',
-              domain: Cookies.get('domain')
+              domain: useCookie().get('domain')
             })
             if (params !== '' && auth === '三方登录') {
               let json = JSON.parse(params)
@@ -65,7 +65,7 @@ export default {
                 json.redirect_uri
             } else {
               setTimeout(() => {
-                Cookies.remove('from')
+                useCookie().remove('from')
                 window.location.replace(from)
               }, 1000)
             }
@@ -81,9 +81,9 @@ export default {
   },
   mounted() {
     from(this)
-    if (Cookies.get('username') != null) {
+    if (useCookie().get('username') != null) {
       //从Cookie中获取登录账号
-      this.ruleForm.username = Cookies.get('username')
+      this.ruleForm.username = useCookie().get('username')
     }
   },
   updated() {

@@ -16,13 +16,13 @@
 </template>
 
 <script>
-// import Cookies from 'js-cookie'
+// import useCookie() from 'js-cookie'
 
-export default {
+export default{
   name: 'Header',
   data() {
     return {
-      authenticationToken: Cookies.get('authenticationToken')
+      authenticationToken: useCookie().get('authenticationToken')
     }
   },
   mounted() {

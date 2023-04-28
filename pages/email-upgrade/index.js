@@ -3,7 +3,7 @@ import './index.scss'
 import { upgradeEmail } from '../../api/email'
 import { sendCode } from '../../api/signup'
 import { areaCodes } from '../../utils/area-code'
-// import Cookies from 'js-cookie'
+// import useCookie() from 'js-cookie'
 // import { isValidPhoneNumber } from 'libphonenumber-js'
 
 export default {
@@ -69,13 +69,13 @@ export default {
      */
     upgradeEmail() {
       let that = this
-      let from = Cookies.get('from')
+      let from = useCookie().get('from')
       upgradeEmail(that.ruleForm, this)
         .then(res => {
           if (res.data.code === 1) {
             that.$message.success(res.data.message)
             setTimeout(() => {
-              Cookies.remove('from')
+              useCookie().remove('from')
               window.location.replace(from)
             }, 1000)
           } else {

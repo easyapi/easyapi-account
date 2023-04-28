@@ -1,7 +1,7 @@
 import { signup, findUsername, sendCode } from '../../api/signup'
 import { areaCodes } from '../../utils/area-code'
 // import { isValidPhoneNumber } from 'libphonenumber-js'
-// import Cookies from 'js-cookie'
+// import useCookie() from 'js-cookie'
 import from from '../../utils/from'
 
 export default {
@@ -72,18 +72,18 @@ export default {
         that.$message.error('请勾选同意EasyAPI用户协议')
         return
       }
-      let from = Cookies.get('from')
+      let from = useCookie().get('from')
       signup(that.ruleForm, this)
         .then(res => {
           if (res.data.code === 1) {
-            Cookies.set('authenticationToken', res.data.content, {
+            useCookie().set('authenticationToken', res.data.content, {
               expires: that.ruleForm.rememberMe ? 30 : 0.1,
               path: '/',
-              domain: Cookies.get('domain')
+              domain: useCookie().get('domain')
             })
             that.$message.success(res.data.message)
             setTimeout(() => {
-              Cookies.remove('from')
+              useCookie().remove('from')
               window.location.replace(from)
             }, 1000)
           } else {

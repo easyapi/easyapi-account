@@ -4,7 +4,7 @@
 
 <script>
 import from from '../utils/from'
-// import Cookies from 'js-cookie'
+// import useCookie() from 'js-cookie'
 import { getUser } from '../api/account'
 
 export default {
@@ -20,14 +20,14 @@ export default {
   },
   mounted() {
     from(this)
-    if (!Cookies.get('authenticationToken')) {
+    if (!useCookie().get('authenticationToken')) {
       this.$router.push({ path: `/login` })
       return
     }
     getUser(this)
       .then(res => {
         if (res.data.code === 1) {
-          window.location.replace(Cookies.get('from'))
+          window.location.replace(useCookie().get('from'))
         } else {
           this.$router.push({ path: `/login` })
         }

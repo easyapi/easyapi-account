@@ -1,172 +1,219 @@
 <script setup lang="ts">
-import {  reactive, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { reactive, ref } from 'vue'
+import { LocationQueryValue, useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { ElMessageBox } from '@element-plus'
 import dayjs from 'dayjs'
+import { getTeamMoney } from '~/api/money'
+import { renewBalance } from '~/api/service'
 
-const route = useRoute()
-const router = useRouter()
-const store = useStore()
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
 
-const selectPrice = ref(null)
+// const selectPrice = ref()
 
 const data = reactive({
-	service: {},
-	team: {},
-	num: '',
-	oldNum: '',
-	date: '',
-	oldDate: '',
-	priceList: [], //价格列表
-	balance: '', //账户余额
-	payment: '余额支付', //支付方式
-	servicePriceId: '',
-	price: 0, //销售价格
-	wechatPayDialog: false, //微信支付弹框
-	weChatPayUrl: null //微信支付二维码链接
-})
+  service: {},
+  team: {},
+  num: "",
+  oldNum: "",
+  date: "",
+  oldDate: "",
+  priceList: [], //价格列表
+  balance: "", //账户余额
+  payment: "余额支付", //支付方式
+  servicePriceId: "",
+  price: 0, //销售价格
+  wechatPayDialog: false, //微信支付弹框
+  weChatPayUrl: "", //微信支付二维码链接
+});
+
 
 function onCreated() {
-	getTeamService(route.query.teamServiceId)
-	getTeamInfo()
+  getTeamService(route.query.teamServiceId);
+  getTeamInfo();
 }
-onCreated()
+onCreated();
 
 function reset() {
-	getTeamService()
-	selectPrice.value.reset()
+  getTeamService();
+  selectPrice.value.reset();
 }
 
-function getServiceList() {
-	getServiceList({ serviceId: data.service.serviceId }, this).then(res => {
-		if (res.data.code === 1) {
-			data.priceList = res.data.content
-			for (let object of data.priceList) {
-				//统一计量
-				object.num = object.type === 2 ? object.times : object.month
-				//计算单价
-				object.unitPrice = (object.price / object.num).toFixed(4)
-			}
-		}
-	})
+function getServiceList(this: any) {
+  getServiceList({ serviceId: data.service.serviceId }, this).then(
+    (res: { data: { code: number; content: never[] } }) => {
+      if (res.data.code === 1) {
+        data.priceList = res.data.content;
+        for (let object of data.priceList) {
+          //统一计量
+          object.num = object.type === 2 ? object.times : object.month;
+          //计算单价
+          object.unitPrice = (object.price / object.num).toFixed(4);
+        }
+      }
+    }
+  );
 }
 
-function getTeamInfo() {
-	let teamId = store.state.user.userInfo.team ? store.state.user.userInfo.team.id : ''
-	getTeamMoney({ teamId: teamId }, this).then(res => {
-		if (res.data.code === 1) {
-			data.balance = res.data.content.balance
-			data.team = res.data.content.team
-		}
-	})
+function getTeamInfo(this: any) {
+  let teamId = store.state.user.userInfo.team
+    ? store.state.user.userInfo.team.id
+    : "";
+  getTeamMoney({ teamId: teamId }, this).then(
+    (res: {
+      data: { code: number; content: { balance: string; team: {} } };
+    }) => {
+      if (res.data.code === 1) {
+        data.balance = res.data.content.balance;
+        data.team = res.data.content.team;
+      }
+    }
+  );
 }
 
-function selectPrice(event) {
-	data.servicePriceId = event.servicePriceId
-	data.price = event.price
-	if (event.type === 3) {
-		data.date = dayjs(data.oldDate).add(event.num, 'months').format('YYYY-MM-DD HH:mm:ss')
-	}
-	if (event.type === 2) {
-		data.num = data.oldNum + event.num
-	}
+function selectPrice(event: {
+  servicePriceId: string;
+  price: number;
+  type: number;
+  num: string | number;
+}) {
+  data.servicePriceId = event.servicePriceId;
+  data.price = event.price;
+  if (event.type === 3) {
+    data.date = dayjs(data.oldDate)
+      .add(event.num, "months")
+      .format("YYYY-MM-DD HH:mm:ss");
+  }
+  if (event.type === 2) {
+    data.num = data.oldNum + event.num;
+  }
 }
 
-function getPayment(event) {
-	data.payment = event
+function getPayment(event: string) {
+  data.payment = event;
 }
 
-function handleClose() {
-	data.wechatPayDialog = false
-}
+// function handleClose() {
+//   data.wechatPayDialog = false;
+// }
 
-function getTeamService(teamServiceId) {
-	getTeamService(teamServiceId, this).then(res => {
-		if (res.data.code === 1) {
-			let content = res.data.content
-			data.service = res.data.content.service
-			if (data.service.type === 3) {
-				//页面显示的时间
-				data.date = dayjs(content.endTime).format('YYYY-MM-DD HH:mm:ss')
-				// 续费开始添加的时间
-				data.oldDate = getExpirationTime(content.endTime)
-			}
-			if (data.service.type === 2) {
-				data.num = content.balance
-				data.oldNum = content.balance
-			}
-			getServiceList()
-		} else if (res.data.code === -1) {
-			//当前团对没有开通此服务
-			/* Warn: Unknown source: $message */
-			$vm.$message.error(res.data.message)
-			setTimeout(() => {
-				window.location.href = '/service/'
-			}, 2000)
-		}
-	})
+function getTeamService(
+  this: any,
+  teamServiceId: LocationQueryValue | LocationQueryValue[] | undefined
+) {
+  getTeamService(teamServiceId, this).then(
+    (res: {
+      data: {
+        code: number;
+        content: {
+          balance: string
+          endTime(endTime: any): unknown;
+          service: {};
+        };
+        message: any;
+      };
+    }) => {
+      if (res.data.code === 1) {
+        let content = res.data.content;
+        data.service = res.data.content.service;
+        if (data.service.type === 3) {
+          //页面显示的时间
+          data.date = dayjs(content.endTime).format("YYYY-MM-DD HH:mm:ss");
+          // 续费开始添加的时间
+          data.oldDate = getExpirationTime(content.endTime);
+        }
+        if (data.service.type === 2) {
+          data.num = content.balance;
+          data.oldNum = content.balance;
+        }
+        getServiceList();
+      } else if (res.data.code === -1) {
+        //当前团队没有开通此服务
+        /* Warn: Unknown source: $message */
+        ElMessageBox.$message.error(res.data.message);
+        setTimeout(() => {
+          window.location.href = "/service/";
+        }, 2000);
+      }
+    }
+  );
 }
 
 function buy() {
-	if (data.price === 0) {
-		/* Warn: Unknown source: $message */
-		$vm.$message.warning('请选择服务价格')
-		return
-	}
-	/* Warn: Unknown source: $confirm */
-	$vm.$confirm('你确定续费吗？', '确认购买', {
-		confirmButtonText: '确定',
-		cancelButtonText: '取消',
-		type: 'warning'
-	}).then(() => {
-		determineThePurchase()
-	})
+  if (data.price === 0) {
+    /* Warn: Unknown source: $message */
+    ElMessageBox.$message.warning("请选择服务价格");
+    return;
+  }
+  /* Warn: Unknown source: $confirm */
+  ElMessageBox.$confirm("你确定续费吗？", "确认购买", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  }).then(() => {
+    determineThePurchase();
+  });
 }
 
-function determineThePurchase() {
-	renewBalance({
-			servicePriceId: data.servicePriceId,
-			payment: data.payment
-		},
-		this
-	).then(res => {
-		if (res.data.code === 1) {
-			if (data.payment === '支付宝') {
-				const { href } = router.resolve({
-					path: '/renew/alipay',
-					query: {
-						form: res.data.alipay
-					}
-				})
-				window.open(href, '_blank')
-				/* Warn: Unknown source: $confirm */
-				ElMessageBox.confirm('请您在新打开的页面上完成充值。充值完成后，根据您的情况点击下面按钮。', '提示', {
-					confirmButtonText: '充值成功',
-					cancelButtonText: '充值失败',
-					type: 'info'
-				}).then(() => {
-					reset()
-				})
-			} else if (data.payment === '微信支付') {
-				data.weChatPayUrl = `https://api.easyapi.com/qr-code?text=${res.data.codeUrl}&bg=ffffff&appKey=f89UK9X5Q3C2YW2y&appSecret=hr2he5ufz6vw0ikz`
-				data.wechatPayDialog = true
-				let socket = new SockJS('https://account-api.easyapi.com/easyapi-socket')
-				let stompClient = Stomp.over(socket)
-				stompClient.connect({}, frame => {
-					stompClient.subscribe('/topic/wxpay/' + data.team.user.id, message => {
-						var json = JSON.parse(message.body)
-						data.wechatPayDialog = false
-						reset()
-						/* Warn: Unknown source: $message */
-						$vm.$message.success('充值成功！')
-					})
-				})
-			}
-			/* Warn: Unknown source: $message */
-			$vm.$message.success(res.data.message)
-		}
-	})
+function determineThePurchase(this: any) {
+  renewBalance(
+    {
+      servicePriceId: data.servicePriceId,
+      payment: data.payment,
+    },
+    // this
+  ).then(
+    (res: {
+      data: { code: number; alipay: any; codeUrl: any; message: any };
+    }) => {
+      if (res.data.code === 1) {
+        if (data.payment === "支付宝") {
+          const { href } = router.resolve({
+            path: "/renew/alipay",
+            query: {
+              form: res.data.alipay,
+            },
+          });
+          window.open(href, "_blank");
+          /* Warn: Unknown source: $confirm */
+          ElMessageBox.confirm(
+            "请您在新打开的页面上完成充值。充值完成后，根据您的情况点击下面按钮。",
+            "提示",
+            {
+              confirmButtonText: "充值成功",
+              cancelButtonText: "充值失败",
+              type: "info",
+            }
+          ).then(() => {
+            reset();
+          });
+        } else if (data.payment === "微信支付") {
+          data.weChatPayUrl = `https://api.easyapi.com/qr-code?text=${res.data.codeUrl}&bg=ffffff&appKey=f89UK9X5Q3C2YW2y&appSecret=hr2he5ufz6vw0ikz`;
+          data.wechatPayDialog = true;
+          // let socket = new SockJS(
+          //   "https://account-api.easyapi.com/easyapi-socket"
+          // );
+          // let stompClient = stop.over(socket);
+          // stompClient.connect({}, (frame: any) => {
+          //   stompClient.subscribe(
+          //     "/topic/wxpay/" + data.team.user.id,
+          //     (message: { body: string; }) => {
+          //       var json = JSON.parse(message.body);
+          //       data.wechatPayDialog = false;
+          //       reset();
+          //       /* Warn: Unknown source: $message */
+          //       ElMessageBox.$message.success("充值成功！");
+          //     }
+          //   );
+          // });
+        }
+        /* Warn: Unknown source: $message */
+        ElMessageBox.$message.success(res.data.message);
+      }
+    }
+  );
 }
 </script>
 
@@ -186,15 +233,21 @@ function determineThePurchase() {
           <Payment :price="price" :balance="balance" @event="getPayment" />
         </div>
         <div class="renew_fl">
-          <strong class="renew_service_title">{{ service.type === 2 ? '剩余次数：' : '到期时间：' }}</strong>
+          <strong class="renew_service_title">{{
+            service.type === 2 ? "剩余次数：" : "到期时间："
+          }}</strong>
           <div class="">
-            <strong style="color: #323232; font-size: 14px">{{ service.type === 2 ? num : date }}</strong>
+            <strong style="color: #323232; font-size: 14px">{{
+              service.type === 2 ? num : date
+            }}</strong>
           </div>
         </div>
         <div class="renew_fl">
           <strong class="renew_service_title" style="padding-top: 10px">应付金额：</strong>
           <div class="frequency">
-            <strong style="color: #fa2222; font-size: 26px">{{ price.toFixed(2) }}</strong>
+            <strong style="color: #fa2222; font-size: 26px">{{
+              price.toFixed(2)
+            }}</strong>
             &nbsp;
             <span style="color: #323232; font-size: 14px">元</span>
           </div>
@@ -206,6 +259,6 @@ function determineThePurchase() {
         </div>
       </div>
     </div>
-    <WeChatPay :visible.sync="wechatPayDialog" :weChatPayUrl="weChatPayUrl" :price="price" />
+    <WeChatPay :visible="wechatPayDialog" :weChatPayUrl="weChatPayUrl" :price="price" />
   </div>
 </template>
