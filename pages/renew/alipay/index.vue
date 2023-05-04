@@ -5,7 +5,7 @@
 </template>
 
 <script>
-export default {
+export default{
   head() {
     return {
       title: '正在跳转支付宝 - EasyAPI',

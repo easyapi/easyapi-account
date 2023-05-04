@@ -64,7 +64,7 @@ const data = reactive({
 		],
 		mobile: [
 			{ required: true, message: '请输入手机号码', trigger: 'blur' },
-			{ validator: validPhoneNumber, trigger: 'blur' }
+			{ validator: isValidPhoneNumber, trigger: 'blur' }
 		],
 		code: [
 			{ required: true, message: '请输入验证码', trigger: 'blur' },
@@ -87,11 +87,11 @@ onUpdated(() => {
 	)
 })
 
-function upgradeEmail() {
+function upgradeEmail(this: any) {
 	let that = this
 	let from = useCookie().get('from')
 	upgradeEmail(that.ruleForm, this)
-		.then(res => {
+		.then((res: { data: { code: number; message: any } }) => {
 			if (res.data.code === 1) {
 				that.$message.success(res.data.message)
 				setTimeout(() => {
@@ -102,16 +102,16 @@ function upgradeEmail() {
 				that.$message.error(res.data.message)
 			}
 		})
-		.catch(error => {
+		.catch((error: { response: { data: { message: any } } }) => {
 			that.$message.error(error.response.data.message)
 		})
 }
 
-function sendCode() {
+function sendCode(this: any) {
 	let that = this
-	let timer
+	let timer: string|number|NodeJS.Timeout|undefined
 	sendCode({ mobile: that.ruleForm.mobile }, this)
-		.then(res => {
+		.then((res: { data: { code: number; message: any } }) => {
 			if (res.data.code === 1) {
 				that.$message.success('验证码发送成功')
 				let second = 60
@@ -130,7 +130,7 @@ function sendCode() {
 				that.$message.error(res.data.message)
 			}
 		})
-		.catch(error => {
+		.catch((error: { response: { data: { message: any } } }) => {
 			that.$message.error(error.response.data.message)
 		})
 }

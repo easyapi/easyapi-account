@@ -22,10 +22,11 @@
 </template>
 
 <script setup lang="ts">
-import Index from './index.js'
-// export default Index
+
 import { getCurrentInstance, onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
+import { service } from '~/api/service'
+
 
 const route = useRoute()
 const { proxy: $vm } = getCurrentInstance()

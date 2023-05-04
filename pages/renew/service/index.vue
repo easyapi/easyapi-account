@@ -11,7 +11,7 @@ const route = useRoute();
 const router = useRouter();
 const store = useStore();
 
-// const selectPrice = ref()
+const selectPrice = ref()
 
 const data = reactive({
   service: {},
@@ -37,12 +37,12 @@ function onCreated() {
 onCreated();
 
 function reset() {
-  getTeamService();
-  selectPrice.value.reset();
+  getTeamService(route.query.teamServiceId);
+  selectPrice.reset();
 }
 
-function getServiceList(this: any) {
-  getServiceList({ serviceId: data.service.serviceId }, this).then(
+function getServiceList() {
+  getServiceList().then(
     (res: { data: { code: number; content: never[] } }) => {
       if (res.data.code === 1) {
         data.priceList = res.data.content;
@@ -95,15 +95,15 @@ function getPayment(event: string) {
   data.payment = event;
 }
 
-// function handleClose() {
-//   data.wechatPayDialog = false;
-// }
+function handleClose() {
+  data.wechatPayDialog = false;
+}
 
 function getTeamService(
   this: any,
   teamServiceId: LocationQueryValue | LocationQueryValue[] | undefined
 ) {
-  getTeamService(teamServiceId, this).then(
+  getTeamService(teamServiceId).then(
     (res: {
       data: {
         code: number;
@@ -118,13 +118,13 @@ function getTeamService(
       if (res.data.code === 1) {
         let content = res.data.content;
         data.service = res.data.content.service;
-        if (data.service.type === 3) {
+        if (data.service === 3) {
           //页面显示的时间
           data.date = dayjs(content.endTime).format("YYYY-MM-DD HH:mm:ss");
           // 续费开始添加的时间
           data.oldDate = getExpirationTime(content.endTime);
         }
-        if (data.service.type === 2) {
+        if (data.service === 2) {
           data.num = content.balance;
           data.oldNum = content.balance;
         }
@@ -226,19 +226,19 @@ function determineThePurchase(this: any) {
       <div class="renew_content max-w-screen-lg">
         <div class="renew_service">
           <strong class="renew_service_title">服务价格：</strong>
-          <SelectPrice ref="selectPrice" :priceList="priceList" @event="selectPrice" />
+          <SelectPrice ref="selectPrice" :priceList="data.priceList" @event="selectPrice" />
         </div>
         <div class="renew_service">
           <strong class="renew_service_title">支付方式：</strong>
-          <Payment :price="price" :balance="balance" @event="getPayment" />
+          <Payment :price="data.price" :balance="data.balance" @event="getPayment" />
         </div>
         <div class="renew_fl">
           <strong class="renew_service_title">{{
-            service.type === 2 ? "剩余次数：" : "到期时间："
+            data.service.type === 2 ? "剩余次数：" : "到期时间："
           }}</strong>
           <div class="">
             <strong style="color: #323232; font-size: 14px">{{
-              service.type === 2 ? num : date
+              data.service.type === 2 ? num : date
             }}</strong>
           </div>
         </div>
@@ -246,19 +246,19 @@ function determineThePurchase(this: any) {
           <strong class="renew_service_title" style="padding-top: 10px">应付金额：</strong>
           <div class="frequency">
             <strong style="color: #fa2222; font-size: 26px">{{
-              price.toFixed(2)
+              data.price.toFixed(2)
             }}</strong>
             &nbsp;
             <span style="color: #323232; font-size: 14px">元</span>
           </div>
         </div>
         <div class="renew_btn">
-          <el-button type="primary" v-if="balance >= price || payment !== '余额支付'" @click="buy">确定购买</el-button>
-          <el-button type="primary" v-if="balance < price && payment === '余额支付'" disabled>确定购买</el-button>
-          <span class="renew_btn_tips">若在购买过程中遇到任何问题，请联系13656171020，微信同号</span>
+          <el-button type="primary" v-if="data.balance >= data.price || data.payment !== '余额支付'" @click="buy">确定购买</el-button>
+          <el-button type="primary" v-if="data.balance < data.price && data.payment === '余额支付'" disabled>确定购买</el-button>
+          <span class="renew_btn_tips">若在购买过程中遇到任何问题,请联系13656171020,微信同号</span>
         </div>
       </div>
     </div>
-    <WeChatPay :visible="wechatPayDialog" :weChatPayUrl="weChatPayUrl" :price="price" />
+    <WeChatPay :visible="data.wechatPayDialog" :weChatPayUrl="data.weChatPayUrl" :price="price" />
   </div>
 </template>

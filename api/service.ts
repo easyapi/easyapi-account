@@ -1,13 +1,11 @@
 /**
  * 获取服务报价列表
  */
-export const getServiceList = (params, context) => {
-  return context.$axios.get(`${process.env.serviceUrl}/console/service-prices`, {
-    params: {
-      ...params
-    }
-  })
-}
+export const service={
+
+  getServiceList(params: any): Promise<ApiResponse> {
+    return http.get(`${useRuntimeConfig().public.baseUrl}/api/services`, params, {})
+  },
 
 /**
  * 续购服务
@@ -23,4 +21,5 @@ export const renewBalance = (data, context) => {
  */
 export const getTeamService = (id, context) => {
   return context.$axios.get(`${process.env.serviceUrl}/console/team-service/${id}`)
+}
 }
