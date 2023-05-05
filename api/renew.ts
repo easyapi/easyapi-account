@@ -32,3 +32,4 @@ export const getRenewPrice = (params, context) => {
 export const renew = (data, context) => {
   return context.$axios.post(`${process.env.baseUrl}/team/renew`, data)
 }
+
