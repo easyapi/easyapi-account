@@ -9,7 +9,6 @@
   },
   "author": "EasyAPI <leida@easyapi.com>",
   "scripts": {
-    "build": "nuxi build --dotenv .env.production",
     "dev": "nuxi dev --dotenv .env.development",
     "generate": "nuxi generate --dotenv .env.production",
     "lint": "eslint .",
@@ -17,7 +16,7 @@
     "preview": "nuxi preview"
   },
   "dependencies": {
-    "@vueuse/integrations": "^10.1.0",
+    "@vueuse/integrations": "^10.1.2",
     "dayjs": "1.11.7",
     "nuxt": "^3.4.3",
     "sockjs-client": "1.6.1",
@@ -36,7 +35,7 @@
     "@pinia/nuxt": "^0.4.9",
     "@tailwindcss/typography": "^0.5.9",
     "@types/lodash": "^4.14.194",
-    "@types/node": "^18.16.2",
+    "@types/node": "^20.0.0",
     "consola": "^3.1.0",
     "cross-env": "^7.0.3",
     "element-plus": "^2.3.4",

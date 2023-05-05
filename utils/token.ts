@@ -1,6 +1,5 @@
 import { useCookies } from '@vueuse/integrations/useCookies'
 
-
 const key = 'authenticationToken'
 const cookies = useCookies()
 

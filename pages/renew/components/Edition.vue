@@ -1,37 +1,16 @@
-<template>
-  <div class="edition">
-    <div
-      class="renew-price-item"
-      :class="
-        selectEdition == item.name
-          ? 'eaActive'
-          : edition === '旗舰版' && item.name !== '旗舰版'
-          ? 'disable-all'
-          : edition === '高级版' && item.name === '基础版'
-          ? 'disalbe'
-          : ''
-      "
-      v-for="(item, index) in editionList"
-      :key="index"
-      @click="choseEdition(item)">
-      <strong>{{ item.name }}</strong>
-      <div v-if="edition === item.name">(当前版本)</div>
-    </div>
-  </div>
-</template>
 <script>
 export default {
   props: ['edition'],
   data() {
     return {
       editionList: [{ name: '基础版' }, { name: '高级版' }, { name: '旗舰版' }],
-      selectEdition: ''
+      selectEdition: '',
     }
   },
   watch: {
     edition() {
       this.select()
-    }
+    },
   },
   methods: {
     choseEdition(item) {
@@ -49,15 +28,41 @@ export default {
     select() {
       if (this.edition !== '') {
         this.selectEdition = this.edition
-        let item = {
-          name: this.selectEdition
+        const item = {
+          name: this.selectEdition,
         }
         this.$emit('event', item)
       }
-    }
-  }
+    },
+  },
 }
 </script>
+
+<template>
+  <div class="edition">
+    <div
+      v-for="(item, index) in editionList"
+      :key="index"
+      class="renew-price-item"
+      :class="
+        selectEdition === item.name
+          ? 'eaActive'
+          : edition === '旗舰版' && item.name !== '旗舰版'
+            ? 'disable-all'
+            : edition === '高级版' && item.name === '基础版'
+              ? 'disalbe'
+              : ''
+      "
+      @click="choseEdition(item)"
+    >
+      <strong>{{ item.name }}</strong>
+      <div v-if="edition === item.name">
+        (当前版本)
+      </div>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .edition {
   width: 92%;

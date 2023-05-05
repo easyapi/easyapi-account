@@ -1,37 +1,40 @@
+<script>
+// import useCookie() from 'js-cookie'
+
+export default {
+  name: 'Header',
+  data() {
+    return {
+      authenticationToken: useCookie().get('authenticationToken'),
+    }
+  },
+  mounted() {
+    if (this.authenticationToken)
+      this.$store.dispatch('user/getUser')
+  },
+}
+</script>
+
 <template>
   <el-row class="header">
     <el-col :span="24" class="header-wp">
       <a href="https://www.easyapi.com/">
-        <img class="logo" src="https://qiniu.easyapi.com/market/logo.svg" alt="" />
+        <img class="logo" src="https://qiniu.easyapi.com/market/logo.svg" alt="">
       </a>
-      <div class="buttons" v-if="!$store.state.user.userInfo">
-        <nuxt-link to="/login">登录</nuxt-link>
-        <nuxt-link to="/signup">注册</nuxt-link>
+      <div v-if="!$store.state.user.userInfo" class="buttons">
+        <nuxt-link to="/login">
+          登录
+        </nuxt-link>
+        <nuxt-link to="/signup">
+          注册
+        </nuxt-link>
       </div>
       <div v-else>
-        <img class="photo" :src="$store.state.user.userInfo.photo" alt />
+        <img class="photo" :src="$store.state.user.userInfo.photo" alt>
       </div>
     </el-col>
   </el-row>
 </template>
-
-<script>
-// import useCookie() from 'js-cookie'
-
-export default{
-  name: 'Header',
-  data() {
-    return {
-      authenticationToken: useCookie().get('authenticationToken')
-    }
-  },
-  mounted() {
-    if (this.authenticationToken) {
-      this.$store.dispatch('user/getUser')
-    }
-  }
-}
-</script>
 
 <style scoped lang="scss">
 .header {

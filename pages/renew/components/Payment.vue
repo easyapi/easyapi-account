@@ -1,10 +1,31 @@
+<script>
+export default {
+  name: 'Payment',
+  props: ['price', 'balance'],
+  data() {
+    return {
+      payment: '余额支付',
+    }
+  },
+  methods: {
+    /**
+     * 支付方式
+     */
+    stand(pay) {
+      this.payment = pay
+      this.$emit('event', pay)
+    },
+  },
+}
+</script>
+
 <template>
   <div class="payment">
-    <div class="payment-item" :class="{ state: payment === '余额支付' }" @click="stand('余额支付')" v-if="balance >= price">
+    <div v-if="balance >= price" class="payment-item" :class="{ state: payment === '余额支付' }" @click="stand('余额支付')">
       <svg-icon icon-class="money" class="svg" />
       <span>余额支付(￥{{ balance }})</span>
     </div>
-    <div class="payment_p" :class="{ state: payment === '余额支付' }" @click="stand('余额支付')" v-if="balance < price">
+    <div v-if="balance < price" class="payment_p" :class="{ state: payment === '余额支付' }" @click="stand('余额支付')">
       <span>
         <strong>余额支付(￥{{ balance }})</strong>
       </span>
@@ -23,27 +44,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: ['price', 'balance'],
-  name: 'Payment',
-  data() {
-    return {
-      payment: '余额支付'
-    }
-  },
-  methods: {
-    /**
-     * 支付方式
-     */
-    stand(pay) {
-      this.payment = pay
-      this.$emit('event', pay)
-    }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 .payment {

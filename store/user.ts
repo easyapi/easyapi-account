@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import account  from '@/api/account'
+import account from '@/api/account'
 import { getToken, removeToken } from '~/utils/token'
 
 export const userStore = defineStore('user', {
@@ -13,7 +13,7 @@ export const userStore = defineStore('user', {
       email: '',
       team: '',
       token: getToken(),
-      user:{domain:''}
+      user: { domain: '' },
     }
   },
   actions: {
@@ -21,7 +21,7 @@ export const userStore = defineStore('user', {
      * 获取用户信息
      */
     getUser() {
-      account.getUser().then((res:any) => {
+      account.getUser().then((res: any) => {
         if (res.code === 1) {
           this.userId = res.content.id
           this.username = res.content.username

@@ -7,7 +7,7 @@ onMounted(() => {
   screenWidth.value = document.body.clientWidth
   window.onresize = () => {
     // 屏幕尺寸变化就重新赋值
-      screenWidth.value = document.body.clientWidth
+    screenWidth.value = document.body.clientWidth
   }
 })
 </script>

@@ -3,11 +3,11 @@
  *
  * @see https://www.easyapi.com
  */
-export const getTeamMoney = (params, context) => {
+export function getTeamMoney(params, context) {
   return context.$axios.get(`${process.env.baseUrl}/money/team`, {
     params: {
-      ...params
-    }
+      ...params,
+    },
   })
 }
 
@@ -16,6 +16,6 @@ export const getTeamMoney = (params, context) => {
  *
  * @see https://www.easyapi.com
  */
-export const warningBalance = (id, data, context) => {
+export function warningBalance(id, data, context) {
   return context.$axios.put(`${process.env.baseUrl}/money/${id}/warning-balance`, data)
 }

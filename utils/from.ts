@@ -1,5 +1,5 @@
-import { userStore } from '~/store/user'
 import { useCookies } from '@vueuse/integrations/useCookies'
+import { userStore } from '~/store/user'
 
 /**
  * 处理来源链接和域名

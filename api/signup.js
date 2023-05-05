@@ -3,7 +3,7 @@
  *
  * @see https://www.easyapi.com
  */
-export const signup = (data, context) => {
+export function signup(data, context) {
   return context.$axios.post(`${process.env.baseUrl}/account/signup`, data)
 }
 
@@ -12,11 +12,11 @@ export const signup = (data, context) => {
  *
  * @see https://www.easyapi.com
  */
-export const findUsername = (params, context) => {
+export function findUsername(params, context) {
   return context.$axios.get(`${process.env.baseUrl}/account/find`, {
     params: {
-      ...params
-    }
+      ...params,
+    },
   })
 }
 
@@ -25,10 +25,10 @@ export const findUsername = (params, context) => {
  *
  * @see https://www.easyapi.com
  */
-export const sendCode = (params, context) => {
+export function sendCode(params, context) {
   return context.$axios.get(`${process.env.baseUrl}/captcha/send`, {
     params: {
-      ...params
-    }
+      ...params,
+    },
   })
 }

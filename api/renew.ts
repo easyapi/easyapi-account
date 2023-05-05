@@ -3,11 +3,11 @@
  *
  * @see https://account-api.easyapi.com
  */
-export const getPriceList = (release, context) => {
+export function getPriceList(release, context) {
   return context.$axios.get(`${process.env.baseUrl}/team/price`, {
     params: {
-      release: release
-    }
+      release,
+    },
   })
 }
 
@@ -16,11 +16,11 @@ export const getPriceList = (release, context) => {
  *
  * @see https://account-api.easyapi.com
  */
-export const getRenewPrice = (params, context) => {
+export function getRenewPrice(params, context) {
   return context.$axios.get(`${process.env.baseUrl}/team/renew-price`, {
     params: {
-      ...params
-    }
+      ...params,
+    },
   })
 }
 
@@ -29,7 +29,6 @@ export const getRenewPrice = (params, context) => {
  *
  * @see https://account-api.easyapi.com
  */
-export const renew = (data, context) => {
+export function renew(data, context) {
   return context.$axios.post(`${process.env.baseUrl}/team/renew`, data)
 }
-

@@ -3,10 +3,10 @@
  *
  * @see https://account-api.easyapi.com
  */
-export const getTeamUserList = (params, context) => {
+export function getTeamUserList(params, context) {
   return context.$axios.get(`${process.env.baseUrl}/team/users`, {
     params: {
-      ...params
-    }
+      ...params,
+    },
   })
 }

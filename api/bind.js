@@ -3,6 +3,6 @@
  *
  * @see https://www.easyapi.com
  */
-export const bind = (data, context) => {
+export function bind(data, context) {
   return context.$axios.post(`${process.env.baseUrl}/auth/bind`, data)
 }

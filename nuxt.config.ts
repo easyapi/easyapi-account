@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     },
   },
   css: [
-    
+
   ],
   components: true,
   vite: {
@@ -34,13 +34,6 @@ export default defineNuxtConfig({
         output: {},
       },
     },
-    // css: {
-    //   preprocessorOptions: {
-    //     scss: {
-    //       additionalData: '@import "~/assets/scss/variables.scss";',
-    //     },
-    //   },
-    // },
   },
   runtimeConfig: {
     public: {

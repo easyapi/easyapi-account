@@ -1,19 +1,10 @@
-<template>
-  <div class="renew-price">
-    <div class="renew-price-item" :class="{ eaActive: selectMoney === item.num }" v-for="(item, index) in priceList" :key="index" @click="selectMoneyFn(item)">
-      <strong>{{ item.num }}{{ item.type === 2 ? '次' : '个月' }}&nbsp;&nbsp;￥{{ item.price.toFixed(2) }}</strong>
-      <p>￥{{ item.unitPrice }}/{{ item.type === 2 ? '次' : '月' }}</p>
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
-  props: ['priceList'],
   name: 'SelectPrice',
+  props: ['priceList'],
   data() {
     return {
-      selectMoney: 0
+      selectMoney: 0,
     }
   },
   methods: {
@@ -26,10 +17,19 @@ export default {
     },
     reset() {
       this.selectMoney = 0
-    }
-  }
+    },
+  },
 }
 </script>
+
+<template>
+  <div class="renew-price">
+    <div v-for="(item, index) in priceList" :key="index" class="renew-price-item" :class="{ eaActive: selectMoney === item.num }" @click="selectMoneyFn(item)">
+      <strong>{{ item.num }}{{ item.type === 2 ? '次' : '个月' }}&nbsp;&nbsp;￥{{ item.price.toFixed(2) }}</strong>
+      <p>￥{{ item.unitPrice }}/{{ item.type === 2 ? '次' : '月' }}</p>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .renew-price {

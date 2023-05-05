@@ -1,3 +1,9 @@
+<script>
+export default {
+  name: 'Footer',
+}
+</script>
+
 <template>
   <div class="footer">
     <p>
@@ -10,12 +16,6 @@
     <p><a href="https://beian.miit.gov.cn/" target="_blank">沪ICP备19007521号</a></p>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'Footer'
-}
-</script>
 
 <style scoped lang="scss">
 .footer {
