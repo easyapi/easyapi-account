@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import account from '@/api/account'
+import { account } from '~/api/account'
 import { getToken, removeToken } from '~/utils/token'
 
 export const userStore = defineStore('user', {
