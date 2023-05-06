@@ -7,5 +7,5 @@ export const forget = {
  */
   forgetPassword(data: any) {
     return http.post(`${process.env.baseUrl}/account/forget-password/reset`, data, {})
-  }
+  },
 }

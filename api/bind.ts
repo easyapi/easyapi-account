@@ -7,6 +7,5 @@ export const bind = {
  */
   bind(data: any) {
     return http.post(`${process.env.baseUrl}/auth/bind`, data, {})
-  }
+  },
 }
-

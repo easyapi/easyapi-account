@@ -21,6 +21,5 @@ export const service = {
    */
   getTeamService(id: any) {
     return http.get(`${process.env.serviceUrl}/console/team-service/${id}`, {})
-  }
+  },
 }
-

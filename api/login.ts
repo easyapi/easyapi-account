@@ -7,7 +7,6 @@ export const login = {
  */
   login(data: any) {
     return http.post(`${process.env.baseUrl}/authenticate`, data, {})
-
-  }
+  },
 
 }

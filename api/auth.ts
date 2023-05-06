@@ -10,7 +10,7 @@ export const auth = {
 
   oauthAuthorize(data: any) {
     return http.post(`${process.env.baseUrl}/oauth2/authorize`, data, {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     })
-  }
+  },
 }

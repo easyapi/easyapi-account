@@ -11,14 +11,11 @@ export const money = {
     )
   },
   /**
- * 余额预警
- *
- * @see https://www.easyapi.com
- */
- warningBalance (id: any, data: any){
+  * 余额预警
+  *
+  * @see https://www.easyapi.com
+  */
+  warningBalance(id: any, data: any){
     return http.put(`${process.env.baseUrl}/money/${id}/warning-balance`, data,{})
-  }
+  },
 }
-
-
-

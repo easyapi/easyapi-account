@@ -8,7 +8,5 @@ export const renew = {
    */
   getTeamUserList(params: any) {
     return http.get(`${process.env.baseUrl}/team/users`, params, {})
-  }
+  },
 }
-
-

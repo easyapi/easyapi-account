@@ -7,6 +7,5 @@ export const email = {
    */
   upgradeEmail(data: any) {
     return http.post(`${process.env.baseUrl}/account/email-upgrade`, data, {})
-  }
+  },
 }
-

@@ -24,16 +24,5 @@ export const signup = {
   sendCode(params: any) {
     return http.get(`${process.env.baseUrl}/captcha/send`, params, {}
     )
-  }
+  },
 }
-
-
-
-
-
-
-
-
-
-
-
