@@ -1,9 +1,14 @@
-/**
- * 获取用户信息
- *
- * @see https://www.easyapi.com
- */
+import http from '~/api/request'
 
-export function getUser(context: any) {
-  return context.$axios.get(`${process.env.baseUrl}/account`)
+export const account = {
+  /**
+   * 获取用户信息
+   *
+   * @see https://www.easyapi.com
+   */
+  getUser() {
+    return http.get(`${process.env.baseUrl}/account`,{},{})
+  }
 }
+
+

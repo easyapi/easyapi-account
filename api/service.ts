@@ -1,27 +1,26 @@
-import http from '~/api/service'
-
+import http from '~/api/request'
 /**
  * 获取服务报价列表
  */
 export const service = {
-
-  getServiceList(params: any): Promise<Response> {
+  getServiceList(params: any) {
     return http.get(`${useRuntimeConfig().public.baseUrl}/api/services`, params, {})
   },
 
   /**
    * 续购服务
    */
-  renewBalance(): Promise<Response> {
-    return http.$axios.post(`${process.env.serviceUrl}/service/buy`, {}, {})
+  renewBalance() {
+    return http.post(`${process.env.serviceUrl}/service/buy`, {}, {})
   },
 
   /**
- * 获取服务详情信息
- *
- * @param id 团队服务关系ID
- */
-  getTeamService(id: any): Promise<Response> {
-    return http.$axios.get(`${process.env.serviceUrl}/console/team-service/${id}`)
-  },
+   * 获取服务详情信息
+   *
+   * @param id 团队服务关系ID
+   */
+  getTeamService(id: any) {
+    return http.get(`${process.env.serviceUrl}/console/team-service/${id}`, {})
+  }
 }
+
