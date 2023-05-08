@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import Index from './index.js'
 import { getCurrentInstance, onMounted, onUpdated, reactive } from 'vue'
 
@@ -110,18 +110,18 @@ function signup() {
     that.$message.error('请勾选同意EasyAPI用户协议')
     return
   }
-  let from = useCookie().get('from')
+  let from = useCookies().get('from')
   signup(that.ruleForm, this)
     .then(res => {
       if (res.data.code === 1) {
-        useCookie().set('authenticationToken', res.data.content, {
+        useCookies().set('authenticationToken', res.data.content, {
           expires: that.ruleForm.rememberMe ? 30 : 0.1,
           path: '/',
-          domain: useCookie().get('domain')
+          domain: useCookies().get('domain')
         })
         that.$message.success(res.data.message)
         setTimeout(() => {
-          useCookie().remove('from')
+          useCookies().remove('from')
           window.location.replace(from)
         }, 1000)
       } else {
@@ -175,4 +175,4 @@ function findUsername() {
       data.sendCodeBtn = false
     })
 }
-</script>
+</script> -->

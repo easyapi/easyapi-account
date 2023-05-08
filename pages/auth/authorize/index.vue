@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { getCurrentInstance, onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -11,7 +11,7 @@ const data = reactive({
 })
 
 onMounted(() => {
-  const token = useCookie().get('authenticationToken')
+  const token = useCookies().get('authenticationToken')
   if (!token) {
     // 添加三方登录标识
     sessionStorage.setItem('auth', '三方登录')
@@ -77,7 +77,7 @@ function getAuthorize(params: { client_id: import('vue-router').LocationQueryVal
 function oauthAuthorize(arg0: any, arg1: any) {
   throw new Error('Function not implemented.')
 }
-</script>
+</script> -->
 
 <template>
   <div class="authorize-main">

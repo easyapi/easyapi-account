@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 export default {
   name: 'WeChatPay',
   props: ['price', 'visible', 'weChatPayUrl'],
@@ -21,7 +21,7 @@ export default {
     },
   },
 }
-</script>
+</script> -->
 
 <template>
   <el-dialog v-model:visible="visible" title="微信扫码支付" width="30%" :before-close="handleClose">

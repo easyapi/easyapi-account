@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 // export default Index
 import { onUpdated, reactive } from 'vue'
 
@@ -54,12 +54,12 @@ onUpdated(() => {
 
 function upgradeEmail(this: any) {
   const that = this
-  const from = useCookie().get('from')
+  const from = useCookies().get('from')
   upgradeEmail(that.ruleForm, this).then((res: { data: { code: number; message: any } }) => {
     if (res.data.code === 1) {
       that.$message.success(res.data.message)
       setTimeout(() => {
-        useCookie().remove('from')
+        useCookies().remove('from')
         window.location.replace(from)
       }, 1000)
     } else {
@@ -95,7 +95,7 @@ function sendCode(this: any) {
     that.$message.error(error.response.data.message)
   })
 }
-</script>
+</script> -->
 
 <template>
   <div class="main">

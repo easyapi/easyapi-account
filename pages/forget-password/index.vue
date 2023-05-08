@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 // export default Index
 import { getCurrentInstance, onUpdated, reactive } from 'vue'
 
@@ -107,7 +107,7 @@ function sendCode() {
     that.$message.error('请输入正确的手机号码')
   }
 }
-</script>
+</script> -->
 
 <template>
   <div id="app">

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 // import Index from './index.js'
 import { onMounted, onUpdated, reactive } from 'vue'
 
@@ -23,7 +23,7 @@ onMounted(() => {
   from(this)
   if (Cookie().get('username') != null) {
     // 从Cookie中获取登录账号
-    data.ruleForm.username = useCookie().get('username')
+    data.ruleForm.username = useCookies().get('username')
   }
 })
 
@@ -40,20 +40,20 @@ function login(this: any) {
     secure: true,
     sameSite: 'none',
   }
-  useCookie().set('username', that.ruleForm.username, options)
+  useCookies().set('username', that.ruleForm.username, options)
   const params = sessionStorage.getItem('params')
   const auth = sessionStorage.getItem('auth')
-  const from = useCookie().get('from')
+  const from = useCookies().get('from')
   login(that.ruleForm, this)
     .then(
       (res: {
         data: { code: number; content: { idToken: any }; message: any }
       }) => {
         if (res.data.code === 1) {
-          useCookie().set('authenticationToken', res.data.content.idToken, {
+          useCookies().set('authenticationToken', res.data.content.idToken, {
             expires: that.ruleForm.rememberMe ? 30 : 0.1,
             path: '/api/service',
-            domain: useCookie().get('domain'),
+            domain: useCookies().get('domain'),
           })
           if (params !== '' && auth === '三方登录') {
             const json = JSON.parse(params)
@@ -68,7 +68,7 @@ function login(this: any) {
                json.redirect_uri}`
           } else {
             setTimeout(() => {
-              useCookie().remove('from')
+              useCookies().remove('from')
               window.location.replace(from)
             }, 1000)
           }
@@ -82,7 +82,7 @@ function login(this: any) {
       that.$message.error(error.response.data.message)
     })
 }
-</script>
+</script> -->
 
 <template>
   <div class="main">

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { getCurrentInstance, onMounted, reactive, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -179,7 +179,7 @@ function getTeamMoney(arg0: { teamId: any }, arg1: any) {
 function renew(data: any, arg1: any) {
   throw new Error('Function not implemented.')
 }
-</script>
+</script> -->
 
 <template>
   <div>

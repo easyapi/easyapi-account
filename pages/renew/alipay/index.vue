@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 export default {
   data() {
     return {
@@ -24,7 +24,7 @@ export default {
     }
   },
 }
-</script>
+</script> -->
 
 <template>
   <div>

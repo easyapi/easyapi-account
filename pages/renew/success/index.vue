@@ -1,8 +1,8 @@
-<script>
+<!-- <script>
 import Index from './index.js'
 
 export default Index
-</script>
+</script> -->
 
 <template>
   <div>

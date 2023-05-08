@@ -1,9 +1,3 @@
-<script>
-export default {
-  name: 'Footer',
-}
-</script>
-
 <template>
   <div class="footer">
     <p>

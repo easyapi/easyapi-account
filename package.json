@@ -23,6 +23,7 @@
     "stompjs": "2.3.3",
     "universal-cookie": "^4.0.4",
     "vue-baidu-map": "^0.21.22",
+    "libphonenumber-js": "^1.10.13",
     "vuex": "4.1.0"
   },
   "devDependencies": {

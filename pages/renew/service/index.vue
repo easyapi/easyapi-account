@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import type { LocationQueryValue } from 'vue-router'
 import { useRoute, useRouter } from 'vue-router'
@@ -214,7 +214,7 @@ function determineThePurchase(this: any) {
     },
   )
 }
-</script>
+</script> -->
 
 <template>
   <div>

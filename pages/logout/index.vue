@@ -1,13 +1,14 @@
 <script setup lang="ts">
+import { useCookies } from '@vueuse/integrations/useCookies'
 import { onMounted } from 'vue'
 import from from '../../utils/from'
 
-// const Cookies = useCookie()
+// const Cookies = useCookies()
 
 onMounted(() => {
   from(this)
-  useCookie().remove('authenticationToken')
-  useCookie().remove('authenticationToken', { path: '/', domain: '.easyapi.com' })
+  useCookies().remove('authenticationToken')
+  useCookies().remove('authenticationToken', { path: '/', domain: '.easyapi.com' })
   if (document.referrer.includes('logout'))
     window.location.replace('/login')
 	 else if (document.referrer.includes('account.easyapi.com'))
