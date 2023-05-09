@@ -60,7 +60,7 @@ export default defineComponent({
         country: undefined,
         username: '',
         code: '',
-        rememberMe:true,
+        rememberMe:0,
         nickname: '',
         password: '',
         confirmPassword: '',
