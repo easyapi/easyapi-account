@@ -19,6 +19,6 @@ export const money = {
     return http.put(`${process.env.baseUrl}/money/${id}/warning-balance`, data,{})
   }
 }
-
+export default money
 
 

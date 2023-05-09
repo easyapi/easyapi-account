@@ -34,10 +34,9 @@ export default defineComponent({
       },
     })
 
-    // onUpdated(() => {
-    //   data.disabled = !(isValidPhoneNumber(data.ruleForm.username, data.ruleForm.country) && data.ruleForm.password.length >= 6)
-    // })
-
+    onUpdated(() => {
+      data.disabled = !(isValidPhoneNumber(data.ruleForm.username, data.ruleForm.country) && data.ruleForm.password.length >= 6)
+    })
     const bindPost = () => {
       const from = useCookies().get('from')
       bind.postBind

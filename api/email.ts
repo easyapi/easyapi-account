@@ -10,3 +10,4 @@ export const email = {
   }
 }
 
+export default email

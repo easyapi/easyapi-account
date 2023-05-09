@@ -27,6 +27,7 @@ export const signup = {
   }
 }
 
+export default signup
 
 
 

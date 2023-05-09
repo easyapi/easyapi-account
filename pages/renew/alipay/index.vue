@@ -1,4 +1,4 @@
-<!-- <script>
+<script>
 export default {
   data() {
     return {
@@ -24,10 +24,10 @@ export default {
     }
   },
 }
-</script> -->
+</script>
 
 <template>
   <div>
-    <p v-html="formHtml" />
+    <p v-html="formHtml"></p>
   </div>
 </template>

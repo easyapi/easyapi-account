@@ -1,20 +1,28 @@
-<script setup lang="ts">
+<script lang="ts">
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { onMounted } from 'vue'
-import from from '../../utils/from'
+import {from} from '../../utils/from'
 
-// const Cookies = useCookies()
+export default defineComponent({
+  setup() {
+    interface WindowWithReferrer extends Window {
+      referrer: string;
+    }
 
-onMounted(() => {
-  from(this)
-  useCookies().remove('authenticationToken')
-  useCookies().remove('authenticationToken', { path: '/', domain: '.easyapi.com' })
-  if (document.referrer.includes('logout'))
-    window.location.replace('/login')
-	 else if (document.referrer.includes('account.easyapi.com'))
-    window.location.replace('/login/?from=https://www.easyapi.com')
-	 else
-    window.location.replace(`/login/?from=${document.referrer}`)
+    onMounted(() => {
+      from()
+      const cookies = useCookies()
+      cookies.remove('authenticationToken')
+      cookies.remove('authenticationToken', { path: '/', domain: '.easyapi.com' })
+      const windowWithReferrer = window as unknown as WindowWithReferrer
+      if (windowWithReferrer.referrer.includes('logout'))
+        window.location.replace('/login')
+      else if (windowWithReferrer.referrer.includes('account.easyapi.com'))
+        window.location.replace('/login/?from=https://www.easyapi.com')
+      else
+        window.location.replace(`/login/?from=${windowWithReferrer.referrer}`)
+    })
+  }
 })
 </script>
 

@@ -29,3 +29,5 @@ export const renew = {
     )
   }
 }
+
+export default renew
