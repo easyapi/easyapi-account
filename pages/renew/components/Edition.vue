@@ -1,60 +1,55 @@
 <script>
-export default {
-  props: ['edition'],
-  data() {
-    return {
-      editionList: [{ name: '基础版' }, { name: '高级版' }, { name: '旗舰版' }],
-      selectEdition: '',
+import { getCurrentInstance, reactive, watch } from 'vue'
+
+const { proxy: $vm } = getCurrentInstance()
+
+const props = defineProps(['edition'])
+
+const emit = defineEmits(['event'])
+
+const data = reactive({
+  editionList: [{ name: '基础版' }, { name: '高级版' }, { name: '旗舰版' }],
+  selectEdition: '',
+})
+
+watch(() => /* Warn: Unknown source: edition */ $vm.edition, () => {
+  select()
+})
+
+function choseEdition(item) {
+  if ( /* Warn: Unknown source: edition */ $vm.edition === '旗舰版' && item.name === '旗舰版') {
+    data.selectEdition = item.name
+    emit('event', item)
+  } else if ( /* Warn: Unknown source: edition */ $vm.edition === '高级版' && item.name !== '基础版') {
+    data.selectEdition = item.name
+    emit('event', item)
+  } else if ( /* Warn: Unknown source: edition */ $vm.edition === '基础版' || /* Warn: Unknown source: edition */ $vm.edition === '') {
+    data.selectEdition = item.name
+    emit('event', item)
+  }
+}
+
+function select() {
+  if ( /* Warn: Unknown source: edition */ $vm.edition !== '') {
+    data.selectEdition = /* Warn: Unknown source: edition */ $vm.edition
+    const item = {
+      name: data.selectEdition,
     }
-  },
-  watch: {
-    edition() {
-      this.select()
-    },
-  },
-  methods: {
-    choseEdition(item) {
-      if (this.edition === '旗舰版' && item.name === '旗舰版') {
-        this.selectEdition = item.name
-        this.$emit('event', item)
-      } else if (this.edition === '高级版' && item.name !== '基础版') {
-        this.selectEdition = item.name
-        this.$emit('event', item)
-      } else if (this.edition === '基础版' || this.edition === '') {
-        this.selectEdition = item.name
-        this.$emit('event', item)
-      }
-    },
-    select() {
-      if (this.edition !== '') {
-        this.selectEdition = this.edition
-        const item = {
-          name: this.selectEdition,
-        }
-        this.$emit('event', item)
-      }
-    },
-  },
+    emit('event', item)
+  }
 }
 </script>
 
 <template>
   <div class="edition">
-    <div
-      v-for="(item, index) in editionList"
-      :key="index"
-      class="renew-price-item"
-      :class="
-        selectEdition === item.name
-          ? 'eaActive'
-          : edition === '旗舰版' && item.name !== '旗舰版'
-            ? 'disable-all'
-            : edition === '高级版' && item.name === '基础版'
-              ? 'disalbe'
-              : ''
-      "
-      @click="choseEdition(item)"
-    >
+    <div v-for="(item, index) in editionList" :key="index" class="renew-price-item" :class="selectEdition === item.name
+      ? 'eaActive'
+      : edition === '旗舰版' && item.name !== '旗舰版'
+        ? 'disable-all'
+        : edition === '高级版' && item.name === '基础版'
+          ? 'disalbe'
+          : ''
+      " @click="choseEdition(item)">
       <strong>{{ item.name }}</strong>
       <div v-if="edition === item.name">
         (当前版本)

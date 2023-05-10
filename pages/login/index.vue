@@ -13,7 +13,7 @@ export default defineComponent({
         areaCode: 86,
         username: '',
         password: '',
-        rememberMe: true,
+        rememberMe: false,
       },
       rules: {
         username: [
@@ -24,7 +24,7 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      from()
+      // from()
       if (useCookies().get('username') != null) {
         // 从Cookie中获取登录账号
         data.ruleForm.username = useCookies().get('username')
@@ -33,10 +33,9 @@ export default defineComponent({
 
     onUpdated(() => {
       data.disabled = !(
-        data.ruleForm.username !== '' && data.ruleForm.password.length >= 6
+        data.ruleForm.username !== '' && data.ruleForm.password && data.ruleForm.password.length >= 6
       )
     })
-
     function login() {
       const options = {
         path: '/',
@@ -77,6 +76,10 @@ export default defineComponent({
           ElMessage.error(error.response.data.message)
         })
     }
+    return {
+      ...toRefs(data),
+      login,
+    }
   }
 })
 
@@ -104,8 +107,8 @@ export default defineComponent({
         <el-form-item label="" prop="password">
           <el-input v-model="password" placeholder="请输入密码" type="password" />
         </el-form-item>
-        <el-checkbox v-model="rememberMe" class="checkbox">
-          记住密码
+        <el-checkbox  v-model="ruleForm.rememberMe"   class="checkbox">
+          记住密码 
         </el-checkbox>
         <el-button style="width: 100%" :disabled="disabled" type="primary" @click="login">
           登录

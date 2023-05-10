@@ -1,83 +1,85 @@
-<!-- <script setup lang="ts">
-import { getCurrentInstance, onMounted, reactive } from 'vue'
+<script lang="ts">
+import { onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
+import { useCookies } from '@vueuse/integrations/useCookies'
+import { ElMessage } from 'element-plus'
+import auth from '@/api/auth'
+import qs from 'qs'
 
-const route = useRoute()
-const { proxy: $vm } = getCurrentInstance()
+export default defineComponent({
+  setup() {
+    const route = useRoute()
+    const data = reactive({
+      account: '',
+      client: ''
+    })
 
-const data = reactive({
-  account: '',
-  client: '',
-})
-
-onMounted(() => {
-  const token = useCookies().get('authenticationToken')
-  if (!token) {
-    // 添加三方登录标识
-    sessionStorage.setItem('auth', '三方登录')
-    window.location.href = '/login'
-  }
-  const params = {
-    client_id: route.query.client_id,
-    response_type: route.query.response_type,
-    scope: route.query.scope,
-    state: route.query.state,
-    redirect_uri: route.query.redirect_uri,
-  }
-  sessionStorage.setItem('params', JSON.stringify(params))
-  // 清空三方登录标识
-  sessionStorage.setItem('auth', '')
-  if (!token)
-    changeUser()
-
-  getAuthorize(params, this)
-    .then((res: { data: { code: number; content: { name: string; username: string } } }) => {
-      if (res.data.code === 1) {
-        data.client = res.data.content.name
-        data.account = res.data.content.username
+    onMounted(() => {
+      const token = useCookies().get('authenticationToken')
+      if (!token) {
+        //添加三方登录标识
+        sessionStorage.setItem('auth', '三方登录')
+        window.location.href = '/login'
       }
+      let params = {
+        client_id: route.query.client_id,
+        response_type: route.query.response_type,
+        scope: route.query.scope,
+        state: route.query.state,
+        redirect_uri: route.query.redirect_uri
+      }
+      sessionStorage.setItem('params', JSON.stringify(params))
+      //清空三方登录标识
+      sessionStorage.setItem('auth', '')
+      if (!token) {
+        changeUser()
+      }
+      auth.getAuthorize(params)
+        .then(res => {
+          if (res.data.code === 1) {
+            data.client = res.data.content.name
+            data.account = res.data.content.username
+          }
+        })
+        .catch(error => {
+          /* Warn: Unknown source: $message */
+          ElMessage.error(error.response.data.message)
+        })
     })
-    .catch((error: { response: { data: { message: any } } }) => {
-      /* Warn: Unknown source: $message */
-      $vm.$message.error(error.response.data.message)
-    })
+
+    function authorization() {
+      auth.oauthAuthorize(
+        qs.stringify({
+          user_oauth_approval: true,
+          authorize: 'Authorize',
+          'scope.client': true
+        }),
+      ).then()
+    }
+    function cancel() {
+      auth.oauthAuthorize(
+        qs.stringify({
+          user_oauth_approval: true,
+          authorize: 'Authorize',
+          'scope.client': false
+        })
+      ).then()
+    }
+
+    function changeUser() {
+      //添加三方登录标识
+      sessionStorage.setItem('auth', '三方登录')
+      window.location.href = '/login'
+    }
+    return {
+      data,
+      authorization,
+      cancel,
+      changeUser
+    }
+  }
 })
-function authorization(this: { data: { account: string; client: string }; authorization: () => void; cancel: () => void; changeUser: () => void }) {
-  oauthAuthorize(
-    qs.stringify({
-      'user_oauth_approval': true,
-      'authorize': 'Authorize',
-      'scope.client': true,
-    }),
-    this,
-  ).then()
-}
-
-function cancel(this: { data: { account: string; client: string }; authorization: () => void; cancel: () => void; changeUser: () => void }) {
-  oauthAuthorize(
-    qs.stringify({
-      'user_oauth_approval': true,
-      'authorize': 'Authorize',
-      'scope.client': false,
-    }),
-    this,
-  ).then()
-}
-
-function changeUser() {
-  // 添加三方登录标识
-  sessionStorage.setItem('auth', '三方登录')
-  window.location.href = '/login'
-}
-
-function getAuthorize(params: { client_id: import('vue-router').LocationQueryValue | import('vue-router').LocationQueryValue[]; response_type: import('vue-router').LocationQueryValue | import('vue-router').LocationQueryValue[]; scope: import('vue-router').LocationQueryValue | import('vue-router').LocationQueryValue[]; state: import('vue-router').LocationQueryValue | import('vue-router').LocationQueryValue[]; redirect_uri: import('vue-router').LocationQueryValue | import('vue-router').LocationQueryValue[] }, arg1: undefined) {
-  throw new Error('Function not implemented.')
-}
-
-function oauthAuthorize(arg0: any, arg1: any) {
-  throw new Error('Function not implemented.')
-}
-</script> -->
+</script>
 
 <template>
   <div class="authorize-main">
@@ -109,3 +111,6 @@ function oauthAuthorize(arg0: any, arg1: any) {
     </el-button>
   </div>
 </template>
+<style lang="scss">
+@import url(./index.scss);
+</style>

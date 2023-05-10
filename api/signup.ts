@@ -21,7 +21,7 @@ export const signup = {
  *
  * @see https://www.easyapi.com
  */
-  sendCode(params: any) {
+  sendCodeFn(params: any) {
     return http.get(`${process.env.baseUrl}/captcha/send`, params, {}
     )
   }

@@ -2,37 +2,37 @@
   <div class="main">
     <div class="form">
       <div class="headline">用户注册</div>
-      <ElForm :model="formData" :rules="rules" ref="ruleForm">
-        <ElFormItem label="" prop="username">
-          <ElInput placeholder="请输入手机号码" maxlength="11" v-model="formData.username" @blur="findUsername">
+      <el-Form :model="formData" :rules="rules" ref="ruleForm">
+        <el-FormItem label="" prop="username">
+          <el-Input placeholder="请输入手机号码" maxlength="11" v-model="formData.username" @blur="findUsername">
             <template slot="prepend">+&nbsp;</template>
-            <ElSelect v-model="formData.areaCode" filterable allow-create slot="prepend" style="width: 80px">
-              <ElOption v-for="item in areaCodes" :key="item.value" :value="item.value">{{ item.label }}(+{{ item.value
-              }})</ElOption>
-            </ElSelect>
-          </ElInput>
-        </ElFormItem>
-        <ElFormItem label="" prop="code">
-          <ElInput placeholder="请输入验证码" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="formData.code"
-            class="code"></ElInput>
-          <ElButton :disabled="sendCodeBtn" class="getCode" @click="sendCode">{{ sendCodeCount }}</ElButton>
-        </ElFormItem>
-        <ElFormItem label="" prop="nickname">
-          <ElInput placeholder="请输入姓名" v-model="formData.nickname"></ElInput>
-        </ElFormItem>
-        <ElFormItem label="" prop="password">
-          <ElInput placeholder="请设置密码" type="password" v-model="formData.password"></ElInput>
-        </ElFormItem>
-        <ElFormItem label="" prop="confirmPassword">
-          <ElInput placeholder="请再输入一次密码" type="password" v-model="formData.confirmPassword"></ElInput>
-        </ElFormItem>
-        <ElCheckbox class="checkbox" v-model="formData.checked">
+            <el-Select v-model="formData.areaCode" filterable allow-create slot="prepend" style="width: 80px">
+              <el-Option v-for="item in areaCodes" :key="item.value" :value="item.value">{{ item.label }}(+{{ item.value
+              }})</el-Option>
+            </el-Select>
+          </el-Input>
+        </el-FormItem>
+        <el-FormItem label="" prop="code">
+          <el-Input placeholder="请输入验证码" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="formData.code"
+            class="code"></el-Input>
+          <el-Button :disabled="sendCodeBtn" class="getCode" @click="sendCode">{{ sendCodeCount }}</el-Button>
+        </el-FormItem>
+        <el-FormItem label="" prop="nickname">
+          <el-Input placeholder="请输入姓名" v-model="formData.nickname"></el-Input>
+        </el-FormItem>
+        <el-FormItem label="" prop="password">
+          <el-Input placeholder="请设置密码" type="password" v-model="formData.password"></el-Input>
+        </el-FormItem>
+        <el-FormItem label="" prop="confirmPassword">
+          <el-Input placeholder="请再输入一次密码" type="password" v-model="formData.confirmPassword"></el-Input>
+        </el-FormItem>
+        <el-Checkbox class="checkbox" v-model="formData.checked">
           点击注册表示您同意
           <span class="text-success"><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span>
-        </ElCheckbox>
-        <ElButton style="width: 100%" type="primary" :disabled="disabled" id="btn_sub" @click="signupFn"
-          class="btn-block btn btn-lg btn-info">注 册</ElButton>
-      </ElForm>
+        </el-Checkbox>
+        <el-Button style="width: 100%" type="primary" :disabled="disabled" id="btn_sub" @click="signupFn"
+          class="btn-block btn btn-lg btn-info">注 册</el-Button>
+      </el-Form>
       <div class="other-box">
         <nuxt-link to="/login">我已有EasyAPI账号,直接登录</nuxt-link>
       </div>
@@ -40,7 +40,7 @@
   </div>
 </template>
 <script lang="ts">
-import { getCurrentInstance, onMounted, onUpdated, reactive } from 'vue'
+import {  onMounted, onUpdated, reactive } from 'vue'
 import signup from '@/api/signup'
 import { ElMessage } from 'element-plus'
 import { useCookies } from '@vueuse/integrations/useCookies'
@@ -60,7 +60,7 @@ export default defineComponent({
         country: undefined,
         username: '',
         code: '',
-        rememberMe:0,
+       rememberMe:true,
         nickname: '',
         password: '',
         confirmPassword: '',
@@ -112,17 +112,17 @@ export default defineComponent({
         return 
       }
       let from = useCookies().get('from');
-      signup.sendCode({})
+      signup.sendCodeFn({})
         .then((res) => {
           if (res.data.code === 1) {
-            useCookies().set('authenticationToken', res.data.content, {
+            useCookies().set('authenticationToken', res.data.content.idToken, {
               expires: data.formData.rememberMe ? 30 : 0.1,
               path: '/',
-              domain: useCookies.get('domain')
+              domain: useCookies().get('domain')
             });
             ElMessage.success(res.data.message);
             setTimeout(() => {
-              // useCookies.remove('from');
+              useCookies().remove('from');
               window.location.replace(from);
             }, 1000);
           } else {
@@ -136,7 +136,7 @@ export default defineComponent({
     return {
       ...toRefs(data),
       signupFn,
-      //sendCode,
+      sendCode,
     }
   }
 })
