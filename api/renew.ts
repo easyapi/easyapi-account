@@ -27,5 +27,7 @@ export const renew = {
   renew(data: any) {
     return http.post(`${process.env.baseUrl}/team/renew`, data
     )
-  },
+  }
 }
+
+export default renew

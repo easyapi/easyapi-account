@@ -5,7 +5,9 @@ export const forget = {
  *
  * @see https://www.easyapi.com
  */
-  forgetPassword(data: any) {
+  forgetPasswordApi(data: any) {
     return http.post(`${process.env.baseUrl}/account/forget-password/reset`, data, {})
   },
 }
+export default forget
+

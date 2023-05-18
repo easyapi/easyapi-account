@@ -1,38 +1,36 @@
+  <template>
+  <div></div>
+</template>
+  
 <script>
-import from from '../utils/from'
+import { defineComponent, onMounted } from 'vue'
+import { from } from '../utils/from'
+import { useCookies } from '@vueuse/integrations/useCookies'
+import { ElMessage } from 'element-plus'
+import { account } from '../api/account'
 
-// import useCookie() from 'js-cookie'
-import { getUser } from '../api/account'
-
-export default {
+export default defineComponent({
   name: 'Index',
-  head() {
-    return {
-      title: '账户中心 - EasyAPI服务平台',
-      meta: [
-        { hid: 'description', name: 'description', content: '账户中心' },
-        { hid: 'keyword', name: 'keyword', content: '账户中心' },
-      ],
-    }
-  },
-  mounted() {
-    from(this)
-    if (!useCookie().get('authenticationToken')) {
-      this.$router.push({ path: '/login' })
-      return
-    }
-    getUser(this).then((res) => {
-      if (res.data.code === 1)
-        window.location.replace(useCookie().get('from'))
-      else
-        this.$router.push({ path: '/login' })
-    }).catch((error) => {
-      this.$message.error(error.response.data.message)
+  setup() {
+    const router = useRouter()
+
+    onMounted(() => {
+      from()
+      if (!useCookies().get('authenticationToken')) {
+        router.push({ path: '/login' })
+        return
+      }
+      account.getUser()
+        .then((res) => {
+          if (res.code === 1)
+            useCookies().get('from')
+          else
+            router.push({ path: '/login' })
+        })
+        .catch((error) => {
+          ElMessage.error(error.response.data.message)
+        })
     })
   },
-}
+})
 </script>
-
-<template>
-  <div />
-</template>

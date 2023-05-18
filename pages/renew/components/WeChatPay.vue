@@ -1,25 +1,23 @@
 <script>
-export default {
-  name: 'WeChatPay',
-  props: ['price', 'visible', 'weChatPayUrl'],
-  data() {
-    return {}
-  },
-  methods: {
-    handleCancel() {
-      this.$emit('update:visible', false)
-    },
-    /**
-     * 关闭
-     */
-    handleClose() {
-      this.$emit('update:visible', false)
-    },
-    handleConfirm() {
-      this.$parent.reset()
-      this.$emit('update:visible', false)
-    },
-  },
+import { getCurrentInstance } from 'vue'
+
+const { proxy: $vm } = getCurrentInstance()
+
+const props = defineProps(['price', 'visible', 'weChatPayUrl'])
+
+const emit = defineEmits(['visible'])
+
+function handleCancel() {
+	emit('update:visible', false)
+}
+
+function handleClose() {
+	emit('update:visible', false)
+}
+
+function handleConfirm() {
+	$vm.$parent.reset()
+	emit('update:visible', false)
 }
 </script>
 

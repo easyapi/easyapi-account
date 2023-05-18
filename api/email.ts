@@ -6,6 +6,8 @@ export const email = {
    * @see https://www.easyapi.com
    */
   upgradeEmail(data: any) {
-    return http.post(`${process.env.baseUrl}/account/email-upgrade`, data, {})
-  },
+    return http.post(`${useRuntimeConfig().public.baseUrl}/account/email-upgrade`, data, {})
+  }
 }
+
+export default email

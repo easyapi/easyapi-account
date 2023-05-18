@@ -1,33 +1,25 @@
 <script>
-export default {
-  data() {
-    return {
-      formHtml: '',
-    }
-  },
-  head() {
-    return {
-      title: '正在跳转支付宝 - EasyAPI',
-      meta: [
-        { charset: 'utf-8' },
-        { hid: 'description', name: 'description', content: '正在跳转支付宝' },
-        { hid: 'keyword', name: 'keyword', content: '正在跳转支付宝' },
-      ],
-    }
-  },
-  mounted() {
-    if (this.$route.query.form) {
-      this.formHtml = this.$route.query.form
-      this.$nextTick(() => {
-        document.forms[0].submit() // 渲染支付宝支付页面
-      })
-    }
-  },
-}
+import { nextTick, onMounted, reactive } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const data = reactive({
+	formHtml: '',
+})
+
+onMounted(() => {
+	if (route.query.form) {
+		data.formHtml = route.query.form
+		nextTick(() => {
+			document.forms[0].submit() // 渲染支付宝支付页面
+		})
+	}
+})
 </script>
 
 <template>
   <div>
-    <p v-html="formHtml" />
+    <p v-html="formHtml"></p>
   </div>
 </template>

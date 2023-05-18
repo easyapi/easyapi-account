@@ -1,7 +1,17 @@
-<script>
-import Index from './index.js'
-
-export default Index
+<script lang="ts">
+export default {
+  name: 'Terms',
+  layout: 'default',
+  head() {
+    return {
+      title: '服务条款 - EasyAPI服务平台',
+      meta: [
+        { hid: 'description', name: 'description', content: 'EasyAPI服务条款' },
+        { hid: 'keyword', name: 'keyword', content: '服务条款' },
+      ],
+    }
+  },
+}
 </script>
 
 <template>
@@ -9,7 +19,6 @@ export default Index
     <div class="terms">
       <h2>服务条款</h2>
       <h3>一、服务条款的确认和接纳</h3>
-
       <p>
         EasyAPI（
         <a href="https://www.easyapi.com">https://www.easyapi.com</a>
@@ -185,3 +194,6 @@ export default Index
     </div>
   </div>
 </template>
+<style lang="scss">
+@import url(./index.scss);
+</style>

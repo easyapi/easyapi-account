@@ -1,30 +1,28 @@
 <script>
-export default {
-  name: 'SelectPrice',
-  props: ['priceList'],
-  data() {
-    return {
-      selectMoney: 0,
-    }
-  },
-  methods: {
-    /**
-     * 选择服务价格
-     */
-    selectMoneyFn(item) {
-      this.selectMoney = item.num
-      this.$emit('event', item)
-    },
-    reset() {
-      this.selectMoney = 0
-    },
-  },
+import { reactive } from 'vue'
+
+const props = defineProps(['priceList'])
+
+const emit = defineEmits(['event'])
+
+const data = reactive({
+  selectMoney: 0,
+})
+
+function selectMoneyFn(item) {
+  data.selectMoney = item.num
+  emit('event', item)
+}
+
+function reset() {
+  data.selectMoney = 0
 }
 </script>
 
 <template>
   <div class="renew-price">
-    <div v-for="(item, index) in priceList" :key="index" class="renew-price-item" :class="{ eaActive: selectMoney === item.num }" @click="selectMoneyFn(item)">
+    <div v-for="(item, index) in priceList" :key="index" class="renew-price-item"
+      :class="{ eaActive: selectMoney === item.num }" @click="selectMoneyFn(item)">
       <strong>{{ item.num }}{{ item.type === 2 ? '次' : '个月' }}&nbsp;&nbsp;￥{{ item.price.toFixed(2) }}</strong>
       <p>￥{{ item.unitPrice }}/{{ item.type === 2 ? '次' : '月' }}</p>
     </div>

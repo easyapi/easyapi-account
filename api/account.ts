@@ -11,3 +11,4 @@ export const account = {
   }
 }
 
+export default account

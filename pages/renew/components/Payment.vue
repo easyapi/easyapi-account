@@ -1,21 +1,17 @@
 <script>
-export default {
-  name: 'Payment',
-  props: ['price', 'balance'],
-  data() {
-    return {
-      payment: '余额支付',
-    }
-  },
-  methods: {
-    /**
-     * 支付方式
-     */
-    stand(pay) {
-      this.payment = pay
-      this.$emit('event', pay)
-    },
-  },
+import { reactive } from 'vue'
+
+const props = defineProps(['price', 'balance'])
+
+const emit = defineEmits(['event'])
+
+const data = reactive({
+  payment: '余额支付',
+})
+
+function stand(pay) {
+  data.payment = pay
+  emit('event', pay)
 }
 </script>
 

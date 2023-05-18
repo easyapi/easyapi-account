@@ -1,11 +1,11 @@
-<script>
-// import useCookie() from 'js-cookie'
+<!-- <script>
+import { useCookies } from '@vueuse/integrations/useCookies'
 
 export default {
   name: 'Header',
   data() {
     return {
-      authenticationToken: useCookie().get('authenticationToken'),
+      authenticationToken: useCookies().get('authenticationToken'),
     }
   },
   mounted() {
@@ -13,7 +13,7 @@ export default {
       this.$store.dispatch('user/getUser')
   },
 }
-</script>
+</script> -->
 
 <template>
   <el-row class="header">
@@ -21,7 +21,7 @@ export default {
       <a href="https://www.easyapi.com/">
         <img class="logo" src="https://qiniu.easyapi.com/market/logo.svg" alt="">
       </a>
-      <div v-if="!$store.state.user.userInfo" class="buttons">
+      <!-- <div v-if="!$store.state.user.userInfo" class="buttons">
         <nuxt-link to="/login">
           登录
         </nuxt-link>
@@ -31,7 +31,7 @@ export default {
       </div>
       <div v-else>
         <img class="photo" :src="$store.state.user.userInfo.photo" alt>
-      </div>
+      </div> -->
     </el-col>
   </el-row>
 </template>
