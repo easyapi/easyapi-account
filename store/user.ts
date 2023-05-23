@@ -41,3 +41,4 @@ export const userStore = defineStore('user', {
     },
   },
 })
+export default userStore

@@ -1,7 +1,9 @@
-<script>
+<script setup lang="ts">
 import { reactive } from 'vue'
-
-const props = defineProps(['price', 'balance'])
+const props = defineProps({
+  price:0,
+  balance:''
+})
 
 const emit = defineEmits(['event'])
 
@@ -9,10 +11,14 @@ const data = reactive({
   payment: '余额支付',
 })
 
+watch(() => props.balance, (v) => {
+  return (data.payment = v)
+})
 function stand(pay) {
   data.payment = pay
   emit('event', pay)
 }
+
 </script>
 
 <template>

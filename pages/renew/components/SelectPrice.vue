@@ -1,34 +1,45 @@
-<script>
+<script setup lang="ts">
 import { reactive } from 'vue'
 
-const props = defineProps(['priceList'])
+const props = defineProps({
+  priceList:[]
+})
 
 const emit = defineEmits(['event'])
 
 const data = reactive({
-  selectMoney: 0,
+  selectMoney: props.priceList,
 })
 
-function selectMoneyFn(item) {
-  data.selectMoney = item.num
-  emit('event', item)
+watch(() => props.priceList, (v) => {
+  return (data.selectMoney = v)
+})
+
+/**
+* 选择服务价格
+*/
+function selectMoneyFn() {
+  // data.selectMoney = item.num
+  emit('event')
 }
 
 function reset() {
-  data.selectMoney = 0
+  data.selectMoney = props.priceList
 }
+reset()
+
 </script>
 
 <template>
   <div class="renew-price">
-    <div v-for="(item, index) in priceList" :key="index" class="renew-price-item"
-      :class="{ eaActive: selectMoney === item.num }" @click="selectMoneyFn(item)">
+    <div v-for="(item, index) in props.priceList" :key="index" class="renew-price-item"
+      :class="{ eaActive: data.selectMoney === item.num }" @click="selectMoneyFn(item)">
       <strong>{{ item.num }}{{ item.type === 2 ? '次' : '个月' }}&nbsp;&nbsp;￥{{ item.price.toFixed(2) }}</strong>
       <p>￥{{ item.unitPrice }}/{{ item.type === 2 ? '次' : '月' }}</p>
     </div>
   </div>
 </template>
-
+  
 <style lang="scss" scoped>
 .renew-price {
   width: 92%;
