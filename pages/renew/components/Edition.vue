@@ -1,9 +1,14 @@
-<script>
+<script setup lang="ts">
 import { getCurrentInstance, reactive, watch } from 'vue'
 
 const { proxy: $vm } = getCurrentInstance()
 
-const props = defineProps(['edition'])
+const props = defineProps({
+  edition: {
+    type: Boolean,
+    default: false,
+  },
+})
 
 const emit = defineEmits(['event'])
 
@@ -12,7 +17,7 @@ const data = reactive({
   selectEdition: '',
 })
 
-watch(() => /* Warn: Unknown source: edition */ $vm.edition, () => {
+watch(() => /* Warn: Unknown source: edition */ props.edition, () => {
   select()
 })
 
@@ -42,9 +47,9 @@ function select() {
 
 <template>
   <div class="edition">
-    <div v-for="(item, index) in editionList" :key="index" class="renew-price-item" :class="selectEdition === item.name
+    <div v-for="(item, index) in data.editionList" :key="index" class="renew-price-item" :class="data.selectEdition === item.name
       ? 'eaActive'
-      : edition === '旗舰版' && item.name !== '旗舰版'
+      : item.edition === '旗舰版' && item.name !== '旗舰版'
         ? 'disable-all'
         : edition === '高级版' && item.name === '基础版'
           ? 'disalbe'

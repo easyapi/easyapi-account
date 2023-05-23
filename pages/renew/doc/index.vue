@@ -1,24 +1,29 @@
 <script lang="ts">
-import { getCurrentInstance, onMounted, reactive, watch } from 'vue'
+import { onMounted, reactive, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { ElMessage } from 'element-plus'
 import Edition from '../components/Edition.vue'
 import SelectPrice from '../components/SelectPrice.vue'
-import Payment from '../components/Payment'
-import WeChatPay from '../components/WeChatPay'
+import Payment from '../components/Payment.vue'
+import WeChatPay from '../components/WeChatPay.vue'
 import renew from '@/api/renew'
 import team from '@/api/team'
+import userStore from '@/store/user'
 import money from '@/api/money'
-// import moment from 'moment'
-
-
+import moment from 'moment'
 
 
 export default defineComponent({
+  components: {
+    Edition,
+    SelectPrice,
+    Payment,
+    WeChatPay
+  },
   setup() {
     const router = useRouter()
-    const store = useStore()
+    const store = userStore()
     // const { proxy: $vm } = getCurrentInstance()
 
     const data = reactive({
@@ -36,7 +41,7 @@ export default defineComponent({
       weChatPayUrl: null,
       totalPrice: 0, //应付金额
       release: '基础版', //版本
-      edition: ''
+      edition: Boolean
     })
 
     watch(() => data.wechatPayDialog, (val) => {
@@ -112,8 +117,9 @@ export default defineComponent({
     }
 
     function getTeamInfo() {
-      let teamId = store.state.user.userInfo.team ? store.state.user.userInfo.team.id : ''
+      let teamId = store.team ? store.team.id : ''
       money.getTeamMoney({ teamId: teamId }).then(res => {
+        console.log(res)
         if (res.data.code === 1) {
           data.balance = res.data.content.balance
           data.team = res.data.content.team
@@ -144,7 +150,7 @@ export default defineComponent({
         return
       }
       /* Warn: Unknown source: $confirm */
-      $vm.$confirm('你确定续费吗？', '确认购买', {
+      ElMessage.$confirm('你确定续费吗？', '确认购买', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -187,6 +193,15 @@ export default defineComponent({
           }
         })
     }
+    return {
+      ...toRefs(data),
+      selectPrice,
+      selectEdition,
+      handleClose,
+      getPayment,
+      stand,
+      store,
+    }
   }
 })
 </script>
@@ -195,8 +210,8 @@ export default defineComponent({
   <div>
     <div class="w-full h-auto">
       <div class="w-full h-20 bg-gray-50">
-        <span span v-if="item.state.user.userInfo.team" class="flex items-center h-20 m-auto max-w-screen-lg text-lg block">
-         {{ item.state.user.userInfo.team.name }}团队续费
+        <span v-if="store.team" class="flex items-center h-20 m-auto max-w-screen-lg text-lg block">
+          {{ store.team.name }}团队续费
         </span>
       </div>
       <div class="renew_content max-w-screen-lg">
@@ -207,7 +222,7 @@ export default defineComponent({
         <a class="edition-tips" target="_blank" href="https://www.easyapi.com/info/price">查看不同版本对比</a>
         <div class="renew_service">
           <strong class="renew_service_title">续费价格：</strong>
-          <SelectPrice ref="selectPrice" :price-list="data.priceList" @event="selectPrice" />
+          <SelectPrice ref="selectPrice" :pricelist="priceList" @event="selectPrice" />
         </div>
         <div class="renew_service">
           <strong class="renew_service_title">支付方式：</strong>
@@ -216,7 +231,7 @@ export default defineComponent({
         <div class="renew_fl">
           <strong class="renew_service_title">团队人数：</strong>
           <div class="">
-            <el-input-number v-model="data.memberCount" controls-outside :min="nowMemberCount" />
+            <el-input-number v-model="memberCount" controls-outside :min="nowMemberCount" />
           </div>
         </div>
         <p style="margin-top: -10px; margin-bottom: 10px; margin-left: 80px; color: #888888; font-size: 12px">
@@ -237,11 +252,11 @@ export default defineComponent({
           </div>
         </div>
         <div class="renew_fa">
-          <el-button v-if="data.balance >= data.price || data.payment !== '余额支付'"
+          <el-button v-if="data.balance >= data.price || payment !== '余额支付'"
             style="border-radius: 4px; background-color: #1cc0d6; color: #fff; font-size: 14px" @click="sure">
             确定购买
           </el-button>
-          <el-button v-if="data.balance < data.price && data.payment === '余额支付'"
+          <el-button v-if="data.balance < data.price && payment === '余额支付'"
             style="border-radius: 4px; background-color: #1cc0d6; color: #fff; font-size: 14px" disabled>
             确定购买
           </el-button>
@@ -251,6 +266,6 @@ export default defineComponent({
       </div>
     </div>
     <!-- 微信支付弹窗 -->
-    <WeChatPay v-model:visible="data.wechatPayDialog" :we-chat-pay-url="data.weChatPayUrl" :price="price" />
+    <WeChatPay v-model:visible="wechatPayDialog" :we-chat-pay-url="weChatPayUrl" :price="price" />
   </div>
 </template>

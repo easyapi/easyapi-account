@@ -4,10 +4,22 @@ import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import service from '@/api/service'
 import { ElMessage } from 'element-plus'
+import Edition from '../components/Edition.vue'
+import SelectPrice from '../components/SelectPrice.vue'
+import Payment from '../components/Payment.vue'
+import WeChatPay from '../components/WeChatPay.vue'
+import moment from 'moment'
+
 
 
 
 export default defineComponent({
+  components: {
+    Edition,
+    SelectPrice,
+    Payment,
+    WeChatPay
+  },
   setup() {
     const route = useRoute()
     const router = useRouter()
@@ -57,7 +69,7 @@ export default defineComponent({
 
     function getTeamInfo() {
       let teamId = store.state.user.userInfo.team ? store.state.user.userInfo.team.id : ''
-      getTeamMoney().then(res => {
+      getTeamMoney(teamId).then(res => {
         if (res.data.code === 1) {
           data.balance = res.data.content.balance
           data.team = res.data.content.team
@@ -131,9 +143,7 @@ export default defineComponent({
       renewBalance({
         servicePriceId: data.servicePriceId,
         payment: data.payment
-      },
-        this
-      ).then(res => {
+      }).then(res => {
         if (res.data.code === 1) {
           if (data.payment === '支付宝') {
             const { href } = router.resolve({
@@ -171,6 +181,15 @@ export default defineComponent({
         }
       })
     }
+    return {
+      ...toRefs(data),
+      selectPrice,
+      buy,
+      getPayment,
+      handleClose,
+      useStore,
+      service
+    }
   }
 })
 </script>
@@ -184,11 +203,11 @@ export default defineComponent({
       <div class="renew_content max-w-screen-lg">
         <div class="renew_service">
           <strong class="renew_service_title">服务价格：</strong>
-          <SelectPrice ref="selectPrice" :price-list="data.priceList" @event="selectPrice" />
+          <SelectPrice ref="selectPrice" :pricelist="priceList" @event="selectPrice" />
         </div>
         <div class="renew_service">
           <strong class="renew_service_title">支付方式：</strong>
-          <Payment :price="data.price" :balance="data.balance" @event="getPayment" />
+          <Payment :price="price" :balance="balance" @event="getPayment" />
         </div>
         <div class="renew_fl">
           <strong class="renew_service_title">{{
@@ -204,7 +223,7 @@ export default defineComponent({
           <strong class="renew_service_title" style="padding-top: 10px">应付金额：</strong>
           <div class="frequency">
             <strong style="color: #fa2222; font-size: 26px">{{
-              data.price.toFixed(2)
+              price.toFixed(2)
             }}</strong>
             &nbsp;
             <span style="color: #323232; font-size: 14px">元</span>
@@ -214,13 +233,13 @@ export default defineComponent({
           <el-button v-if="data.balance >= data.price || data.payment !== '余额支付'" type="primary" @click="buy">
             确定购买
           </el-button>
-          <el-button v-if="data.balance < data.price && data.payment === '余额支付'" type="primary" disabled>
+          <el-button v-if="balance < data.price && payment === '余额支付'" type="primary" disabled>
             确定购买
           </el-button>
           <span class="renew_btn_tips">若在购买过程中遇到任何问题,请联系13656171020,微信同号</span>
         </div>
       </div>
     </div>
-    <WeChatPay :visible="data.wechatPayDialog" :we-chat-pay-url="data.weChatPayUrl" :price="price" />
+    <WeChatPay :visible="wechatPayDialog" :we-chat-pay-url="weChatPayUrl" :price="price" />
   </div>
 </template>

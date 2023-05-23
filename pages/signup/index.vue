@@ -40,7 +40,7 @@
   </div>
 </template>
 <script lang="ts">
-import {  onMounted, onUpdated, reactive } from 'vue'
+import { onMounted, onUpdated, reactive } from 'vue'
 import signup from '@/api/signup'
 import { ElMessage } from 'element-plus'
 import { useCookies } from '@vueuse/integrations/useCookies'
@@ -60,7 +60,7 @@ export default defineComponent({
         country: undefined,
         username: '',
         code: '',
-       rememberMe:true,
+        rememberMe: true,
         nickname: '',
         password: '',
         confirmPassword: '',
@@ -101,15 +101,15 @@ export default defineComponent({
     function signupFn() {
       if (data.existUsername) {
         ElMessage.error('该账号已注册，请直接登录');
-        return 
+        return
       }
       if (data.formData.password !== data.formData.confirmPassword) {
         ElMessage.error('确认密码不一致');
-        return 
+        return
       }
       if (!data.formData.checked) {
         ElMessage.error('请勾选同意EasyAPI用户协议');
-        return 
+        return
       }
       let from = useCookies().get('from');
       signup.sendCodeFn({})
@@ -136,7 +136,7 @@ export default defineComponent({
     return {
       ...toRefs(data),
       signupFn,
-      sendCode,
+      // sendCode,
     }
   }
 })
