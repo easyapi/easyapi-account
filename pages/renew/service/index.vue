@@ -1,15 +1,15 @@
 <script lang="ts">
-import { getCurrentInstance, reactive, ref } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
-import { useStore } from 'vuex'
-import service from '@/api/service'
-import { ElMessage } from 'element-plus'
 import Edition from '../components/Edition.vue'
 import SelectPrice from '../components/SelectPrice.vue'
 import Payment from '../components/Payment.vue'
 import WeChatPay from '../components/WeChatPay.vue'
 import moment from 'moment'
-
+import userStore from '@/store/user'
+import money from '@/api/money'
+import service from '@/api/service'
+import renew from '~/api/renew'
 
 
 
@@ -23,8 +23,7 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const router = useRouter()
-    const store = useStore()
-    const { proxy: $vm } = getCurrentInstance()
+    const store = userStore()
 
     const data = reactive({
       service: {},
@@ -34,32 +33,35 @@ export default defineComponent({
       date: '',
       oldDate: '',
       priceList: [], //价格列表
-      balance: '', //账户余额
+      balance: 0, //账户余额
       payment: '余额支付', //支付方式
       servicePriceId: '',
       price: 0, //销售价格
       wechatPayDialog: false, //微信支付弹框
-      weChatPayUrl: null //微信支付二维码链接
+      weChatPayUrl: '' //微信支付二维码链接
     })
 
+    const handleClose = () => {
+      data.wechatPayDialog = false
+    }
     function onCreated() {
       getTeamService(route.query.teamServiceId)
       getTeamInfo()
     }
     onCreated()
 
-    function reset() {
+    const reset=()=> {
       getTeamService()
       selectPrice.value.reset()
     }
 
-    function getServiceList() {
+    const getServiceList = () => {
       getServiceList().then(res => {
         if (res.data.code === 1) {
           data.priceList = res.data.content
           for (let object of data.priceList) {
             //统一计量
-            data.num = data.type === 2 ? object.times : object.month
+            object.num = object.type === 2 ? object.times : object.month
             //计算单价
             object.unitPrice = (object.price / object.num).toFixed(4)
           }
@@ -67,9 +69,9 @@ export default defineComponent({
       })
     }
 
-    function getTeamInfo() {
-      let teamId = store.state.user.userInfo.team ? store.state.user.userInfo.team.id : ''
-      getTeamMoney(teamId).then(res => {
+    const getTeamInfo = () => {
+      let teamId = store.team ? store.team.id : ''
+      money.getTeamMoney(teamId).then(res => {
         if (res.data.code === 1) {
           data.balance = res.data.content.balance
           data.team = res.data.content.team
@@ -77,7 +79,7 @@ export default defineComponent({
       })
     }
 
-    function selectPrice(event) {
+    const selectPrice = (event) => {
       data.servicePriceId = event.servicePriceId
       data.price = event.price
       if (event.type === 3) {
@@ -88,13 +90,12 @@ export default defineComponent({
       }
     }
 
-    function getPayment(event) {
+    const getPayment = (event) => {
       data.payment = event
     }
 
-    function handleClose() {
-      data.wechatPayDialog = false
-    }
+
+
 
     function getTeamService(teamServiceId) {
       getTeamService(teamServiceId, this).then(res => {
@@ -113,7 +114,7 @@ export default defineComponent({
           }
           getServiceList()
         } else if (res.data.code === -1) {
-          //当前团对没有开通此服务
+          //当前团队没有开通此服务
           /* Warn: Unknown source: $message */
           ElMessage.error(res.data.message)
           setTimeout(() => {
@@ -123,14 +124,12 @@ export default defineComponent({
       })
     }
 
-    function buy() {
+    const buy = () => {
       if (data.price === 0) {
-        /* Warn: Unknown source: $message */
         ElMessage.warning('请选择服务价格')
         return
       }
-      /* Warn: Unknown source: $confirm */
-      $vm.$confirm('你确定续费吗？', '确认购买', {
+      ElMessageBox.confirm('你确定续费吗？', '确认购买', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -139,22 +138,23 @@ export default defineComponent({
       })
     }
 
-    function determineThePurchase() {
-      renewBalance({
+    const determineThePurchase=()=> {
+      const renewBalance={
         servicePriceId: data.servicePriceId,
         payment: data.payment
-      }).then(res => {
+      }
+      renew.getPriceList(renewBalance).then(res => {
         if (res.data.code === 1) {
           if (data.payment === '支付宝') {
-            const { href } = router.resolve({
+            const href = router.resolve({
               path: '/renew/alipay',
               query: {
                 form: res.data.alipay
-              }
+              },
             })
             window.open(href, '_blank')
             /* Warn: Unknown source: $confirm */
-            $vm.$confirm('请您在新打开的页面上完成充值。充值完成后，根据您的情况点击下面按钮。', '提示', {
+            ElMessageBox.confirm('请您在新打开的页面上完成充值。充值完成后，根据您的情况点击下面按钮。', '提示', {
               confirmButtonText: '充值成功',
               cancelButtonText: '充值失败',
               type: 'info'
@@ -187,7 +187,6 @@ export default defineComponent({
       buy,
       getPayment,
       handleClose,
-      useStore,
       service
     }
   }
@@ -230,10 +229,10 @@ export default defineComponent({
           </div>
         </div>
         <div class="renew_btn">
-          <el-button v-if="data.balance >= data.price || data.payment !== '余额支付'" type="primary" @click="buy">
+          <el-button v-if="balance >= price || payment !== '余额支付'" type="primary" @click="buy">
             确定购买
           </el-button>
-          <el-button v-if="balance < data.price && payment === '余额支付'" type="primary" disabled>
+          <el-button v-if="balance < price && payment === '余额支付'" type="primary" disabled>
             确定购买
           </el-button>
           <span class="renew_btn_tips">若在购买过程中遇到任何问题,请联系13656171020,微信同号</span>
