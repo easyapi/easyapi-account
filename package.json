@@ -27,6 +27,7 @@
     "stompjs": "2.3.3",
     "universal-cookie": "^4.0.4",
     "vue-baidu-map": "^0.21.22",
+    "vue-router": "^4.2.1",
     "vuex": "4.1.0"
   },
   "devDependencies": {
