@@ -1,24 +1,22 @@
-<script lang="ts">
+<script>
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
+import moment from 'moment'
 import Edition from '../components/Edition.vue'
 import SelectPrice from '../components/SelectPrice.vue'
 import Payment from '../components/Payment.vue'
 import WeChatPay from '../components/WeChatPay.vue'
-import moment from 'moment'
 import userStore from '@/store/user'
 import money from '@/api/money'
 import service from '@/api/service'
 import renew from '~/api/renew'
-
-
 
 export default defineComponent({
   components: {
     Edition,
     SelectPrice,
     Payment,
-    WeChatPay
+    WeChatPay,
   },
   setup() {
     const route = useRoute()
@@ -32,37 +30,33 @@ export default defineComponent({
       oldNum: '',
       date: '',
       oldDate: '',
-      priceList: [], //价格列表
-      balance: 0, //账户余额
-      payment: '余额支付', //支付方式
+      priceList: [], // 价格列表
+      balance: 0, // 账户余额
+      payment: '余额支付', // 支付方式
       servicePriceId: '',
-      price: 0, //销售价格
-      wechatPayDialog: false, //微信支付弹框
-      weChatPayUrl: '' //微信支付二维码链接
+      price: 0, // 销售价格
+      wechatPayDialog: false, // 微信支付弹框
+      weChatPayUrl: '', // 微信支付二维码链接
+      selectPrice: null,
     })
 
     const handleClose = () => {
       data.wechatPayDialog = false
     }
-    function onCreated() {
-      getTeamService(route.query.teamServiceId)
-      getTeamInfo()
-    }
-    onCreated()
 
-    const reset=()=> {
+    const reset = () => {
       getTeamService()
-      selectPrice.value.reset()
+      data.selectPrice.reset()
     }
 
     const getServiceList = () => {
-      getServiceList().then(res => {
+      service.getServiceList().then((res) => {
         if (res.data.code === 1) {
           data.priceList = res.data.content
-          for (let object of data.priceList) {
-            //统一计量
+          for (const object of data.priceList) {
+            // 统一计量
             object.num = object.type === 2 ? object.times : object.month
-            //计算单价
+            // 计算单价
             object.unitPrice = (object.price / object.num).toFixed(4)
           }
         }
@@ -70,8 +64,8 @@ export default defineComponent({
     }
 
     const getTeamInfo = () => {
-      let teamId = store.team ? store.team.id : ''
-      money.getTeamMoney(teamId).then(res => {
+      const teamId = store.team ? store.team.id : ''
+      money.getTeamMoney(teamId).then((res) => {
         if (res.data.code === 1) {
           data.balance = res.data.content.balance
           data.team = res.data.content.team
@@ -85,25 +79,21 @@ export default defineComponent({
       if (event.type === 3) {
         data.date = moment(data.oldDate).add(event.num, 'months').format('YYYY-MM-DD HH:mm:ss')
       }
-      if (event.type === 2) {
+      if (event.type === 2)
         data.num = data.oldNum + event.num
-      }
     }
 
     const getPayment = (event) => {
       data.payment = event
     }
 
-
-
-
     function getTeamService(teamServiceId) {
       getTeamService(teamServiceId, this).then(res => {
         if (res.data.code === 1) {
-          let content = res.data.content
+          const content = res.data.content
           data.service = res.data.content.service
           if (data.service.type === 3) {
-            //页面显示的时间
+            // 页面显示的时间
             data.date = moment(content.endTime).format('YYYY-MM-DD HH:mm:ss')
             // 续费开始添加的时间
             data.oldDate = getExpirationTime(content.endTime)
@@ -114,7 +104,7 @@ export default defineComponent({
           }
           getServiceList()
         } else if (res.data.code === -1) {
-          //当前团队没有开通此服务
+          // 当前团队没有开通此服务
           /* Warn: Unknown source: $message */
           ElMessage.error(res.data.message)
           setTimeout(() => {
@@ -181,13 +171,19 @@ export default defineComponent({
         }
       })
     }
+
+    onMounted(() => {
+      getTeamService(route.query.teamServiceId)
+      getTeamInfo()
+    })
+
     return {
       ...toRefs(data),
       selectPrice,
       buy,
       getPayment,
       handleClose,
-      service
+      service,
     }
   }
 })
