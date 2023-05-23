@@ -2,7 +2,10 @@
 import { reactive } from 'vue'
 
 const props = defineProps({
-  priceList:[]
+  priceList: {
+    type: String,
+    default: null,
+  },
 })
 
 const emit = defineEmits(['event'])

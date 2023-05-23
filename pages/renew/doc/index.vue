@@ -91,7 +91,7 @@ export default defineComponent({
 
     const getTeamInfo = () => {
       let teamId = store.team ? store.team.id : ''
-      money.getTeamMoney({teamId: teamId}).then(res => {
+      money.getTeamMoney({ teamId: teamId }).then(res => {
         if (res.data.code === 1) {
           data.balance = res.data.content.balance
           data.team = res.data.content.team
@@ -204,21 +204,21 @@ export default defineComponent({
       <div class="renew_content max-w-screen-lg">
         <div class="renew_service">
           <strong class="renew_service_title">选择版本：</strong>
-          <Edition :edition="edition" @event="selectEdition"/>
+          <Edition :edition="edition" @event="selectEdition" />
         </div>
         <a class="edition-tips" target="_blank" href="https://www.easyapi.com/info/price">查看不同版本对比</a>
         <div class="renew_service">
           <strong class="renew_service_title">续费价格：</strong>
-          <SelectPrice ref="selectPrice" :pricelist="priceList" @event="selectPrice"/>
+          <SelectPrice ref="selectPrice" :pricelist="priceList" @event="selectPrice" />
         </div>
         <div class="renew_service">
           <strong class="renew_service_title">支付方式：</strong>
-          <Payment :price="price" :balance="balance" @event="getPayment"/>
+          <Payment :price="price" :balance="balance" @event="getPayment" />
         </div>
         <div class="renew_fl">
           <strong class="renew_service_title">团队人数：</strong>
           <div class="">
-            <el-input-number v-model="memberCount" controls-outside :min="nowMemberCount"/>
+            <el-input-number v-model="memberCount" controls-outside :min="nowMemberCount" />
           </div>
         </div>
         <p style="margin-top: -10px; margin-bottom: 10px; margin-left: 80px; color: #888888; font-size: 12px">
@@ -240,11 +240,11 @@ export default defineComponent({
         </div>
         <div class="renew_fa">
           <el-button v-if="balance >= price || payment !== '余额支付'"
-                     style="border-radius: 4px; background-color: #1cc0d6; color: #fff; font-size: 14px" @click="sure">
+            style="border-radius: 4px; background-color: #1cc0d6; color: #fff; font-size: 14px" @click="sure">
             确定购买
           </el-button>
           <el-button v-if="balance < price && payment === '余额支付'"
-                     style="border-radius: 4px; background-color: #1cc0d6; color: #fff; font-size: 14px" disabled>
+            style="border-radius: 4px; background-color: #1cc0d6; color: #fff; font-size: 14px" disabled>
             确定购买
           </el-button>
           <span
@@ -253,7 +253,7 @@ export default defineComponent({
       </div>
     </div>
     <!-- 微信支付弹窗 -->
-    <WeChatPay v-model:visible="wechatPayDialog" :we-chat-pay-url="weChatPayUrl" :price="price"/>
+    <WeChatPay v-model:visible="wechatPayDialog" :we-chat-pay-url="weChatPayUrl" :price="price" />
   </div>
 </template>
 <style lang="scss" scoped>
@@ -301,5 +301,4 @@ export default defineComponent({
   height: 40px;
   text-align: center;
 }
-
 </style>

@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { getCurrentInstance } from 'vue'
 
-const { proxy: $vm } = getCurrentInstance()
+
 
 const props = defineProps({
-  price:0,
+  price: {
+    type: String,
+    default: null,
+  },
   visible: String,
-  weChatPayUrl: null
+  weChatPayUrl: {
+    type: String,
+    default: null,
+  },
 })
 const emit = defineEmits(['visible'])
 
@@ -19,7 +25,6 @@ function handleClose() {
 }
 
 function handleConfirm() {
-  $vm.$parent.reset()
   emit('visible', false)
 }
 </script>

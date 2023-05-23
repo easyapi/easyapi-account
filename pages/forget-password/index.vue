@@ -79,13 +79,13 @@ export default defineComponent({
       })
     }
 
-    function sendCode() {
-      let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
+    const sendCode = () => {
+      const telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
       if (telStr.test(data.formData.username)) {
-        let params = {
+        const params = {
           mobile: data.formData.username
         }
-        signup.sendCode(params)
+        signup.sendCodeFn(params)
           .then(res => {
             if (res.data.code === 1) {
               ElMessage.success(res.data.message)

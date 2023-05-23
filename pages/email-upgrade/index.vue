@@ -1,10 +1,9 @@
-<script lang="ts">
+<script>
 import { onUpdated, reactive } from 'vue'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { ElMessage } from 'element-plus'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 import email from '@/api/email'
-import signup from '@/api/signup'
 
 
 
@@ -64,8 +63,8 @@ export default defineComponent({
         data.formData.code.length === 6
       )
     })
-    function upgradeEmail() {
-      let from = useCookies().get('from')
+    const upgradeEmail=()=> {
+      const from = useCookies().get('from')
       email.upgradeEmail(data.formData)
         .then(res => {
           if (res.data.code === 1) {
@@ -83,10 +82,10 @@ export default defineComponent({
         })
     }
 
-    function sendCode() {
-      let telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
+    const sendCode=()=> {
+      const telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
       if (telStr.test(data.formData.mobile)) {
-        let params = {
+        const params = {
           mobile: data.formData.mobile
         }
         email.upgradeEmail(params)
@@ -100,9 +99,9 @@ export default defineComponent({
           .catch(error => {
             ElMessage.error(error.response.data.message)
           })
-        let second = 60
+        const second = 60
         data.sendCodeBtn = true
-        let timer = setInterval(() => {
+        const timer = setInterval(() => {
           second--
           if (second === 0) {
             data.sendCodeBtn = false

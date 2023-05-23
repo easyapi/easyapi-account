@@ -5,8 +5,8 @@ const { proxy: $vm } = getCurrentInstance()
 
 const props = defineProps({
   edition: {
-    type: Boolean,
-    default: false,
+    type: String,
+    default: null,
   },
 })
 
@@ -17,26 +17,26 @@ const data = reactive({
   selectEdition: '',
 })
 
-watch(() => /* Warn: Unknown source: edition */ props.edition, () => {
+watch(() => props.edition, () => {
   select()
 })
 
-function choseEdition(item) {
-  if ( /* Warn: Unknown source: edition */ $vm.edition === '旗舰版' && item.name === '旗舰版') {
+const choseEdition=(item)=> {
+  if ( props.edition === '旗舰版' && item.name === '旗舰版') {
     data.selectEdition = item.name
     emit('event', item)
-  } else if ( /* Warn: Unknown source: edition */ $vm.edition === '高级版' && item.name !== '基础版') {
+  } else if (  props.edition === '高级版' && item.name !== '基础版') {
     data.selectEdition = item.name
     emit('event', item)
-  } else if ( /* Warn: Unknown source: edition */ $vm.edition === '基础版' || /* Warn: Unknown source: edition */ $vm.edition === '') {
+  } else if (  props.edition === '基础版' || /* Warn: Unknown source: edition */ $vm.edition === '') {
     data.selectEdition = item.name
     emit('event', item)
   }
 }
 
-function select() {
-  if ( /* Warn: Unknown source: edition */ $vm.edition !== '') {
-    data.selectEdition = /* Warn: Unknown source: edition */ $vm.edition
+const select=()=> {
+  if ( props.edition !== '') {
+    data.selectEdition = props.edition
     const item = {
       name: data.selectEdition,
     }
@@ -49,7 +49,7 @@ function select() {
   <div class="edition">
     <div v-for="(item, index) in data.editionList" :key="index" class="renew-price-item" :class="data.selectEdition === item.name
       ? 'eaActive'
-      : item.edition === '旗舰版' && item.name !== '旗舰版'
+      : edition === '旗舰版' && item.name !== '旗舰版'
         ? 'disable-all'
         : edition === '高级版' && item.name === '基础版'
           ? 'disalbe'

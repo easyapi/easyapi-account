@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 import { onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { useCookies } from '@vueuse/integrations/useCookies'
@@ -21,7 +21,7 @@ export default defineComponent({
         sessionStorage.setItem('auth', '三方登录')
         window.location.href = '/login'
       }
-      let params = {
+      const params = {
         client_id: route.query.client_id,
         response_type: route.query.response_type,
         scope: route.query.scope,
@@ -47,7 +47,7 @@ export default defineComponent({
         })
     })
 
-    function authorization() {
+    const authorization = () => {
       auth.oauthAuthorize(
         qs.stringify({
           user_oauth_approval: true,
@@ -56,7 +56,7 @@ export default defineComponent({
         }),
       ).then()
     }
-    function cancel() {
+    const cancel = () => {
       auth.oauthAuthorize(
         qs.stringify({
           user_oauth_approval: true,
@@ -66,7 +66,7 @@ export default defineComponent({
       ).then()
     }
 
-    function changeUser() {
+    const changeUser = () => {
       //添加三方登录标识
       sessionStorage.setItem('auth', '三方登录')
       window.location.href = '/login'

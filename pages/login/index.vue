@@ -2,7 +2,6 @@
 import { onMounted, onUpdated, reactive } from 'vue'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { ElMessage } from 'element-plus'
-// import login from '@/api/login'
 
 export default defineComponent({
   setup() {

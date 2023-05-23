@@ -76,11 +76,11 @@ export default defineComponent({
         data.providerUserId = providerUserId
         data.providerId = providerId
       }
-      
+
       if (providerId === 'qq')
-        data.imageSrc = new URL('@/assets/images/static/svg/qq.svg',import.meta.url).href
+        data.imageSrc = new URL('@/assets/images/static/svg/qq.svg', import.meta.url).href
       else
-        data.imageSrc = new URL('@/assets/images/static/svg/weixin.svg',import.meta.url).href
+        data.imageSrc = new URL('@/assets/images/static/svg/weixin.svg', import.meta.url).href
     })
 
     return {

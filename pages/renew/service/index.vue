@@ -87,8 +87,8 @@ export default defineComponent({
       data.payment = event
     }
 
-    function getTeamService(teamServiceId) {
-      getTeamService(teamServiceId, this).then(res => {
+    const getTeamService=(teamServiceId)=> {
+      service.getTeamService(teamServiceId).then(res => {
         if (res.data.code === 1) {
           const content = res.data.content
           data.service = res.data.content.service
@@ -206,11 +206,11 @@ export default defineComponent({
         </div>
         <div class="renew_fl">
           <strong class="renew_service_title">{{
-            data.service.type === 2 ? "剩余次数：" : "到期时间："
+            service.type === 2 ? "剩余次数：" : "到期时间："
           }}</strong>
           <div class="">
             <strong style="color: #323232; font-size: 14px">{{
-              data.service.type === 2 ? num : date
+              service.type === 2 ? num : date
             }}</strong>
           </div>
         </div>
