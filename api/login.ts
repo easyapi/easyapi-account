@@ -6,7 +6,7 @@ import http from '~/api/request'
  * @see https://www.easyapi.com
  */
   postLogin(data: any) {
-    return http.post(`${process.env.baseUrl}/authenticate`, data, {})
+    return http.post(`${useRuntimeConfig().public.baseUrl}/authenticate`, data, {})
   }
 
 }

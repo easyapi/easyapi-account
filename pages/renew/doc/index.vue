@@ -59,7 +59,7 @@ export default defineComponent({
     }
 
     const getTeamUserList = () => {
-      getTeamUserList().then(res => {
+      team.getTeamUserList().then(res => {
         if (res.data.code === 1) {
           data.nowMemberCount = res.data.content.length
           data.memberCount = res.data.content.length
@@ -68,7 +68,7 @@ export default defineComponent({
     }
 
     const getPriceList = () => {
-      getPriceList().then(res => {
+      renew.getPriceList().then(res => {
         if (res.data.code === 1) {
           data.priceList = res.data.content
           for (let object of data.priceList) {

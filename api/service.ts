@@ -20,7 +20,7 @@ export const service = {
    * @param id 团队服务关系ID
    */
   getTeamService(id: any) {
-    return http.get(`${process.env.serviceUrl}/console/team-service/${id}`, {})
+    return http.get(`${useRuntimeConfig().public.serviceUrl}/console/team-service/${id}`, {})
   }
 }
 export default service

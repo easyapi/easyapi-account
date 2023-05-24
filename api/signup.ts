@@ -6,7 +6,7 @@ import http from '~/api/request'
  */
 export const signup = {
   signup(data: any) {
-    return http.post(`${process.env.baseUrl}/account/signup`, data, {})
+    return http.post(`${useRuntimeConfig().public.baseUrl}/account/signup`, data, {})
   },
   /**
    * 对比账号
@@ -14,7 +14,7 @@ export const signup = {
    * @see https://www.easyapi.com
    */
   findUsername(params: any) {
-    return http.get(`${process.env.baseUrl}/account/find`, params, {})
+    return http.get(`${useRuntimeConfig().public.baseUrl}/account/find`, params, {})
   },
   /**
  * 发送验证码
@@ -22,7 +22,7 @@ export const signup = {
  * @see https://www.easyapi.com
  */
   sendCodeFn(params: any) {
-    return http.get(`${process.env.baseUrl}/captcha/send`, params, {}
+    return http.get(`${useRuntimeConfig().public.baseUrl}/captcha/send`, params, {}
     )
   }
 }

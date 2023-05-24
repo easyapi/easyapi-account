@@ -7,7 +7,7 @@ export const money = {
  * @see https://www.easyapi.com
  */
   getTeamMoney(params: any) {
-    return http.get(`${process.env.baseUrl}/money/team`, params, {}
+    return http.get(`${useRuntimeConfig().public.baseUrl}/money/team`, params, {}
     )
   },
   /**
@@ -16,7 +16,7 @@ export const money = {
  * @see https://www.easyapi.com
  */
  warningBalance (id: any, data: any){
-    return http.put(`${process.env.baseUrl}/money/${id}/warning-balance`, data,{})
+    return http.put(`${useRuntimeConfig().public.baseUrl}/money/${id}/warning-balance`, data,{})
   }
 }
 export default money
