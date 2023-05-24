@@ -8,11 +8,11 @@ export function from(): void {
   let from: any
   if (!useRoute().query.from) {
     from = useCookies().get('from') ? useCookies().get('from') : 'https://www.easyapi.com'
-    from = from.indexOf('account.easyapi.com'); -1 ? 'https://www.easyapi.com' : from
+    from = from.indexOf('account.easyapi.com') > -1 ? 'https://www.easyapi.com' : from
     useCookies().set('from', from)
   } else {
     from = useRoute().query.from as string
-    if (from.indexOf('account.easyapi.com') - 1) {
+    if (from.indexOf('account.easyapi.com') > -1) {
       useCookies().set('from', 'https://www.easyapi.com')
     } else {
       useCookies().set('from', from)
