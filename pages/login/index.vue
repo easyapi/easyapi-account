@@ -3,6 +3,8 @@ import { onMounted, onUpdated, reactive } from 'vue'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { ElMessage } from 'element-plus'
 
+import login from '~/api/login'
+
 export default defineComponent({
   setup() {
     const data = reactive({
@@ -30,12 +32,17 @@ export default defineComponent({
       }
     })
 
-    onUpdated(() => {
-      data.disabled = !(
-        data.ruleForm.username !== '' && data.ruleForm.password && data.ruleForm.password.length >= 6
-      )
-    })
-    function login() {
+    watch(
+      () => data.ruleForm,
+      () => {
+        data.disabled = !(
+          data.ruleForm.username !== '' && data.ruleForm.password && data.ruleForm.password.length >= 6
+        )
+      },
+      { deep: true }
+    )
+
+    function register() {
       const options = {
         path: '/',
         secure: true,
@@ -45,7 +52,7 @@ export default defineComponent({
       const params = sessionStorage.getItem('params')
       const auth = sessionStorage.getItem('auth')
       const from = useCookies().get('from')
-      login().then((res) => {
+      login.postLogin(data.ruleForm).then((res) => {
         if (res.data.code === 1) {
           useCookies().set('authenticationToken', res.data.content.idToken, {
             expires: data.ruleForm.rememberMe ? 30 : 0.1,
@@ -77,7 +84,7 @@ export default defineComponent({
     }
     return {
       ...toRefs(data),
-      login,
+      register,
     }
   }
 })
@@ -87,49 +94,68 @@ export default defineComponent({
 <template>
   <div class="main">
     <div class="form">
-      <div class="headline">
-        用户登录
-      </div>
-      <el-form ref="ruleForm" :model="ruleForm" :rules="rules">
+      <div class="headline">用户登录</div>
+      <el-form ref="refForm" :model="ruleForm" :rules="rules">
         <el-form-item label="" prop="username">
-          <el-input v-model="username" placeholder="请输入手机号码">
-            <template data.slot="prepend">
-              +&nbsp;
-            </template>
-            <el-select v-model="ruleForm.areaCode" style="width: 80px" filterable allow-create data.slot="prepend">
-              <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">
+          <el-input v-model="ruleForm.username" placeholder="请输入手机号码">
+            <template data.slot="prepend"> +&nbsp; </template>
+            <el-select
+              v-model="ruleForm.areaCode"
+              style="width: 80px"
+              filterable
+              allow-create
+              data.slot="prepend"
+            >
+              <el-option
+                v-for="item in areaCodes"
+                :key="item.value"
+                :value="item.value"
+              >
                 {{ item.label }}+{{ item.value }}
               </el-option>
             </el-select>
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input v-model="password" placeholder="请输入密码" type="password" />
+          <el-input
+            v-model="ruleForm.password"
+            placeholder="请输入密码"
+            type="password"
+          />
         </el-form-item>
-        <el-checkbox  v-model="ruleForm.rememberMe"   class="checkbox">
-          记住密码 
+        <el-checkbox v-model="ruleForm.rememberMe" class="checkbox">
+          记住密码
         </el-checkbox>
-        <el-button style="width: 100%" :disabled="disabled" type="primary" @click="login">
+        <el-button
+          style="width: 100%"
+          :disabled="disabled"
+          type="primary"
+          @click="register"
+        >
           登录
         </el-button>
       </el-form>
       <div class="other-box">
-        <nuxt-link to="/signup" class="signup">
-          立即注册
-        </nuxt-link>
-        <nuxt-link to="/email-upgrade">
-          邮箱升级为手机号码
-        </nuxt-link>
+        <nuxt-link to="/signup" class="signup"> 立即注册 </nuxt-link>
+        <nuxt-link to="/email-upgrade"> 邮箱升级为手机号码 </nuxt-link>
         <nuxt-link to="/forget-password" class="forget-password">
           忘记密码？
         </nuxt-link>
       </div>
       <div class="other-login">
         <a href="https://account-api.easyapi.com/auth/wechat">
-          <img class="image-svg" src="@/assets/images/static/svg/weixin.svg" alt="">
+          <img
+            class="image-svg"
+            src="@/assets/images/static/svg/weixin.svg"
+            alt=""
+          />
         </a>
         <a href="https://account-api.easyapi.com/auth/qq">
-          <img class="image-svg" src="@/assets/images/static/svg/qq.svg" alt="">
+          <img
+            class="image-svg"
+            src="@/assets/images/static/svg/qq.svg"
+            alt=""
+          />
         </a>
       </div>
     </div>
