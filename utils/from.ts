@@ -17,5 +17,5 @@ export async function from() {
     else
       useCookies().set('from', from)
   }
-  useCookies().set('domain', userStore().$state.user.domain)
+  useCookies().set('domain', userStore().user.domain)
 }
