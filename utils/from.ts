@@ -4,19 +4,18 @@ import { userStore } from '~/store/user'
 /**
  * 处理来源链接和域名
  */
-export function from(): void {
-  let from: any
+export async function from() {
+  let fromData = ''
   if (!useRoute().query.from) {
-    from = useCookies().get('from') ? useCookies().get('from') : 'https://www.easyapi.com'
-    from = from.indexOf('account.easyapi.com') > -1 ? 'https://www.easyapi.com' : from
-    useCookies().set('from', from)
+    fromData = await useCookies().get('from') ? useCookies().get('from') : 'https://www.easyapi.com'
+    fromData = fromData.includes('account.easyapi.com') ? 'https://www.easyapi.com' : fromData
+    useCookies().set('from', fromData)
   } else {
-    from = useRoute().query.from as string
-    if (from.indexOf('account.easyapi.com') > -1) {
+    fromData = await useRoute().query.from as string
+    if (fromData && fromData.includes('account.easyapi.com'))
       useCookies().set('from', 'https://www.easyapi.com')
-    } else {
+    else
       useCookies().set('from', from)
-    }
   }
   useCookies().set('domain', userStore().$state.user.domain)
 }

@@ -3,48 +3,15 @@ import { onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { ElMessage } from 'element-plus'
-import auth from '@/api/auth'
 import qs from 'qs'
+import auth from '@/api/auth'
 
 export default defineComponent({
   setup() {
     const route = useRoute()
     const data = reactive({
       account: '',
-      client: ''
-    })
-
-    onMounted(() => {
-      const token = useCookies().get('authenticationToken')
-      if (!token) {
-        //添加三方登录标识
-        sessionStorage.setItem('auth', '三方登录')
-        window.location.href = '/login'
-      }
-      const params = {
-        client_id: route.query.client_id,
-        response_type: route.query.response_type,
-        scope: route.query.scope,
-        state: route.query.state,
-        redirect_uri: route.query.redirect_uri
-      }
-      sessionStorage.setItem('params', JSON.stringify(params))
-      //清空三方登录标识
-      sessionStorage.setItem('auth', '')
-      if (!token) {
-        changeUser()
-      }
-      auth.getAuthorize(params)
-        .then(res => {
-          if (res.data.code === 1) {
-            data.client = res.data.content.name
-            data.account = res.data.content.username
-          }
-        })
-        .catch(error => {
-          /* Warn: Unknown source: $message */
-          ElMessage.error(error.response.data.message)
-        })
+      client: '',
     })
 
     const authorization = () => {
@@ -52,7 +19,7 @@ export default defineComponent({
         qs.stringify({
           user_oauth_approval: true,
           authorize: 'Authorize',
-          'scope.client': true
+          'scope.client': true,
         }),
       ).then()
     }
@@ -67,17 +34,49 @@ export default defineComponent({
     }
 
     const changeUser = () => {
-      //添加三方登录标识
+      // 添加三方登录标识
       sessionStorage.setItem('auth', '三方登录')
       window.location.href = '/login'
     }
+
+    onMounted(() => {
+      const token = useCookies().get('authenticationToken')
+      if (!token) {
+        // 添加三方登录标识
+        sessionStorage.setItem('auth', '三方登录')
+        window.location.href = '/login'
+      }
+      const params = {
+        client_id: route.query.client_id,
+        response_type: route.query.response_type,
+        scope: route.query.scope,
+        state: route.query.state,
+        redirect_uri: route.query.redirect_uri,
+      }
+      sessionStorage.setItem('params', JSON.stringify(params))
+      // 清空三方登录标识
+      sessionStorage.setItem('auth', '')
+      if (!token)
+        changeUser()
+      auth.getAuthorize(params)
+        .then((res) => {
+          if (res.data.code === 1) {
+            data.client = res.data.content.name
+            data.account = res.data.content.username
+          }
+        })
+        .catch((error) => {
+          ElMessage.error(error.response.data.message)
+        })
+    })
+
     return {
-      data,
+      ...toRefs(data),
       authorization,
       cancel,
-      changeUser
+      changeUser,
     }
-  }
+  },
 })
 </script>
 
@@ -88,10 +87,10 @@ export default defineComponent({
     </div>
     <div class="p-2">
       <div class="mt-2">
-        <span class="text-gray-600">{{ data.client }} 想要访问你的账户信息</span>
+        <span class="text-gray-600">{{ client }} 想要访问你的账户信息</span>
       </div>
       <div class="mt-2">
-        <span>当前登录账号: {{ data.account }}</span>
+        <span>当前登录账号: {{ account }}</span>
       </div>
     </div>
     <div class="pl-10 flex">

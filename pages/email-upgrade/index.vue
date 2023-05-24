@@ -5,9 +5,6 @@ import { ElMessage } from 'element-plus'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 import email from '@/api/email'
 
-
-
-
 export default defineComponent({
   setup() {
     const data = reactive({
@@ -23,50 +20,50 @@ export default defineComponent({
         email: '',
         mobile: '',
         code: '',
-        password: ''
+        password: '',
       },
-      emailRegex: /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/, //邮箱正则表达式
+      emailRegex: /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/, // 邮箱正则表达式
       rules: {
         email: [
           { required: true, message: '请输入邮箱账号', trigger: 'blur' },
           {
             pattern: /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/,
             message: '邮箱账号格式有误',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         mobile: [
           { required: true, message: '请输入手机号码', trigger: 'blur' },
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-            message: "请输入正确的手机号码",
-            trigger: "blur"
-          }
+            message: '请输入正确的手机号码',
+            trigger: 'blur',
+          },
         ],
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
-          { pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur' }
+          { pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur' },
         ],
         password: [
           { required: true, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur' },
-          { min: 6, max: 16, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur' }
-        ]
-      }
+          { min: 6, max: 16, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur' },
+        ],
+      },
     })
 
     onUpdated(() => {
-      //校验
+      // 校验
       data.disabled = !(
-        data.emailRegex.test(data.formData.email) &&
-        isValidPhoneNumber(data.formData.mobile, data.formData.country) &&
-        data.formData.password.length >= 6 &&
-        data.formData.code.length === 6
+        data.emailRegex.test(data.formData.email)
+        && isValidPhoneNumber(data.formData.mobile, data.formData.country)
+        && data.formData.password.length >= 6
+        && data.formData.code.length === 6
       )
     })
-    const upgradeEmail=()=> {
+    const upgradeEmail = () => {
       const from = useCookies().get('from')
       email.upgradeEmail(data.formData)
-        .then(res => {
+        .then((res) => {
           if (res.data.code === 1) {
             ElMessage.success(res.data.message)
             setTimeout(() => {
@@ -77,29 +74,28 @@ export default defineComponent({
             ElMessage.error(res.data.message)
           }
         })
-        .catch(error => {
+        .catch((error) => {
           ElMessage.error(error.response.data.message)
         })
     }
 
-    const sendCode=()=> {
+    const sendCode = () => {
       const telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
       if (telStr.test(data.formData.mobile)) {
         const params = {
-          mobile: data.formData.mobile
+          mobile: data.formData.mobile,
         }
         email.upgradeEmail(params)
-          .then(res => {
-            if (res.data.code === 1) {
+          .then((res) => {
+            if (res.data.code === 1)
               ElMessage.success(res.data.message)
-            } else {
+            else
               ElMessage.error(res.data.message)
-            }
           })
-          .catch(error => {
+          .catch((error) => {
             ElMessage.error(error.response.data.message)
           })
-        const second = 60
+        let second = 60
         data.sendCodeBtn = true
         const timer = setInterval(() => {
           second--
@@ -118,11 +114,12 @@ export default defineComponent({
     return {
       ...toRefs(data),
       sendCode,
-      upgradeEmail
+      upgradeEmail,
     }
-  }
+  },
 })
 </script>
+
 <template>
   <div class="main">
     <div class="form">
@@ -149,9 +146,13 @@ export default defineComponent({
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="code">
-          <el-input v-model="formData.code" class="code" placeholder="请输入验证码" maxlength="6"
-            onkeyup="value=value.replace(/[^\d]/g,'')" />
-          <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">{{ sendCodeCount }}</el-button>
+          <el-input
+            v-model="formData.code" class="code" placeholder="请输入验证码" maxlength="6"
+            onkeyup="value=value.replace(/[^\d]/g,'')"
+          />
+          <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">
+            {{ sendCodeCount }}
+          </el-button>
         </el-form-item>
         <el-button style="width: 100%" type="primary" :disabled="disabled" @click="upgradeEmail">
           升级
@@ -166,7 +167,7 @@ export default defineComponent({
     </div>
   </div>
 </template>
+
 <style lang="scss">
 @import url(./index.scss);
 </style>
-

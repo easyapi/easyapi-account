@@ -21,7 +21,7 @@ watch(() => props.edition, () => {
   select()
 })
 
-const choseEdition=(item)=> {
+function choseEdition (item) {
   if ( props.edition === '旗舰版' && item.name === '旗舰版') {
     data.selectEdition = item.name
     emit('event', item)

@@ -1,7 +1,7 @@
 <script>
-import { useCookies } from '@vueuse/integrations/useCookies'
-import { isValidPhoneNumber } from 'libphonenumber-js'
-import { ElMessage } from 'element-plus'
+import {useCookies} from '@vueuse/integrations/useCookies'
+import {isValidPhoneNumber} from 'libphonenumber-js'
+import {ElMessage} from 'element-plus'
 import bind from '@/api/bind'
 import login from '@/api/login'
 
@@ -24,12 +24,12 @@ export default defineComponent({
       },
       rules: {
         username: [
-          { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { validator: isValidPhoneNumber, trigger: 'blur' },
+          {required: true, message: '请输入手机号码', trigger: 'blur'},
+          {validator: isValidPhoneNumber, trigger: 'blur'},
         ],
         password: [
-          { required: true, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur' },
-          { min: 6, max: 16, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur' },
+          {required: true, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur'},
+          {min: 6, max: 16, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur'},
         ],
       },
     })
@@ -39,17 +39,17 @@ export default defineComponent({
     })
     const bindPost = () => {
       const from = useCookies().get('from')
-      bind.postBind
-        ({
-          providerUserId: data.providerUserId,
-          providerId: data.providerId,
-        }).then((res) => {
-          if (res.data.code !== 1) {
-            ElMessage.error(res.data.message)
-            return
-          }
-          window.location.replace(from)
-        })
+      const params = {
+        providerUserId: data.providerUserId,
+        providerId: data.providerId,
+      }
+      bind.postBind(params).then((res) => {
+        if (res.data.code !== 1) {
+          ElMessage.error(res.data.message)
+          return
+        }
+        window.location.replace(from)
+      })
     }
 
     const loginPost = () => {
@@ -87,7 +87,7 @@ export default defineComponent({
       ...toRefs(data),
       loginPost,
     }
-  }
+  },
 })
 </script>
 <template>
@@ -115,19 +115,20 @@ export default defineComponent({
             <el-select slot="prepend" v-model="ruleForm.areaCode" filterable allow-create style="width: 80px">
               <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">
                 {{ item.label }}(+{{
-                  item.value }})
+                  item.value
+                }})
               </el-option>
             </el-select>
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input v-model="ruleForm.password" type="password" placeholder="请输入密码" />
+          <el-input v-model="ruleForm.password" type="password" placeholder="请输入密码"/>
         </el-form-item>
         <el-checkbox v-model="ruleForm.rememberMe" class="checkbox" checked>
           记住密码
         </el-checkbox>
         <el-button id="btn_sub" style="width: 100%" type="primary" :disabled="disabled"
-          class="btn-block btn btn-lg btn-info" @click="login">
+                   class="btn-block btn btn-lg btn-info" @click="login">
           绑定账号
         </el-button>
       </el-form>
