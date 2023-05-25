@@ -11,7 +11,7 @@ export const service = {
    * 续购服务
    */
   renewBalance() {
-    return http.post(`${process.env.serviceUrl}/service/buy`, {}, {})
+    return http.post(`${useRuntimeConfig().public.serviceUrl}/service/buy`, {}, {})
   },
 
   /**

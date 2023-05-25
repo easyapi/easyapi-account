@@ -9,6 +9,7 @@ import WeChatPay from '../components/WeChatPay.vue'
 import userStore from '@/store/user'
 import money from '@/api/money'
 import service from '@/api/service'
+import account from '@/api/account'
 import renew from '~/api/renew'
 
 export default defineComponent({
@@ -49,10 +50,18 @@ export default defineComponent({
       data.selectPrice.reset()
     }
 
+    const getUserIfm = () =>{
+      account.getUser()
+        .then((res) => {
+          console.log(res,777)
+        })
+    }
+
     const getServiceList = () => {
-      service.getServiceList().then((res) => {
-        if (res.data.code === 1) {
-          data.priceList = res.data.content
+      service.getServiceList({}).then((res) => {
+        console.log(res,777)
+        if (res.code === 1) {
+          data.priceList = res.content
           for (const object of data.priceList) {
             // 统一计量
             object.num = object.type === 2 ? object.times : object.month
@@ -65,10 +74,10 @@ export default defineComponent({
 
     const getTeamInfo = () => {
       const teamId = store.team ? store.team.id : ''
-      money.getTeamMoney(teamId).then((res) => {
+      money.getTeamMoney({teamId:teamId}).then((res) => {
         if (res.data.code === 1) {
-          data.balance = res.data.content.balance
-          data.team = res.data.content.team
+          data.balance = res.content.balance
+          data.team = res.content.team
         }
       })
     }
@@ -89,9 +98,11 @@ export default defineComponent({
 
     const getTeamService=(teamServiceId)=> {
       service.getTeamService(teamServiceId).then(res => {
-        if (res.data.code === 1) {
-          const content = res.data.content
-          data.service = res.data.content.service
+        if (res.code === 1) {
+      console.log(res,789)
+
+          const content = res.content
+          data.service = res.content.service
           if (data.service.type === 3) {
             // 页面显示的时间
             data.date = moment(content.endTime).format('YYYY-MM-DD HH:mm:ss')
@@ -103,9 +114,10 @@ export default defineComponent({
             data.oldNum = content.balance
           }
           getServiceList()
-        } else if (res.data.code === -1) {
+        } else if (res.code === -1) {
           // 当前团队没有开通此服务
-          ElMessage.error(res.data.message)
+          /* Warn: Unknown source: $message */
+          ElMessage.error(res.message)
           setTimeout(() => {
             window.location.href = '/service/'
           }, 2000)
@@ -133,12 +145,12 @@ export default defineComponent({
         payment: data.payment
       }
       renew.getPriceList(renewBalance).then(res => {
-        if (res.data.code === 1) {
+        if (res.code === 1) {
           if (data.payment === '支付宝') {
             const href = router.resolve({
               path: '/renew/alipay',
               query: {
-                form: res.data.alipay
+                form: res.alipay
               },
             })
             window.open(href, '_blank')
@@ -172,6 +184,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      getUserIfm()
       getTeamService(route.query.teamServiceId)
       getTeamInfo()
     })

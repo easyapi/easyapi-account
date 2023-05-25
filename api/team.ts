@@ -7,7 +7,7 @@ export const team = {
    * @see https://account-api.easyapi.com
    */
   getTeamUserList(params: any) {
-    return http.get(`${process.env.baseUrl}/team/users`, params, {})
+    return http.get(`${useRuntimeConfig().public.baseUrl}/team/users`, params, {})
   }
 }
 

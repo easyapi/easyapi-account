@@ -23,7 +23,7 @@ export default defineComponent({
       account.getUser()
         .then((res) => {
           if (res.code === 1)
-            useCookies().get('from')
+          window.location.replace(useCookies().get('from'))
           else
             router.push({ path: '/login' })
         })

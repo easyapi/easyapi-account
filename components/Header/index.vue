@@ -1,19 +1,30 @@
-<!-- <script>
+<script>
 import { useCookies } from '@vueuse/integrations/useCookies'
+import userStore from '@/store/user'
 
-export default {
+
+export default defineComponent({
   name: 'Header',
-  data() {
-    return {
-      authenticationToken: useCookies().get('authenticationToken'),
+  setup() {
+    const store = userStore()
+    const data = reactive({
+      authenticationToken : useCookies().get('authenticationToken')
+    })
+  
+  onMounted(()=> {
+    if (data.authenticationToken){
+      store.getUser()
+    }
+      
+  })
+
+  return {
+      ...toRefs(data),
+     
     }
   },
-  mounted() {
-    if (this.authenticationToken)
-      this.$store.dispatch('user/getUser')
-  },
-}
-</script> -->
+})
+</script>
 
 <template>
   <el-row class="header">

@@ -34,6 +34,7 @@ export default defineComponent({
       memberCount: 0, // 可改变团队人数
       wechatPayDialog: false,
       weChatPayUrl: null,
+      selectric:null,
       totalPrice: 0, // 应付金额
       release: '基础版', // 版本
       edition: false,
@@ -52,25 +53,26 @@ export default defineComponent({
         memberCount: data.memberCount,
         release: data.release
       }).then(res => {
-        if (res.data.code === 1) {
-          data.totalPrice = res.data.content
+        if (res.code === 1) {
+          data.totalPrice = res.content
         }
       })
     }
 
     const getTeamUserList = () => {
-      team.getTeamUserList().then(res => {
-        if (res.data.code === 1) {
-          data.nowMemberCount = res.data.content.length
-          data.memberCount = res.data.content.length
+      team.getTeamUserList({}).then(res => {
+        if (res.code === 1) {
+          data.nowMemberCount = res.content.length
+          data.memberCount = res.content.length
         }
       })
     }
 
     const getPriceList = () => {
-      renew.getPriceList().then(res => {
-        if (res.data.code === 1) {
-          data.priceList = res.data.content
+      renew.getPriceList({release: data.release}).then(res => {
+        console.log(res,0000)
+        if (res.code === 1) {
+          data.priceList = res.content
           for (let object of data.priceList) {
             //统一计量
             object.num = object.month
@@ -91,13 +93,14 @@ export default defineComponent({
 
     const getTeamInfo = () => {
       let teamId = store.team ? store.team.id : ''
+      console.log(teamId,999)
       money.getTeamMoney({ teamId: teamId }).then(res => {
-        if (res.data.code === 1) {
-          data.balance = res.data.content.balance
-          data.team = res.data.content.team
-          data.date = moment(res.data.content.team.endTime).format('YYYY-MM-DD HH:mm:ss')
-          data.oldDate = getExpirationTime(res.data.content.team.endTime)
-          data.edition = res.data.content.team.release
+        if (res.code === 1) {
+          data.balance = res.content.balance
+          data.team = res.content.team
+          data.date = moment(res.content.team.endTime).format('YYYY-MM-DD HH:mm:ss')
+          data.oldDate = getExpirationTime(res.content.team.endTime)
+          data.edition = res.content.team.release
         }
       })
     }
@@ -175,9 +178,9 @@ export default defineComponent({
 
     onMounted(() => {
       document.title = '文档续费 - EasyAPI'
-      getTeamInfo()
+      // getTeamInfo()
       getPriceList()
-      getTeamUserList()
+      // getTeamUserList()
     })
 
     return {
@@ -209,7 +212,7 @@ export default defineComponent({
         <a class="edition-tips" target="_blank" href="https://www.easyapi.com/info/price">查看不同版本对比</a>
         <div class="renew_service">
           <strong class="renew_service_title">续费价格：</strong>
-          <SelectPrice ref="selectPrice" :pricelist="priceList" @event="selectPrice" />
+          <SelectPrice ref="selectric" :pricelist="priceList" @event="selectPrice" />
         </div>
         <div class="renew_service">
           <strong class="renew_service_title">支付方式：</strong>

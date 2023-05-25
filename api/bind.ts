@@ -4,7 +4,7 @@ import http from '~/api/request'
    * 绑定
    */
   postBind(data: any) {
-    return http.post(`${process.env.baseUrl}/auth/bind`, data, {})
+    return http.post(`${useRuntimeConfig().public.baseUrl}/auth/bind`, data, {})
   }
 }
 

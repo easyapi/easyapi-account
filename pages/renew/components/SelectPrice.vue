@@ -3,8 +3,8 @@ import { reactive } from 'vue'
 
 const props = defineProps({
   priceList: {
-    type: String,
-    default: null,
+    type: Array,
+    default: ()=>{return []},
   },
 })
 

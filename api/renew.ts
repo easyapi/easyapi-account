@@ -7,7 +7,7 @@ export const renew = {
  * @see https://account-api.easyapi.com
  */
   getPriceList(params: any) {
-    return http.get(`${process.env.baseUrl}/team/price`, params, {}
+    return http.get(`${useRuntimeConfig().public.baseUrl}/team/price`, params, {}
     )
   },
   /**
@@ -16,7 +16,7 @@ export const renew = {
  * @see https://account-api.easyapi.com
  */
   getRenewPrice(params: any) {
-    return http.get(`${process.env.baseUrl}/team/renew-price`, params, {}
+    return http.get(`${useRuntimeConfig().public.baseUrl}/team/renew-price`, params, {}
     )
   },
   /**
@@ -25,7 +25,7 @@ export const renew = {
  * @see https://account-api.easyapi.com
  */
   renew(data: any) {
-    return http.post(`${process.env.baseUrl}/team/renew`, data
+    return http.post(`${useRuntimeConfig().public.baseUrl}/team/renew`, data
     )
   }
 }

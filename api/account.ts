@@ -7,7 +7,7 @@ export const account = {
    * @see https://www.easyapi.com
    */
   getUser() {
-    return http.get(`${process.env.baseUrl}/account`,{},{})
+    return http.get(`${useRuntimeConfig().public.baseUrl}/account`,{},{})
   }
 }
 
