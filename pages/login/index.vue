@@ -79,12 +79,13 @@ export default defineComponent({
       },
       )
         .catch((error) => {
-          ElMessage.error(error.response.data.message)
+          console.log(error, 1111);
         })
     }
     return {
       ...toRefs(data),
       register,
+
     }
   }
 })
@@ -99,39 +100,20 @@ export default defineComponent({
         <el-form-item label="" prop="username">
           <el-input v-model="ruleForm.username" placeholder="请输入手机号码">
             <template data.slot="prepend"> +&nbsp; </template>
-            <el-select
-              v-model="ruleForm.areaCode"
-              style="width: 80px"
-              filterable
-              allow-create
-              data.slot="prepend"
-            >
-              <el-option
-                v-for="item in areaCodes"
-                :key="item.value"
-                :value="item.value"
-              >
+            <el-select v-model="ruleForm.areaCode" style="width: 80px" filterable allow-create data.slot="prepend">
+              <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">
                 {{ item.label }}+{{ item.value }}
               </el-option>
             </el-select>
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input
-            v-model="ruleForm.password"
-            placeholder="请输入密码"
-            type="password"
-          />
+          <el-input v-model="ruleForm.password" placeholder="请输入密码" type="password" />
         </el-form-item>
         <el-checkbox v-model="ruleForm.rememberMe" class="checkbox">
           记住密码
         </el-checkbox>
-        <el-button
-          style="width: 100%"
-          :disabled="disabled"
-          type="primary"
-          @click="register"
-        >
+        <el-button style="width: 100%" :disabled="disabled" type="primary" @click="register">
           登录
         </el-button>
       </el-form>
@@ -144,18 +126,10 @@ export default defineComponent({
       </div>
       <div class="other-login">
         <a href="https://account-api.easyapi.com/auth/wechat">
-          <img
-            class="image-svg"
-            src="@/assets/images/static/svg/weixin.svg"
-            alt=""
-          />
+          <img class="image-svg" src="@/assets/images/static/svg/weixin.svg" alt="" />
         </a>
         <a href="https://account-api.easyapi.com/auth/qq">
-          <img
-            class="image-svg"
-            src="@/assets/images/static/svg/qq.svg"
-            alt=""
-          />
+          <img class="image-svg" src="@/assets/images/static/svg/qq.svg" alt="" />
         </a>
       </div>
     </div>

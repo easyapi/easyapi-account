@@ -1,44 +1,3 @@
-<template>
-  <div class="main">
-    <div class="form">
-      <div class="headline">用户注册</div>
-      <el-Form :model="formData" :rules="rules" ref="ruleForm">
-        <el-FormItem label="" prop="username">
-          <el-Input placeholder="请输入手机号码" maxlength="11" v-model="formData.username" @blur="findUsername">
-            <template slot="prepend">+&nbsp;</template>
-            <el-Select v-model="formData.areaCode" filterable allow-create slot="prepend" style="width: 80px">
-              <el-Option v-for="item in areaCodes" :key="item.value" :value="item.value">{{ item.label }}(+{{ item.value
-              }})</el-Option>
-            </el-Select>
-          </el-Input>
-        </el-FormItem>
-        <el-FormItem label="" prop="code">
-          <el-Input placeholder="请输入验证码" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="formData.code"
-            class="code"></el-Input>
-          <el-Button :disabled="sendCodeBtn" class="getCode" @click="sendCode">{{ sendCodeCount }}</el-Button>
-        </el-FormItem>
-        <el-FormItem label="" prop="nickname">
-          <el-Input placeholder="请输入姓名" v-model="formData.nickname"></el-Input>
-        </el-FormItem>
-        <el-FormItem label="" prop="password">
-          <el-Input placeholder="请设置密码" type="password" v-model="formData.password"></el-Input>
-        </el-FormItem>
-        <el-FormItem label="" prop="confirmPassword">
-          <el-Input placeholder="请再输入一次密码" type="password" v-model="formData.confirmPassword"></el-Input>
-        </el-FormItem>
-        <el-Checkbox class="checkbox" v-model="formData.checked">
-          点击注册表示您同意
-          <span class="text-success"><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span>
-        </el-Checkbox>
-        <el-Button style="width: 100%" type="primary" :disabled="disabled" id="btn_sub" @click="signupFn"
-          class="btn-block btn btn-lg btn-info">注 册</el-Button>
-      </el-Form>
-      <div class="other-box">
-        <nuxt-link to="/login">我已有EasyAPI账号,直接登录</nuxt-link>
-      </div>
-    </div>
-  </div>
-</template>
 <script lang="ts">
 import { onMounted, onUpdated, reactive } from 'vue'
 import signup from '@/api/signup'
@@ -111,33 +70,120 @@ export default defineComponent({
         ElMessage.error('请勾选同意EasyAPI用户协议');
         return
       }
-      let from = useCookies().get('from');
-      signup.sendCodeFn({})
-        .then((res) => {
+      let from = useCookies().get('from')
+      signup.signup(data.formData)
+        .then(res => {
           if (res.data.code === 1) {
             useCookies().set('authenticationToken', res.data.content.idToken, {
               expires: data.formData.rememberMe ? 30 : 0.1,
               path: '/',
               domain: useCookies().get('domain')
-            });
-            ElMessage.success(res.data.message);
+            })
+            ElMessage.success(res.data.message)
             setTimeout(() => {
-              useCookies().remove('from');
-              window.location.replace(from);
-            }, 1000);
+              useCookies().remove('from')
+              window.location.replace(from)
+            }, 1000)
           } else {
-            ElMessage.error(res.data.message);
+            ElMessage.error(res.data.message)
           }
         })
-        .catch((error) => {
-          ElMessage.error(error.response.data.message);
-        });
+        .catch(error => {
+          ElMessage.error(error.response.data.message)
+        })
     }
+
+    function sendCode() {
+      if (data.sendCodeBtn) {
+        return
+      }
+     
+      signup.sendCodeFn(data.ruleForm)
+        .then(res => {
+          if (res.data.code === 1) {
+            ElMessage.success('验证码发送成功')
+            let second = 60
+            data.sendCodeBtn = true
+            const timer = setInterval(() => {
+              second--
+              if (second === 0) {
+                data.sendCodeBtn = false
+                data.sendCodeCount = '获取验证码'
+                clearInterval(timer)
+                return
+              }
+              data.sendCodeCount = `剩余${second}秒`
+            }, 1000)
+          } else {
+            ElMessage.error(res.data.message)
+          }
+        })
+        .catch(error => {
+          ElMessage.error(error.response.data.message)
+        })
+    }
+
+    function findUsername() {
+      signup.findUsername({ username: data.formData.username })
+        .then(res => {
+          data.existUsername = true
+          ElMessage.error('该账号已注册，请直接登录')
+        })
+        .catch(error => {
+          data.sendCodeBtn = false
+        })
+    }
+
     return {
       ...toRefs(data),
       signupFn,
-      // sendCode,
+      sendCode,
+      findUsername
     }
   }
 })
 </script>
+
+
+<template>
+  <div class="main">
+    <div class="form">
+      <div class="headline">用户注册</div>
+      <el-form :model="formData" :rules="rules" ref="ruleForm">
+        <el-form-item label="" prop="username">
+          <el-input placeholder="请输入手机号码" maxlength="11" v-model="formData.username" @blur="findUsername">
+            <template slot="prepend">+&nbsp;</template>
+            <el-select v-model="formData.areaCode" filterable allow-create slot="prepend" style="width: 80px">
+              <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">{{ item.label }}(+{{ item.value
+              }})</el-option>
+            </el-select>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="" prop="code">
+          <el-input placeholder="请输入验证码" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="formData.code"
+            class="code"></el-input>
+          <el-Button :disabled="sendCodeBtn" class="getCode" @click="sendCode">{{ sendCodeCount }}</el-Button>
+        </el-form-item>
+        <el-form-item label="" prop="nickname">
+          <el-input placeholder="请输入姓名" v-model="formData.nickname"></el-input>
+        </el-form-item>
+        <el-form-item label="" prop="password">
+          <el-input placeholder="请设置密码" type="password" v-model="formData.password"></el-input>
+        </el-form-item>
+        <el-form-item label="" prop="confirmPassword">
+          <el-input placeholder="请再输入一次密码" type="password" v-model="formData.confirmPassword"></el-input>
+        </el-form-item>
+        <el-checkbox class="checkbox" v-model="formData.checked">
+          点击注册表示您同意
+          <span class="text-success"><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span>
+        </el-checkbox>
+        <el-Button style="width: 100%" type="primary" :disabled="disabled" id="btn_sub" @click="signupFn"
+          class="btn-block btn btn-lg btn-info">注 册</el-Button>
+      </el-form>
+      <div class="other-box">
+        <nuxt-link to="/login">我已有EasyAPI账号,直接登录</nuxt-link>
+      </div>
+    </div>
+  </div>
+</template>
+
