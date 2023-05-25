@@ -73,8 +73,6 @@ export default defineComponent({
 
 
     const forgetPassword = () => {
-      /* Warn: Cannot find refs name */
-      // let { ctx } = getCurrentInstance() as any
       data['ruleForm'].validate((valid: any) => {
         if (valid) {
           if (data.formData.password !== data.formData.confirmPassword) {
