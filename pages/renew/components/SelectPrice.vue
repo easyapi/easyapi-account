@@ -1,35 +1,63 @@
-<script setup lang="ts">
+<script>
 import { reactive } from 'vue'
 
-const props = defineProps({
-  priceList: {
-    type: Array,
-    default: ()=>{return []},
+export default defineComponent({
+  props: {
+    priceList: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  emits: ['event'],
+  setup(prop, { emit }) {
+    const data = reactive({
+      selectMoney: 0
+    })
+
+
+    function selectMoneyFn(item) {
+      data.selectMoney = item.num
+      emit('event', item)
+    }
+
+    function reset() {
+      data.selectMoney = 0
+    }
+    return {
+      ...toRefs(data,prop),
+      selectMoneyFn,
+      reset
+    }
   },
 })
+// const props = defineProps({
+//   priceList: {
+//     type: Array,
+//     default: ()=>{return []},
+//   },
+// })
 
-const emit = defineEmits(['event'])
+// const emit = defineEmits(['event'])
 
-const data = reactive({
-  selectMoney: 0
-})
-
-function selectMoneyFn(item) {
-  data.selectMoney = item.num
-  emit('event', item)
-}
-
-function reset() {
-  data.selectMoney = 0
-}
-
+// const data = reactive({
+//   selectMoney: 0
+// })
 </script>
 
 <template>
   <div class="renew-price">
-    <div v-for="(item, index) in props.priceList" :key="index" class="renew-price-item"
-      :class="{ eaActive: data.selectMoney === item.num }" @click="selectMoneyFn()">
-      <strong>{{ item.num }}{{ item.type === 2 ? '次' : '个月' }}&nbsp;&nbsp;￥{{ item.price.toFixed(2) }}</strong>
+    <div
+      v-for="(item, index) in priceList"
+      :key="index"
+      class="renew-price-item"
+      :class="{ eaActive: data.selectMoney === item.num }"
+      @click="selectMoneyFn(item)"
+    >
+      <strong
+        >{{ item.num }}{{ item.type === 2 ? '次' : '个月' }}&nbsp;&nbsp;￥{{
+          item.price.toFixed(2)
+        }}</strong
+      >
       <p>￥{{ item.unitPrice }}/{{ item.type === 2 ? '次' : '月' }}</p>
     </div>
   </div>

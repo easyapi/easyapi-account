@@ -38,7 +38,7 @@ export default defineComponent({
       price: 0, // 销售价格
       wechatPayDialog: false, // 微信支付弹框
       weChatPayUrl: '', // 微信支付二维码链接
-      selectPrice: null,
+      selectPri: null,
       teamServiceId:''
     })
 
@@ -75,9 +75,9 @@ export default defineComponent({
     }
 
     const getTeamInfo = () => {
-      const teamId = store.team ? store.team.id : ''
-      money.getTeamMoney({teamId:teamId}).then((res) => {
-        if (res.data.code === 1) {
+      const teamId = store.team ? store.team.team.id : ''
+      money.getTeamMoney(teamId).then((res) => {
+        if (res.code === 1) {
           data.balance = res.content.balance
           data.team = res.content.team
         }
@@ -213,7 +213,7 @@ export default defineComponent({
       <div class="renew_content max-w-screen-lg">
         <div class="renew_service">
           <strong class="renew_service_title">服务价格：</strong>
-          <SelectPrice ref="selectPrice" :pricelist="priceList" @event="selectPrice" />
+          <SelectPrice ref="selectPri" :pricelist="priceList" @event="selectPrice" />
         </div>
         <div class="renew_service">
           <strong class="renew_service_title">支付方式：</strong>
