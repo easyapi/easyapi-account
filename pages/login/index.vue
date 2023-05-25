@@ -55,7 +55,7 @@ export default defineComponent({
       login.postLogin(data.ruleForm).then((res) => {
         if (res.code === 1) {
           useCookies().set('authenticationToken', res.content.idToken, {
-            Expires: data.ruleForm.rememberMe ? 30 : 0.1,
+            maxAge: 60 * 60 * 24 * 30,
             path: '/api/service',
             domain: useCookies().get('domain'),
           })

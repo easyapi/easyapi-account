@@ -21,10 +21,10 @@ async function fetch(url: string, options?: any, headers?: any): Promise<Respons
       removeToken()
       window.location.href = 'https://account.easyapi.com/login?from=https://wwww.easyapi.com/home'
     }
-    ElMessage({
-      type: 'error',
-      message: error.data.message,
-    })
+    // ElMessage({
+    //   type: 'error',
+    //   message: error.data.message,
+    // })
     return error.data
   }
 }

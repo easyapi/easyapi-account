@@ -7,6 +7,14 @@ import { isValidPhoneNumber } from 'libphonenumber-js'
 
 export default defineComponent({
   setup() {
+    const validPhoneNumber = (rule: any, value: any, callback: any) => {
+
+      if (isValidPhoneNumber(value, data.formData.country)) {
+        callback()
+      } else {
+        callback(new Error('手机号码格式有误'))
+      }
+    }
     const data = reactive({
       areaCodes,
       disabled: true,
@@ -16,7 +24,7 @@ export default defineComponent({
       ruleForm: null,
       formData: {
         areaCode: 86,
-        country: undefined,
+        country: 'CN',
         username: '',
         code: '',
         rememberMe: true,
@@ -28,7 +36,7 @@ export default defineComponent({
       rules: {
         username: [
           { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { validator: validPhoneNumber(), trigger: 'blur' }
+          { validator: validPhoneNumber, trigger: 'blur' }
         ],
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
@@ -43,18 +51,10 @@ export default defineComponent({
       }
     })
 
-    const validPhoneNumber = (rule, value, callback) => {
-      if (isValidPhoneNumber(value, data.formData.country)) {
-        callback()
-      } else {
-        callback(new Error('手机号码格式有误'))
-      }
-    }
-
     onMounted(() => {
       from()
     })
-   
+
     onUpdated(() => {
       data.disabled = !(
         isValidPhoneNumber(data.formData.username, data.formData.country) &&
@@ -65,7 +65,7 @@ export default defineComponent({
         data.formData.checked
       )
     })
-    function signupFn() {
+    function enroll() {
       if (data.existUsername) {
         ElMessage.error('该账号已注册，请直接登录，');
         return
@@ -82,8 +82,8 @@ export default defineComponent({
       signup.signup(data.formData)
         .then(res => {
           if (res.code === 1) {
-            useCookies().set('authenticationToken', res.content.idToken, {
-              expires: data.formData.rememberMe ? 30 : 0.1,
+            useCookies().set('authenticationToken', res.content, {
+              maxAge: 60 * 60 * 24 * 30,
               path: '/',
               domain: useCookies().get('domain')
             })
@@ -97,18 +97,19 @@ export default defineComponent({
           }
         })
         .catch(error => {
-          ElMessage.error(error.response.data.message)
+          ElMessage.error(error.res.data.message)
         })
     }
-
+    /**
+    * 发送验证码
+    */
     function sendCode() {
       if (data.sendCodeBtn) {
         return
       }
-
-      signup.sendCodeFn(data.ruleForm)
+      signup.sendCodeFn({ mobile: data.formData.username })
         .then(res => {
-          if (res.data.code === 1) {
+          if (res.code === 1) {
             ElMessage.success('验证码发送成功')
             let second = 60
             data.sendCodeBtn = true
@@ -132,27 +133,27 @@ export default defineComponent({
     }
 
     function findUsername() {
-      signup.findUsername({ username: data.formData.username })
-        .then(res => {
-          data.existUsername = true
-          ElMessage.error('该账号已注册，请直接登录')
+      signup.findUsername(data.formData.username)
+        .then((res) => {
+          if (res.code === 1) {
+            data.existUsername = true
+            ElMessage.error('该账号已注册，请直接登录')
+          } else {
+            data.sendCodeBtn = false
+          }
         })
-        .catch(error => {
-          data.sendCodeBtn = false
-        })
+
     }
 
     return {
       ...toRefs(data),
-      signupFn,
+      enroll,
       sendCode,
       findUsername
     }
   }
 })
 </script>
-
-
 <template>
   <div class="main">
     <div class="form">
@@ -185,7 +186,7 @@ export default defineComponent({
           点击注册表示您同意
           <span class="text-success"><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span>
         </el-checkbox>
-        <el-Button style="width: 100%" type="primary" :disabled="disabled" id="btn_sub" @click="signupFn"
+        <el-Button style="width: 100%" type="primary" :disabled="disabled" id="btn_sub" @click="enroll"
           class="btn-block btn btn-lg btn-info">注 册</el-Button>
       </el-form>
       <div class="other-box">

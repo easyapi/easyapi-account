@@ -105,7 +105,6 @@ export default defineComponent({
           getServiceList()
         } else if (res.data.code === -1) {
           // 当前团队没有开通此服务
-          /* Warn: Unknown source: $message */
           ElMessage.error(res.data.message)
           setTimeout(() => {
             window.location.href = '/service/'

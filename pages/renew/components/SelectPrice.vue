@@ -11,25 +11,17 @@ const props = defineProps({
 const emit = defineEmits(['event'])
 
 const data = reactive({
-  selectMoney: props.priceList,
+  selectMoney: 0
 })
 
-watch(() => props.priceList, (v) => {
-  return (data.selectMoney = v)
-})
-
-/**
-* 选择服务价格
-*/
-function selectMoneyFn() {
-  // data.selectMoney = item.num
-  emit('event')
+function selectMoneyFn(item) {
+  data.selectMoney = item.num
+  emit('event', item)
 }
 
 function reset() {
-  data.selectMoney = props.priceList
+  data.selectMoney = 0
 }
-reset()
 
 </script>
 
