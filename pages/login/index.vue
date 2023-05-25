@@ -55,7 +55,7 @@ export default defineComponent({
       login.postLogin(data.ruleForm).then((res) => {
         if (res.code === 1) {
           useCookies().set('authenticationToken', res.content.idToken, {
-            maxAge: 60 * 60 * 24 * 30,
+            maxAge: data.ruleForm.rememberMe ? 60 * 60 * 24 * 30 : 1,
             path: '/api/service',
             domain: useCookies().get('domain'),
           })
@@ -72,16 +72,16 @@ export default defineComponent({
               window.location.replace(from)
             }, 1000)
           }
-          ElMessage.success(res.data.message)
+          ElMessage.success(res.message)
           console.log(res);
         } else {
-          ElMessage.error(res.data.message)
+          ElMessage.error(res.message)
         }
       },
       )
-        .catch((error) => {
-          ElMessage.error(error.response.data.message)
-        })
+        // .catch((error) => {
+        //   ElMessage.error(error.response.data.message)
+        // })
     }
     return {
       ...toRefs(data),

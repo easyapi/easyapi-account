@@ -55,16 +55,22 @@ export default defineComponent({
       from()
     })
 
-    onUpdated(() => {
-      data.disabled = !(
-        isValidPhoneNumber(data.formData.username, data.formData.country) &&
-        data.formData.password.length >= 6 &&
-        data.formData.confirmPassword.length >= 6 &&
-        data.formData.nickname !== '' &&
-        data.formData.code !== '' &&
-        data.formData.checked
-      )
-    })
+
+    watch(
+      () => data.formData,
+      () => {
+        return data.disabled = !(
+          isValidPhoneNumber(data.formData.username, data.formData.country) &&
+          data.formData.password.length >= 6 &&
+          data.formData.confirmPassword.length >= 6 &&
+          data.formData.nickname !== '' &&
+          data.formData.code !== '' &&
+          data.formData.checked
+        )
+      },
+      { deep: true }
+    )
+
     function enroll() {
       if (data.existUsername) {
         ElMessage.error('该账号已注册，请直接登录，');
@@ -83,22 +89,22 @@ export default defineComponent({
         .then(res => {
           if (res.code === 1) {
             useCookies().set('authenticationToken', res.content, {
-              maxAge: 60 * 60 * 24 * 30,
+              maxAge: data.formData.rememberMe ? 60 * 60 * 24 * 30 : 1,
               path: '/',
               domain: useCookies().get('domain')
             })
-            ElMessage.success(res.data.message)
+            ElMessage.success(res.message)
             setTimeout(() => {
               useCookies().remove('from')
               window.location.replace(from)
             }, 1000)
           } else {
-            ElMessage.error(res.data.message)
+            ElMessage.error(res.message)
           }
         })
-        .catch(error => {
-          ElMessage.error(error.res.data.message)
-        })
+        // .catch(error => {
+        //   ElMessage.error(error.res.data.message)
+        // })
     }
     /**
     * 发送验证码
@@ -124,7 +130,7 @@ export default defineComponent({
               data.sendCodeCount = `剩余${second}秒`
             }, 1000)
           } else {
-            ElMessage.error(res.data.message)
+            ElMessage.error(res.message)
           }
         })
         .catch(error => {
