@@ -53,9 +53,9 @@ export default defineComponent({
       const auth = sessionStorage.getItem('auth')
       const from = useCookies().get('from')
       login.postLogin(data.ruleForm).then((res) => {
-        if (res.data.code === 1) {
-          useCookies().set('authenticationToken', res.data.content.idToken, {
-            expires: data.ruleForm.rememberMe ? 30 : 0.1,
+        if (res.code === 1) {
+          useCookies().set('authenticationToken', res.content.idToken, {
+            Expires: data.ruleForm.rememberMe ? 30 : 0.1,
             path: '/api/service',
             domain: useCookies().get('domain'),
           })
@@ -73,13 +73,14 @@ export default defineComponent({
             }, 1000)
           }
           ElMessage.success(res.data.message)
+          console.log(res);
         } else {
           ElMessage.error(res.data.message)
         }
       },
       )
         .catch((error) => {
-          console.log(error, 1111);
+          ElMessage.error(error.response.data.message)
         })
     }
     return {

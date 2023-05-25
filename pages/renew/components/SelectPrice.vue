@@ -36,7 +36,7 @@ reset()
 <template>
   <div class="renew-price">
     <div v-for="(item, index) in props.priceList" :key="index" class="renew-price-item"
-      :class="{ eaActive: data.selectMoney === item.num }" @click="selectMoneyFn(item)">
+      :class="{ eaActive: data.selectMoney === item.num }" @click="selectMoneyFn()">
       <strong>{{ item.num }}{{ item.type === 2 ? '次' : '个月' }}&nbsp;&nbsp;￥{{ item.price.toFixed(2) }}</strong>
       <p>￥{{ item.unitPrice }}/{{ item.type === 2 ? '次' : '月' }}</p>
     </div>

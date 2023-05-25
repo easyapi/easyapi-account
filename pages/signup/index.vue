@@ -28,7 +28,7 @@ export default defineComponent({
       rules: {
         username: [
           { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { validator: isValidPhoneNumber, trigger: 'blur' }
+          { validator: validPhoneNumber, trigger: 'blur' }
         ],
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
@@ -46,7 +46,13 @@ export default defineComponent({
     onMounted(() => {
       from()
     })
-
+    const validPhoneNumber = (rule, value, callback) => {
+      if (isValidPhoneNumber(value, data.formData.country)) {
+        callback()
+      } else {
+        callback(new Error('手机号码格式有误'))
+      }
+    }
     onUpdated(() => {
       data.disabled = !(
         isValidPhoneNumber(data.formData.username, data.formData.country) &&
@@ -59,7 +65,7 @@ export default defineComponent({
     })
     function signupFn() {
       if (data.existUsername) {
-        ElMessage.error('该账号已注册，请直接登录');
+        ElMessage.error('该账号已注册，请直接登录，');
         return
       }
       if (data.formData.password !== data.formData.confirmPassword) {
@@ -70,11 +76,11 @@ export default defineComponent({
         ElMessage.error('请勾选同意EasyAPI用户协议');
         return
       }
-      let from = useCookies().get('from')
+      const from = useCookies().get('from')
       signup.signup(data.formData)
         .then(res => {
-          if (res.data.code === 1) {
-            useCookies().set('authenticationToken', res.data.content.idToken, {
+          if (res.code === 1) {
+            useCookies().set('authenticationToken', res.content.idToken, {
               expires: data.formData.rememberMe ? 30 : 0.1,
               path: '/',
               domain: useCookies().get('domain')
@@ -97,7 +103,7 @@ export default defineComponent({
       if (data.sendCodeBtn) {
         return
       }
-     
+
       signup.sendCodeFn(data.ruleForm)
         .then(res => {
           if (res.data.code === 1) {
