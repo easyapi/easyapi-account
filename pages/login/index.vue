@@ -54,11 +54,7 @@ export default defineComponent({
       const from = useCookies().get('from')
       login.postLogin(data.ruleForm).then((res) => {
         if (res.code === 1) {
-          useCookies().set('authenticationToken', res.content.idToken, {
-            maxAge: data.ruleForm.rememberMe ? 60 * 60 * 24 * 30 : 1,
-            path: '/api/service',
-            domain: useCookies().get('domain'),
-          })
+          useCookies().set('authenticationToken', res.content.idToken)
           if (params !== '' && auth === '三方登录') {
             const json = JSON.parse(params)
             window.location.href

@@ -1,12 +1,12 @@
 <template>
   <div></div>
 </template>
-  
+
 <script>
 import { defineComponent, onMounted } from 'vue'
-import { from } from '../utils/from'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { ElMessage } from 'element-plus'
+import { from } from '../utils/from'
 import { account } from '../api/account'
 
 export default defineComponent({

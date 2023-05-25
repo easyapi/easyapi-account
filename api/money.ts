@@ -17,7 +17,7 @@ export const money = {
  */
  warningBalance (id: any, data: any){
     return http.put(`${useRuntimeConfig().public.baseUrl}/money/${id}/warning-balance`, data,{})
-  }
+  },
 }
 export default money
 

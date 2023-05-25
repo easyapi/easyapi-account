@@ -1,5 +1,5 @@
 import http from '~/api/request'
- const login = {
+const login = {
   /**
  * 登录
  *
@@ -8,6 +8,5 @@ import http from '~/api/request'
   postLogin(data: any) {
     return http.post(`${useRuntimeConfig().public.baseUrl}/authenticate`, data, {})
   }
-
 }
 export default login
