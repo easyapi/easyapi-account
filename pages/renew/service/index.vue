@@ -39,6 +39,7 @@ export default defineComponent({
       wechatPayDialog: false, // 微信支付弹框
       weChatPayUrl: '', // 微信支付二维码链接
       selectPrice: null,
+      teamServiceId:''
     })
 
     const handleClose = () => {
@@ -54,11 +55,12 @@ export default defineComponent({
       account.getUser()
         .then((res) => {
           console.log(res,777)
+          data.teamServiceId = res.content.team.id
         })
     }
 
     const getServiceList = () => {
-      service.getServiceList({}).then((res) => {
+      service.getServiceList(store.team.team.id).then((res) => {
         console.log(res,777)
         if (res.code === 1) {
           data.priceList = res.content
@@ -96,10 +98,11 @@ export default defineComponent({
       data.payment = event
     }
 
-    const getTeamService=(teamServiceId)=> {
-      service.getTeamService(teamServiceId).then(res => {
+    const getTeamService=()=> {
+      console.log(store,666)
+      service.getTeamService(store.team.team.teamId).then(res => {
         if (res.code === 1) {
-      console.log(res,789)
+          console.log(res,789)
 
           const content = res.content
           data.service = res.content.service
@@ -185,7 +188,7 @@ export default defineComponent({
 
     onMounted(() => {
       getUserIfm()
-      getTeamService(route.query.teamServiceId)
+      getTeamService()
       getTeamInfo()
     })
 
