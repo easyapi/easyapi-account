@@ -28,7 +28,7 @@ export default defineComponent({
       rules: {
         username: [
           { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { validator: validPhoneNumber, trigger: 'blur' }
+          { validator: validPhoneNumber(), trigger: 'blur' }
         ],
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
@@ -43,9 +43,6 @@ export default defineComponent({
       }
     })
 
-    onMounted(() => {
-      from()
-    })
     const validPhoneNumber = (rule, value, callback) => {
       if (isValidPhoneNumber(value, data.formData.country)) {
         callback()
@@ -53,6 +50,11 @@ export default defineComponent({
         callback(new Error('手机号码格式有误'))
       }
     }
+
+    onMounted(() => {
+      from()
+    })
+   
     onUpdated(() => {
       data.disabled = !(
         isValidPhoneNumber(data.formData.username, data.formData.country) &&
