@@ -18,84 +18,107 @@ export default defineComponent({
         username: '',
         code: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
       },
       rules: {
-        username: [{
-          required: true,
-          message: '请输入手机号码',
-          trigger: 'blur'
-        },
-        {
-          pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-          message: '手机号码格式有误',
-          trigger: 'blur'
-        }
+        username: [
+          {
+            required: true,
+            message: '请输入手机号码',
+            trigger: 'blur',
+          },
+          {
+            pattern:
+              /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
+            message: '手机号码格式有误',
+            trigger: 'blur',
+          },
         ],
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
-          { pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur' }
+          { pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur' },
         ],
         password: [
-          { required: true, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur' },
-          { min: 6, max: 16, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur' }
+          {
+            required: true,
+            message: '密码6~16位之间,建议包含英文和标点符号',
+            trigger: 'blur',
+          },
+          {
+            min: 6,
+            max: 16,
+            message: '密码6~16位之间,建议包含英文和标点符号',
+            trigger: 'blur',
+          },
         ],
-        confirmPassword: [{ required: true, message: '请再输入一次密码', trigger: 'blur' }]
-      }
+        confirmPassword: [
+          { required: true, message: '请再输入一次密码', trigger: 'blur' },
+        ],
+      },
     })
 
-    onUpdated(() => {
-      // 校验
-      data.disabled = !(
-        data.formData.username !== '' &&
-        data.formData.code !== '' &&
-        data.formData.password.length >= 6 &&
-        data.formData.confirmPassword.length >= 6
-      )
-    })
+    watch(
+      () => data.formData,
+      () => {
+        // 校验
+        data.disabled = !(
+          data.formData.username !== '' &&
+          data.formData.code !== '' &&
+          data.formData.password.length >= 6 &&
+          data.formData.confirmPassword.length >= 6
+        )
+      },
+      { deep: true }
+    )
 
-    function forgetPassword() {
+
+    const forgetPassword = () => {
       /* Warn: Cannot find refs name */
-      let { ctx } = getCurrentInstance() as any
-      ctx.$refs['ruleForm'].validate((valid: any) => {
+      // let { ctx } = getCurrentInstance() as any
+      data['ruleForm'].validate((valid: any) => {
         if (valid) {
           if (data.formData.password !== data.formData.confirmPassword) {
             ElMessage.error('确认密码不一致')
             return
           }
-          forget.forgetPasswordApi({}).then(res => {
-            if (res.data.code !== 1) {
-              ElMessage.error(res.data.message)
-              return
-            }
-            ElMessage.success(res.data.message)
-            setTimeout(() => {
-              window.location.replace('/login')
-            }, 1000)
-          }).catch(error => {
-            ElMessage.error(error.response.data.message)
-          })
+          forget
+            .forgetPasswordApi(data.formData)
+            .then((res) => {
+              if (res.code !== 1) {
+                ElMessage.error(res.message)
+                return
+              }
+              ElMessage.success(res.message)
+              setTimeout(() => {
+                window.location.replace('/login')
+              }, 1000)
+            })
+            // .catch((error) => {
+            //   ElMessage.error(error.response.data.message)
+            // })
         }
       })
     }
 
     const sendCode = () => {
-      const telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
+      const telStr =
+        /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
       if (telStr.test(data.formData.username)) {
         const params = {
-          mobile: data.formData.username
+          mobile: data.formData.username,
         }
-        signup.sendCodeFn(params)
-          .then(res => {
-            if (res.data.code === 1) {
-              ElMessage.success(res.data.message)
+        signup
+          .sendCodeFn(params)
+          .then((res) => {
+            if (res.code === 1) {
+              ElMessage.success(res.message)
             } else {
-              ElMessage.error(res.data.message)
+              ElMessage.error(res.message)
             }
           })
-          .catch(error => {
-            ElMessage.error(error.response.data.message)
-          })
+          // .catch((error) => {
+          //   ElMessage.error(error.response.data.message)
+          // })
         let second = 60
         data.sendCodeBtn = true
         let timer = setInterval(() => {
@@ -117,7 +140,7 @@ export default defineComponent({
       sendCode,
       forgetPassword,
     }
-  }
+  },
 })
 </script>
 <template>
@@ -127,26 +150,64 @@ export default defineComponent({
         <div class="headline">重置密码</div>
         <el-form :model="formData" :rules="rules" ref="ruleForm">
           <el-form-item label="" prop="username">
-            <el-input placeholder="请输入手机号码" maxlength="11" v-model="formData.username">
+            <el-input
+              placeholder="请输入手机号码"
+              maxlength="11"
+              v-model="formData.username"
+            >
               <template slot="prepend">+&nbsp;</template>
-              <el-select v-model="formData.areaCode" filterable allow-create slot="prepend" style="width: 80px">
-                <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">{{ item.label }}(+{{ item.value
-                }})</el-option>
+              <el-select
+                v-model="formData.areaCode"
+                filterable
+                allow-create
+                slot="prepend"
+                style="width: 80px"
+              >
+                <el-option
+                  v-for="item in areaCodes"
+                  :key="item.value"
+                  :value="item.value"
+                  >{{ item.label }}(+{{ item.value }})</el-option
+                >
               </el-select>
             </el-input>
           </el-form-item>
           <el-form-item label="" prop="code">
-            <el-input placeholder="请输入验证码" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"
-              v-model="formData.code" class="code" />
-            <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">{{ sendCodeCount }}</el-button>
+            <el-input
+              placeholder="请输入验证码"
+              maxlength="6"
+              onkeyup="value=value.replace(/[^\d]/g,'')"
+              v-model="formData.code"
+              class="code"
+            />
+            <el-button
+              :disabled="sendCodeBtn"
+              class="getCode"
+              @click="sendCode"
+              >{{ sendCodeCount }}</el-button
+            >
           </el-form-item>
           <el-form-item label="" prop="password">
-            <el-input placeholder="请输入新密码" type="password" v-model="formData.password"></el-input>
+            <el-input
+              placeholder="请输入新密码"
+              type="password"
+              v-model="formData.password"
+            ></el-input>
           </el-form-item>
           <el-form-item label="" prop="confirmPassword">
-            <el-input placeholder="请再输入一次密码" type="password" v-model="formData.confirmPassword"></el-input>
+            <el-input
+              placeholder="请再输入一次密码"
+              type="password"
+              v-model="formData.confirmPassword"
+            ></el-input>
           </el-form-item>
-          <el-button style="width: 100%" type="primary" :disabled="disabled" @click="forgetPassword">确定</el-button>
+          <el-button
+            style="width: 100%"
+            type="primary"
+            :disabled="disabled"
+            @click="forgetPassword"
+            >确定</el-button
+          >
         </el-form>
         <div class="other-box">
           <nuxt-link to="/login" class="login">返回登录</nuxt-link>
