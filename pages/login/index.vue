@@ -1,5 +1,5 @@
 <script>
-import { onMounted, onUpdated, reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { ElMessage } from 'element-plus'
 
@@ -39,7 +39,7 @@ export default defineComponent({
           data.ruleForm.username !== '' && data.ruleForm.password && data.ruleForm.password.length >= 6
         )
       },
-      { deep: true }
+      { deep: true },
     )
 
     function register() {
@@ -69,34 +69,36 @@ export default defineComponent({
             }, 1000)
           }
           ElMessage.success(res.message)
-          console.log(res);
+          console.log(res)
         } else {
           ElMessage.error(res.message)
         }
       },
       )
-        // .catch((error) => {
-        //   ElMessage.error(error.response.data.message)
-        // })
+      // .catch((error) => {
+      //   ElMessage.error(error.response.data.message)
+      // })
     }
     return {
       ...toRefs(data),
       register,
-
     }
-  }
+  },
 })
-
 </script>
 
 <template>
   <div class="main">
     <div class="form">
-      <div class="headline">用户登录</div>
+      <div class="headline">
+        用户登录
+      </div>
       <el-form ref="refForm" :model="ruleForm" :rules="rules">
         <el-form-item label="" prop="username">
           <el-input v-model="ruleForm.username" placeholder="请输入手机号码">
-            <template data.slot="prepend"> +&nbsp; </template>
+            <template data.slot="prepend">
+              +&nbsp;
+            </template>
             <el-select v-model="ruleForm.areaCode" style="width: 80px" filterable allow-create data.slot="prepend">
               <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">
                 {{ item.label }}+{{ item.value }}
@@ -115,23 +117,28 @@ export default defineComponent({
         </el-button>
       </el-form>
       <div class="other-box">
-        <nuxt-link to="/signup" class="signup"> 立即注册 </nuxt-link>
-        <nuxt-link to="/email-upgrade"> 邮箱升级为手机号码 </nuxt-link>
+        <nuxt-link to="/signup" class="signup">
+          立即注册
+        </nuxt-link>
+        <nuxt-link to="/email-upgrade">
+          邮箱升级为手机号码
+        </nuxt-link>
         <nuxt-link to="/forget-password" class="forget-password">
           忘记密码？
         </nuxt-link>
       </div>
       <div class="other-login">
         <a href="https://account-api.easyapi.com/auth/wechat">
-          <img class="image-svg" src="@/assets/images/static/svg/weixin.svg" alt="" />
+          <img class="image-svg" src="@/assets/images/static/svg/weixin.svg" alt="">
         </a>
         <a href="https://account-api.easyapi.com/auth/qq">
-          <img class="image-svg" src="@/assets/images/static/svg/qq.svg" alt="" />
+          <img class="image-svg" src="@/assets/images/static/svg/qq.svg" alt="">
         </a>
       </div>
     </div>
   </div>
 </template>
+
 <style lang="scss">
 @import url(./index.scss);
 </style>

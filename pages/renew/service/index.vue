@@ -48,7 +48,7 @@ export default defineComponent({
 
     const reset = () => {
       getTeamService()
-      data.selectPri.selectPrice.reset()
+      data.selectPri.reset()
     }
 
     /**
@@ -99,7 +99,7 @@ export default defineComponent({
      * 获取团队服务详情
      */
     const getTeamService = (teamServiceId) => {
-      service.getTeamService(teamServiceId).then(res => {
+      service.getTeamService(teamServiceId).then((res) => {
         if (res.code === 1) {
           const content = res.content
           data.service = res.content.service
@@ -214,7 +214,7 @@ export default defineComponent({
           <strong class="renew_service_title">服务价格：</strong>
           <SelectPrice
             ref="selectPri"
-            :pricelist="priceList"
+            :price-list="priceList"
             @event="selectPrice"
           />
         </div>

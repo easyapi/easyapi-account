@@ -11,7 +11,7 @@ export const userStore = defineStore('user', {
       photo: '',
       mobile: '',
       email: '',
-      team: '',
+      team: {},
       token: getToken(),
       user: { domain: '' },
     }

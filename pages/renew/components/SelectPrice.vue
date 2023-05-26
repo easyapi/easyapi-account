@@ -2,19 +2,12 @@
 import { reactive } from 'vue'
 
 export default defineComponent({
-  props: {
-    pricelist: {
-      type: Array,
-      default: () => {return []},
-    },
-  },
+  props: ['priceList'],
   emits: ['event'],
   setup(prop, { emit }) {
     const data = reactive({
       selectMoney: 0,
-      priceList:[]
     })
-
 
     function selectMoneyFn(item) {
       data.selectMoney = item.num
@@ -26,18 +19,13 @@ export default defineComponent({
     }
 
     onMounted(() => {
-     console.log(prop,777)
-     console.log(prop.pricelist,888)
-     setTimeout(()=>{
-      data.priceList = prop.pricelist
-     },100)
-     
+
     })
 
     return {
-      ...toRefs(data,prop),
+      ...toRefs(data, prop),
       selectMoneyFn,
-      reset
+      reset,
     }
   },
 })
@@ -49,7 +37,7 @@ export default defineComponent({
       v-for="(item, index) in priceList"
       :key="index"
       class="renew-price-item"
-      :class="{ eaActive: data.selectMoney === item.num }"
+      :class="{ eaActive: selectMoney === item.num }"
       @click="selectMoneyFn(item)"
     >
       <strong
@@ -61,7 +49,7 @@ export default defineComponent({
     </div>
   </div>
 </template>
-  
+
 <style lang="scss" scoped>
 .renew-price {
   width: 92%;
