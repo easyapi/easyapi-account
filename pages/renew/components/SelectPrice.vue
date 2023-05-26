@@ -18,10 +18,6 @@ export default defineComponent({
       data.selectMoney = 0
     }
 
-    onMounted(() => {
-
-    })
-
     return {
       ...toRefs(data, prop),
       selectMoneyFn,
@@ -40,11 +36,7 @@ export default defineComponent({
       :class="{ eaActive: selectMoney === item.num }"
       @click="selectMoneyFn(item)"
     >
-      <strong
-        >{{ item.num }}{{ item.type === 2 ? '次' : '个月' }}&nbsp;&nbsp;￥{{
-          item.price.toFixed(2)
-        }}</strong
-      >
+      <strong>{{ item.num }}{{ item.type === 2 ? '次' : '个月' }}&nbsp;&nbsp;￥{{ item.price.toFixed(2) }}</strong>
       <p>￥{{ item.unitPrice }}/{{ item.type === 2 ? '次' : '月' }}</p>
     </div>
   </div>

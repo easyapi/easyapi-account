@@ -1,9 +1,9 @@
 <script lang="ts">
-import { getCurrentInstance, onUpdated, reactive } from 'vue'
+import { reactive } from 'vue'
+import { ElMessage } from 'element-plus'
+import { areaCodes } from '../../utils/area-code'
 import forget from '@/api/forget-password'
 import signup from '@/api/signup'
-import { areaCodes } from '../../utils/area-code'
-import { ElMessage } from 'element-plus'
 
 export default defineComponent({
   setup() {
@@ -41,13 +41,13 @@ export default defineComponent({
         password: [
           {
             required: true,
-            message: '密码6~16位之间,建议包含英文和标点符号',
+            message: '密码6~16位之间，建议包含英文和标点符号',
             trigger: 'blur',
           },
           {
             min: 6,
             max: 16,
-            message: '密码6~16位之间,建议包含英文和标点符号',
+            message: '密码6~16位之间，建议包含英文和标点符号',
             trigger: 'blur',
           },
         ],
@@ -62,64 +62,52 @@ export default defineComponent({
       () => {
         // 校验
         data.disabled = !(
-          data.formData.username !== '' &&
-          data.formData.code !== '' &&
-          data.formData.password.length >= 6 &&
-          data.formData.confirmPassword.length >= 6
+          data.formData.username !== ''
+          && data.formData.code !== ''
+          && data.formData.password.length >= 6
+          && data.formData.confirmPassword.length >= 6
         )
       },
-      { deep: true }
+      { deep: true },
     )
 
-
     const forgetPassword = () => {
-      data['ruleForm'].validate((valid: any) => {
-        if (valid) {
-          if (data.formData.password !== data.formData.confirmPassword) {
-            ElMessage.error('确认密码不一致')
+      data.ruleForm.validate((valid: any) => {
+        if (!valid)
+          return
+
+        if (data.formData.password !== data.formData.confirmPassword) {
+          ElMessage.error('确认密码不一致')
+          return
+        }
+        forget.forgetPassword(data.formData).then((res) => {
+          if (res.code !== 1) {
+            ElMessage.error(res.message)
             return
           }
-          forget
-            .forgetPasswordApi(data.formData)
-            .then((res) => {
-              if (res.code !== 1) {
-                ElMessage.error(res.message)
-                return
-              }
-              ElMessage.success(res.message)
-              setTimeout(() => {
-                window.location.replace('/login')
-              }, 1000)
-            })
-            // .catch((error) => {
-            //   ElMessage.error(error.response.data.message)
-            // })
-        }
+          ElMessage.success(res.message)
+          setTimeout(() => {
+            window.location.replace('/login')
+          }, 1000)
+        })
       })
     }
 
     const sendCode = () => {
-      const telStr =
-        /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
+      const telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
       if (telStr.test(data.formData.username)) {
         const params = {
           mobile: data.formData.username,
         }
-        signup
-          .sendCodeFn(params)
-          .then((res) => {
-            if (res.code === 1) {
-              ElMessage.success(res.message)
-            } else {
-              ElMessage.error(res.message)
-            }
-          })
-          // .catch((error) => {
-          //   ElMessage.error(error.response.data.message)
-          // })
+        signup.sendCode(params).then((res) => {
+          if (res.code === 1)
+            ElMessage.success(res.message)
+          else
+            ElMessage.error(res.message)
+        })
         let second = 60
         data.sendCodeBtn = true
-        let timer = setInterval(() => {
+        const timer = setInterval(() => {
           second--
           if (second === 0) {
             data.sendCodeBtn = false
@@ -141,74 +129,59 @@ export default defineComponent({
   },
 })
 </script>
+
 <template>
   <div id="app">
     <div class="main">
       <div class="form">
-        <div class="headline">重置密码</div>
-        <el-form :model="formData" :rules="rules" ref="ruleForm">
+        <div class="headline">
+          重置密码
+        </div>
+        <el-form ref="ruleForm" :model="formData" :rules="rules">
           <el-form-item label="" prop="username">
-            <el-input
-              placeholder="请输入手机号码"
-              maxlength="11"
-              v-model="formData.username"
-            >
-              <template slot="prepend">+&nbsp;</template>
+            <el-input v-model="formData.username" placeholder="请输入手机号码" maxlength="11">
+              <template slot="prepend">
+                +&nbsp;
+              </template>
               <el-select
+                slot="prepend"
                 v-model="formData.areaCode"
                 filterable
                 allow-create
-                slot="prepend"
                 style="width: 80px"
               >
-                <el-option
-                  v-for="item in areaCodes"
-                  :key="item.value"
-                  :value="item.value"
-                  >{{ item.label }}(+{{ item.value }})</el-option
-                >
+                <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">
+                  {{ item.label }}(+{{ item.value }})
+                </el-option>
               </el-select>
             </el-input>
           </el-form-item>
           <el-form-item label="" prop="code">
             <el-input
+              v-model="formData.code"
               placeholder="请输入验证码"
               maxlength="6"
               onkeyup="value=value.replace(/[^\d]/g,'')"
-              v-model="formData.code"
               class="code"
             />
-            <el-button
-              :disabled="sendCodeBtn"
-              class="getCode"
-              @click="sendCode"
-              >{{ sendCodeCount }}</el-button
-            >
+            <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">
+              {{ sendCodeCount }}
+            </el-button>
           </el-form-item>
           <el-form-item label="" prop="password">
-            <el-input
-              placeholder="请输入新密码"
-              type="password"
-              v-model="formData.password"
-            ></el-input>
+            <el-input v-model="formData.password" placeholder="请输入新密码" type="password" />
           </el-form-item>
           <el-form-item label="" prop="confirmPassword">
-            <el-input
-              placeholder="请再输入一次密码"
-              type="password"
-              v-model="formData.confirmPassword"
-            ></el-input>
+            <el-input v-model="formData.confirmPassword" placeholder="请再输入一次密码" type="password" />
           </el-form-item>
-          <el-button
-            style="width: 100%"
-            type="primary"
-            :disabled="disabled"
-            @click="forgetPassword"
-            >确定</el-button
-          >
+          <el-button style="width: 100%" type="primary" :disabled="disabled" @click="forgetPassword">
+            确定
+          </el-button>
         </el-form>
         <div class="other-box">
-          <nuxt-link to="/login" class="login">返回登录</nuxt-link>
+          <nuxt-link to="/login" class="login">
+            返回登录
+          </nuxt-link>
         </div>
       </div>
     </div>

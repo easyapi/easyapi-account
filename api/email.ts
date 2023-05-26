@@ -1,4 +1,5 @@
 import http from '~/api/request'
+
 export const email = {
   /**
    * 升级邮箱
@@ -7,7 +8,7 @@ export const email = {
    */
   upgradeEmail(data: any) {
     return http.post(`${useRuntimeConfig().public.baseUrl}/account/email-upgrade`, data, {})
-  }
+  },
 }
 
 export default email

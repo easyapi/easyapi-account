@@ -7,8 +7,8 @@ export const account = {
    * @see https://www.easyapi.com
    */
   getUser() {
-    return http.get(`${useRuntimeConfig().public.baseUrl}/account`,{},{})
-  }
+    return http.get(`${useRuntimeConfig().public.baseUrl}/account`, {}, {})
+  },
 }
 
 export default account

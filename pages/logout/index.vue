@@ -6,7 +6,7 @@ import { from } from '../../utils/from'
 export default defineComponent({
   setup() {
     interface WindowWithReferrer extends Window {
-      referrer: string;
+      referrer: string
     }
 
     onMounted(() => {
@@ -22,7 +22,7 @@ export default defineComponent({
       else
         window.location.replace(`/login/?from=${windowWithReferrer.referrer}`)
     })
-  }
+  },
 })
 </script>
 

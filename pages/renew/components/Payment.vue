@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
+
 const props = defineProps({
   price: {
     type: String,
@@ -23,7 +24,7 @@ watch(
     data.payment = v
   },
 )
-const stand = (pay: any) => {
+function stand(pay: any) {
   data.payment = pay
   emit('event', pay)
 }
@@ -31,11 +32,11 @@ const stand = (pay: any) => {
 
 <template>
   <div class="payment">
-    <div class="payment-item" :class="{ state: data.payment === '余额支付' }" @click="stand('余额支付')" v-if="balance >= price">
+    <div v-if="balance >= price" class="payment-item" :class="{ state: data.payment === '余额支付' }" @click="stand('余额支付')">
       <svg-icon icon-class="money" class="svg" />
       <span>余额支付(￥{{ balance }})</span>
     </div>
-    <div class="payment_p" :class="{ state: data.payment === '余额支付' }" @click="stand('余额支付')" v-if="balance < price">
+    <div v-if="balance < price" class="payment_p" :class="{ state: data.payment === '余额支付' }" @click="stand('余额支付')">
       <span>
         <strong>余额支付(￥{{ balance }})</strong>
       </span>

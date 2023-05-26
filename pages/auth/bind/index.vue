@@ -8,11 +8,10 @@ import login from '@/api/login'
 export default defineComponent({
   setup() {
     const validPhoneNumber = (rule, value, callback) => {
-      if (isValidPhoneNumber(value, data.ruleForm.country)) {
+      if (isValidPhoneNumber(value, data.ruleForm.country))
         callback()
-      } else {
+      else
         callback(new Error('手机号码格式有误'))
-      }
     }
     const route = useRoute()
     const data = reactive({
@@ -28,7 +27,7 @@ export default defineComponent({
         country: 'CN',
         username: '',
         password: '',
-        rememberMe: true
+        rememberMe: true,
       },
       rules: {
         username: [
@@ -47,7 +46,7 @@ export default defineComponent({
       () => {
         data.disabled = !(isValidPhoneNumber(data.ruleForm.username, data.ruleForm.country) && data.ruleForm.password.length >= 6)
       },
-      { deep: true }
+      { deep: true },
     )
 
     const bindPost = () => {
@@ -67,9 +66,9 @@ export default defineComponent({
 
     const loginPost = () => {
       login.postLogin(data.ruleForm).then((res) => {
-        if (res.code !== 1) {
+        if (res.code !== 1)
           ElMessage.error(res.message)
-        }
+
         useCookies().set('authenticationToken', res.content.idToken, {
           maxAge: data.ruleForm.rememberMe ? 60 * 60 * 24 * 30 : 1,
           path: '/',
@@ -78,11 +77,7 @@ export default defineComponent({
         bindPost()
         ElMessage.success('绑定成功')
       })
-        // .catch((error) => {
-        //   ElMessage.error(error.response.data.message)
-        // })
     }
-
 
     onMounted(() => {
       const providerUserId = route.query.providerUserId
@@ -105,27 +100,30 @@ export default defineComponent({
   },
 })
 </script>
+
 <template>
   <div class="main">
     <div class="form">
-      <div class="headline">绑定账号</div>
+      <div class="headline">
+        绑定账号
+      </div>
       <div class="lg-subtitle mb-10">
         第一次使用
         <span>{{ providerId === 'wechat' ? '微信' : 'QQ' }}</span>
         帐号登录，您需要填写账号和密码，以后您也可以使用此账号和密码登录
       </div>
       <div class="ath mb-10">
-        <img class="image-png" :src="imageSrc" alt="" />
+        <img class="image-png" :src="imageSrc" alt="">
         <img
           class="image-svg"
           src="@/assets/images/static/svg/bind.svg"
           alt=""
-        />
+        >
         <img
           class="image-png"
           src="@/assets/images/static/easyapi.png"
           alt=""
-        />
+        >
       </div>
       <el-form ref="ruleRef" :model="ruleForm" :rules="rules">
         <el-form-item label="" prop="username">
@@ -176,6 +174,7 @@ export default defineComponent({
     </div>
   </div>
 </template>
+
 <style lang="scss">
 @import url(./index.scss);
 </style>

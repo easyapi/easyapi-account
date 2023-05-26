@@ -17,8 +17,8 @@ export default defineComponent({
     const authorization = () => {
       auth.oauthAuthorize(
         qs.stringify({
-          user_oauth_approval: true,
-          authorize: 'Authorize',
+          'user_oauth_approval': true,
+          'authorize': 'Authorize',
           'scope.client': true,
         }),
       ).then()
@@ -26,10 +26,10 @@ export default defineComponent({
     const cancel = () => {
       auth.oauthAuthorize(
         qs.stringify({
-          user_oauth_approval: true,
-          authorize: 'Authorize',
-          'scope.client': false
-        })
+          'user_oauth_approval': true,
+          'authorize': 'Authorize',
+          'scope.client': false,
+        }),
       ).then()
     }
 
@@ -110,6 +110,7 @@ export default defineComponent({
     </el-button>
   </div>
 </template>
+
 <style lang="scss">
 @import url(./index.scss);
 </style>

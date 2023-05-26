@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { getCurrentInstance } from 'vue'
-
 const props = defineProps({
   price: {
     type: String,
@@ -28,10 +26,6 @@ function handleClose() {
 function handleConfirm() {
   emit('visible')
 }
-
-onMounted(() => {
-  console.log(props)
-})
 </script>
 
 <template>
@@ -44,9 +38,11 @@ onMounted(() => {
   >
     <div>
       <div class="text-center">
-        <p class="text-lg text-red-600">支付{{ props.price }}元</p>
+        <p class="text-lg text-red-600">
+          支付{{ props.price }}元
+        </p>
         <p>
-          <img class="my-8 inline-block" :src="props.weChatPayUrl" alt="" />
+          <img class="my-8 inline-block" :src="props.weChatPayUrl" alt="">
         </p>
         <p>请使用微信扫描二维码以完成支付</p>
       </div>

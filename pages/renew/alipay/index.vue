@@ -5,21 +5,22 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const data = reactive({
-	formHtml: '',
+  formHtml: '',
 })
 
 onMounted(() => {
-	if (route.query.form) {
-		data.formHtml = route.query.form
-		nextTick(() => {
-			document.forms[0].submit() // 渲染支付宝支付页面
-		})
-	}
+  if (route.query.form) {
+    data.formHtml = route.query.form
+    nextTick(() => {
+      // 渲染支付宝支付页面
+      document.forms[0].submit()
+    })
+  }
 })
 </script>
 
 <template>
   <div>
-    <p v-html="formHtml"></p>
+    <p v-html="formHtml" />
   </div>
 </template>

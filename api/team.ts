@@ -8,8 +8,7 @@ export const team = {
    */
   getTeamUserList(params: any) {
     return http.get(`${useRuntimeConfig().public.baseUrl}/team/users`, params, {})
-  }
+  },
 }
 
 export default team
-

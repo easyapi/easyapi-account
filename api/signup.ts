@@ -1,4 +1,5 @@
 import http from '~/api/request'
+
 /**
  * 注册
  *
@@ -21,20 +22,10 @@ export const signup = {
  *
  * @see https://www.easyapi.com
  */
-  sendCodeFn(params: any) {
-    return http.get(`${useRuntimeConfig().public.baseUrl}/captcha/send`, params, {}
+  sendCode(params: any) {
+    return http.get(`${useRuntimeConfig().public.baseUrl}/captcha/send`, params, {},
     )
-  }
+  },
 }
 
 export default signup
-
-
-
-
-
-
-
-
-
-

@@ -23,7 +23,6 @@ watch(
 )
 
 function choseEdition(item: any) {
-  console.log(props.edition, 777)
   if (props.edition === '旗舰版' && item.name === '旗舰版') {
     data.selectEdition = item.name
     emit('event', item)
@@ -57,15 +56,17 @@ function select() {
         data.selectEdition === item.name
           ? 'eaActive'
           : props.edition === '旗舰版' && item.name !== '旗舰版'
-          ? 'disable-all'
-          : props.edition === '高级版' && item.name === '基础版'
-          ? 'disalbe'
-          : ''
+            ? 'disable-all'
+            : props.edition === '高级版' && item.name === '基础版'
+              ? 'disalbe'
+              : ''
       "
       @click="choseEdition(item)"
     >
       <strong>{{ item.name }}</strong>
-      <div v-if="props.edition === item.name">(当前版本)</div>
+      <div v-if="props.edition === item.name">
+        (当前版本)
+      </div>
     </div>
   </div>
 </template>

@@ -1,11 +1,11 @@
 <script>
-import { onUpdated, reactive } from 'vue'
+import { reactive } from 'vue'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { ElMessage } from 'element-plus'
 import { isValidPhoneNumber } from 'libphonenumber-js'
+import { areaCodes } from '../../utils/area-code'
 import email from '@/api/email'
 import signup from '@/api/signup'
-
 
 export default defineComponent({
   setup() {
@@ -21,7 +21,7 @@ export default defineComponent({
         email: '',
         mobile: '',
         code: '',
-        password: ''
+        password: '',
       },
       emailRegex: /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/, // 邮箱正则表达式
       rules: {
@@ -66,33 +66,28 @@ export default defineComponent({
       () => data.formData,
       () => {
         data.disabled = !(
-          data.emailRegex.test(data.formData.email) &&
-          isValidPhoneNumber(data.formData.mobile, data.formData.country) &&
-          data.formData.password.length >= 6 &&
-          data.formData.code.length === 6
+          data.emailRegex.test(data.formData.email)
+          && isValidPhoneNumber(data.formData.mobile, data.formData.country)
+          && data.formData.password.length >= 6
+          && data.formData.code.length === 6
         )
       },
-      { deep: true }
+      { deep: true },
     )
-
 
     const upgradeEmail = () => {
       const from = useCookies().get('from')
-      email.upgradeEmail(data.formData)
-        .then((res) => {
-          if (res.code === 1) {
-            ElMessage.success(res.message)
-            setTimeout(() => {
-              useCookies().remove('from')
-              window.location.replace(from)
-            }, 1000)
-          } else {
-            ElMessage.error(res.message)
-          }
-        })
-      // .catch((error) => {
-      //   ElMessage.error(error.response.data.message)
-      // })
+      email.upgradeEmail(data.formData).then((res) => {
+        if (res.code === 1) {
+          ElMessage.success(res.message)
+          setTimeout(() => {
+            useCookies().remove('from')
+            window.location.replace(from)
+          }, 1000)
+        } else {
+          ElMessage.error(res.message)
+        }
+      })
     }
 
     /**
@@ -104,16 +99,13 @@ export default defineComponent({
         const params = {
           mobile: data.formData.mobile,
         }
-        signup.sendCodeFn(params)
+        signup.sendCode(params)
           .then((res) => {
             if (res.code === 1)
               ElMessage.success(res.message)
             else
               ElMessage.error(res.message)
           })
-        // .catch((error) => {
-        //   ElMessage.error(error.response.data.message)
-        // })
         let second = 60
         data.sendCodeBtn = true
         const timer = setInterval(() => {
@@ -142,7 +134,9 @@ export default defineComponent({
 <template>
   <div class="main">
     <div class="form">
-      <div class="headline">邮箱升级</div>
+      <div class="headline">
+        邮箱升级
+      </div>
       <el-form ref="ruleForm" :model="formData" :rules="rules">
         <el-form-item label="" prop="email">
           <el-input v-model="formData.email" placeholder="请输入原邮箱账号" />
@@ -189,18 +183,15 @@ export default defineComponent({
             {{ sendCodeCount }}
           </el-button>
         </el-form-item>
-        <el-button
-          style="width: 100%"
-          type="primary"
-          :disabled="disabled"
-          @click="upgradeEmail"
-        >
+        <el-button style="width: 100%" type="primary" :disabled="disabled" @click="upgradeEmail">
           升级
         </el-button>
       </el-form>
 
       <div class="other-box">
-        <nuxt-link to="/login"> 我已升级成功，直接登录 </nuxt-link>
+        <nuxt-link to="/login">
+          我已升级成功，直接登录
+        </nuxt-link>
       </div>
     </div>
   </div>

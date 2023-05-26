@@ -11,8 +11,8 @@ export const auth = {
   oauthAuthorize(data: any) {
     return http.post(`${useRuntimeConfig().public.baseUrl}/oauth2/authorize`, data, {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
     })
   },
 }

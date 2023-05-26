@@ -2,6 +2,8 @@
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
 import moment from 'moment'
+import SockJS from 'sockjs-client/dist/sockjs.min.js'
+import Stomp from 'stompjs'
 import Edition from '../components/Edition.vue'
 import SelectPrice from '../components/SelectPrice.vue'
 import Payment from '../components/Payment.vue'
@@ -9,10 +11,6 @@ import WeChatPay from '../components/WeChatPay.vue'
 import userStore from '@/store/user'
 import money from '@/api/money'
 import service from '@/api/service'
-import SockJS from 'sockjs-client/dist/sockjs.min.js'
-import Stomp from 'stompjs'
-import account from '@/api/account'
-import renew from '~/api/renew'
 
 export default defineComponent({
   components: {
@@ -75,7 +73,7 @@ export default defineComponent({
      */
     const getTeamInfo = () => {
       const teamId = store.team ? store.team.id : ''
-      money.getTeamMoney({ teamId: teamId }).then((res) => {
+      money.getTeamMoney({ teamId }).then((res) => {
         if (res.code === 1) {
           data.balance = res.content.balance
           data.team = res.content.team
@@ -86,9 +84,9 @@ export default defineComponent({
     const selectPrice = (event) => {
       data.servicePriceId = event.servicePriceId
       data.price = event.price
-      if (event.type === 3) {
+      if (event.type === 3)
         data.date = moment(data.oldDate).add(event.num, 'months').format('YYYY-MM-DD HH:mm:ss')
-      }
+
       if (event.type === 2)
         data.num = data.oldNum + event.num
     }
@@ -118,7 +116,6 @@ export default defineComponent({
           getServiceList()
         } else if (res.code === -1) {
           // 当前团队没有开通此服务
-          /* Warn: Unknown source: $message */
           ElMessage.error(res.message)
           setTimeout(() => {
             window.location.href = '/service/'
@@ -135,18 +132,17 @@ export default defineComponent({
       ElMessageBox.confirm('你确定续费吗？', '确认购买', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
       }).then(() => {
         determineThePurchase()
       })
     }
 
     const determineThePurchase = () => {
-
       service.renewBalance(
         {
           servicePriceId: data.servicePriceId,
-          payment: data.payment
+          payment: data.payment,
         },
       ).then((res) => {
         if (res.code === 1) {
@@ -158,7 +154,6 @@ export default defineComponent({
               },
             })
             window.open(href, '_blank')
-            /* Warn: Unknown source: $confirm */
             ElMessageBox.confirm('请您在新打开的页面上完成充值。充值完成后，根据您的情况点击下面按钮。', '提示', {
               confirmButtonText: '充值成功',
               cancelButtonText: '充值失败',
@@ -176,12 +171,10 @@ export default defineComponent({
                 const json = JSON.parse(message.body)
                 data.wechatPayDialog = false
                 reset()
-                /* Warn: Unknown source: $message */
                 ElMessage.success('充值成功！')
               })
             })
           }
-          /* Warn: Unknown source: $message */
           ElMessage.success(res.message)
         }
       })
@@ -199,7 +192,7 @@ export default defineComponent({
       getPayment,
       handleClose,
     }
-  }
+  },
 })
 </script>
 
@@ -209,8 +202,7 @@ export default defineComponent({
       <div class="w-full h-20 bg-gray-50">
         <span
           class="flex items-center h-20 m-auto max-w-screen-lg text-lg block"
-          >{{ service.name }}服务续费</span
-        >
+        >{{ service.name }}服务续费</span>
       </div>
       <div class="renew_content max-w-screen-lg">
         <div class="renew_service">
@@ -226,23 +218,18 @@ export default defineComponent({
           <Payment :price="price" :balance="balance" @event="getPayment" />
         </div>
         <div class="renew_fl">
-          <strong class="renew_service_title">{{
-            service.type === 2 ? '剩余次数：' : '到期时间：'
-          }}</strong>
+          <strong class="renew_service_title">
+            {{ service.type === 2 ? '剩余次数：' : '到期时间：' }}
+          </strong>
           <div class="">
-            <strong style="color: #323232; font-size: 14px">{{
-              service.type === 2 ? num : date
-            }}</strong>
+            <strong style="color: #323232; font-size: 14px">
+              {{ service.type === 2 ? num : date }}</strong>
           </div>
         </div>
         <div class="renew_fl">
-          <strong class="renew_service_title" style="padding-top: 10px"
-            >应付金额：</strong
-          >
+          <strong class="renew_service_title" style="padding-top: 10px">应付金额：</strong>
           <div class="frequency">
-            <strong style="color: #fa2222; font-size: 26px">{{
-              price.toFixed(2)
-            }}</strong>
+            <strong style="color: #fa2222; font-size: 26px">{{ price.toFixed(2) }}</strong>
             &nbsp;
             <span style="color: #323232; font-size: 14px">元</span>
           </div>
@@ -262,9 +249,7 @@ export default defineComponent({
           >
             确定购买
           </el-button>
-          <span class="renew_btn_tips"
-            >若在购买过程中遇到任何问题,请联系13656171020,微信同号</span
-          >
+          <span class="renew_btn_tips">若在购买过程中遇到任何问题，请联系13656171020，微信同号</span>
         </div>
       </div>
     </div>
@@ -276,6 +261,7 @@ export default defineComponent({
     />
   </div>
 </template>
+
 <style lang="scss" scoped>
 .renew_content {
   height: auto;

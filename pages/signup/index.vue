@@ -1,25 +1,24 @@
 <script lang="ts">
-import { onMounted, onUpdated, reactive } from 'vue'
-import signup from '@/api/signup'
+import { onMounted, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { isValidPhoneNumber } from 'libphonenumber-js'
+import signup from '@/api/signup'
+import { areaCodes } from '~/utils/area-code'
 
 export default defineComponent({
   setup() {
     const validPhoneNumber = (rule: any, value: any, callback: any) => {
-
-      if (isValidPhoneNumber(value, data.formData.country)) {
+      if (isValidPhoneNumber(value, data.formData.country))
         callback()
-      } else {
+      else
         callback(new Error('手机号码格式有误'))
-      }
     }
     const data = reactive({
       areaCodes,
       disabled: true,
-      sendCodeBtn: true, //默认不可以发送验证码
-      existUsername: false, //默认用户名不存在
+      sendCodeBtn: true, // 默认不可以发送验证码
+      existUsername: false, // 默认用户名不存在
       sendCodeCount: '获取验证码',
       ruleForm: null,
       formData: {
@@ -31,67 +30,66 @@ export default defineComponent({
         nickname: '',
         password: '',
         confirmPassword: '',
-        checked: true
+        checked: true,
       },
       rules: {
         username: [
           { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { validator: validPhoneNumber, trigger: 'blur' }
+          { validator: validPhoneNumber, trigger: 'blur' },
         ],
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
-          { pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur' }
+          { pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur' },
         ],
         nickname: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, max: 16, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur' }
+          { min: 6, max: 16, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur' },
         ],
-        confirmPassword: [{ required: true, message: '请再输入一次密码', trigger: 'blur' }]
-      }
+        confirmPassword: [{ required: true, message: '请再输入一次密码', trigger: 'blur' }],
+      },
     })
 
     onMounted(() => {
       from()
     })
 
-
     watch(
       () => data.formData,
       () => {
         return data.disabled = !(
-          isValidPhoneNumber(data.formData.username, data.formData.country) &&
-          data.formData.password.length >= 6 &&
-          data.formData.confirmPassword.length >= 6 &&
-          data.formData.nickname !== '' &&
-          data.formData.code !== '' &&
-          data.formData.checked
+          isValidPhoneNumber(data.formData.username, data.formData.country)
+          && data.formData.password.length >= 6
+          && data.formData.confirmPassword.length >= 6
+          && data.formData.nickname !== ''
+          && data.formData.code !== ''
+          && data.formData.checked
         )
       },
-      { deep: true }
+      { deep: true },
     )
 
     function enroll() {
       if (data.existUsername) {
-        ElMessage.error('该账号已注册，请直接登录，');
+        ElMessage.error('该账号已注册，请直接登录，')
         return
       }
       if (data.formData.password !== data.formData.confirmPassword) {
-        ElMessage.error('确认密码不一致');
+        ElMessage.error('确认密码不一致')
         return
       }
       if (!data.formData.checked) {
-        ElMessage.error('请勾选同意EasyAPI用户协议');
+        ElMessage.error('请勾选同意EasyAPI用户协议')
         return
       }
       const from = useCookies().get('from')
       signup.signup(data.formData)
-        .then(res => {
+        .then((res) => {
           if (res.code === 1) {
             useCookies().set('authenticationToken', res.content, {
               maxAge: data.formData.rememberMe ? 60 * 60 * 24 * 30 : 1,
               path: '/',
-              domain: useCookies().get('domain')
+              domain: useCookies().get('domain'),
             })
             ElMessage.success(res.message)
             setTimeout(() => {
@@ -110,11 +108,11 @@ export default defineComponent({
     * 发送验证码
     */
     function sendCode() {
-      if (data.sendCodeBtn) {
+      if (data.sendCodeBtn)
         return
-      }
-      signup.sendCodeFn({ mobile: data.formData.username })
-        .then(res => {
+
+      signup.sendCode({ mobile: data.formData.username })
+        .then((res) => {
           if (res.code === 1) {
             ElMessage.success('验证码发送成功')
             let second = 60
@@ -133,7 +131,7 @@ export default defineComponent({
             ElMessage.error(res.message)
           }
         })
-        .catch(error => {
+        .catch((error) => {
           ElMessage.error(error.response.data.message)
         })
     }
@@ -148,57 +146,68 @@ export default defineComponent({
             data.sendCodeBtn = false
           }
         })
-
     }
 
     return {
       ...toRefs(data),
       enroll,
       sendCode,
-      findUsername
+      findUsername,
     }
-  }
+  },
 })
 </script>
+
 <template>
   <div class="main">
     <div class="form">
-      <div class="headline">用户注册</div>
-      <el-form :model="formData" :rules="rules" ref="ruleForm">
+      <div class="headline">
+        用户注册
+      </div>
+      <el-form ref="ruleForm" :model="formData" :rules="rules">
         <el-form-item label="" prop="username">
-          <el-input placeholder="请输入手机号码" maxlength="11" v-model="formData.username" @blur="findUsername">
-            <template slot="prepend">+&nbsp;</template>
-            <el-select v-model="formData.areaCode" filterable allow-create slot="prepend" style="width: 80px">
-              <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">{{ item.label }}(+{{ item.value
-              }})</el-option>
+          <el-input v-model="formData.username" placeholder="请输入手机号码" maxlength="11" @blur="findUsername">
+            <template slot="prepend">
+              +&nbsp;
+            </template>
+            <el-select slot="prepend" v-model="formData.areaCode" filterable allow-create style="width: 80px">
+              <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">
+                {{ item.label }}(+{{ item.value }})
+              </el-option>
             </el-select>
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="code">
-          <el-input placeholder="请输入验证码" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="formData.code"
-            class="code"></el-input>
-          <el-Button :disabled="sendCodeBtn" class="getCode" @click="sendCode">{{ sendCodeCount }}</el-Button>
+          <el-input
+            v-model="formData.code" placeholder="请输入验证码" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"
+            class="code"
+          />
+          <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">
+            {{ sendCodeCount }}
+          </el-button>
         </el-form-item>
         <el-form-item label="" prop="nickname">
-          <el-input placeholder="请输入姓名" v-model="formData.nickname"></el-input>
+          <el-input v-model="formData.nickname" placeholder="请输入姓名" />
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input placeholder="请设置密码" type="password" v-model="formData.password"></el-input>
+          <el-input v-model="formData.password" placeholder="请设置密码" type="password" />
         </el-form-item>
         <el-form-item label="" prop="confirmPassword">
-          <el-input placeholder="请再输入一次密码" type="password" v-model="formData.confirmPassword"></el-input>
+          <el-input v-model="formData.confirmPassword" placeholder="请再输入一次密码" type="password" />
         </el-form-item>
-        <el-checkbox class="checkbox" v-model="formData.checked">
+        <el-checkbox v-model="formData.checked" class="checkbox">
           点击注册表示您同意
           <span class="text-success"><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span>
         </el-checkbox>
-        <el-Button style="width: 100%" type="primary" :disabled="disabled" id="btn_sub" @click="enroll"
-          class="btn-block btn btn-lg btn-info">注 册</el-Button>
+        <el-button id="btn_sub" style="width: 100%" type="primary" :disabled="disabled" class="btn-block btn btn-lg btn-info" @click="enroll">
+          注 册
+        </el-button>
       </el-form>
       <div class="other-box">
-        <nuxt-link to="/login">我已有EasyAPI账号,直接登录</nuxt-link>
+        <nuxt-link to="/login">
+          我已有EasyAPI账号,直接登录
+        </nuxt-link>
       </div>
     </div>
   </div>
 </template>
-

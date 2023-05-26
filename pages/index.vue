@@ -1,7 +1,3 @@
-<template>
-  <div></div>
-</template>
-
 <script>
 import { defineComponent, onMounted } from 'vue'
 import { useCookies } from '@vueuse/integrations/useCookies'
@@ -19,14 +15,17 @@ export default defineComponent({
         router.push({ path: '/login' })
         return
       }
-      account.getUser()
-        .then((res) => {
-          if (res.code === 1)
-            window.location.replace(useCookies().get('from'))
-          else
-            router.push({ path: '/login' })
-        })
+      account.getUser().then((res) => {
+        if (res.code === 1)
+          window.location.replace(useCookies().get('from'))
+        else
+          router.push({ path: '/login' })
+      })
     })
   },
 })
 </script>
+
+<template>
+  <div />
+</template>

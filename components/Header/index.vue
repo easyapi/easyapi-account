@@ -8,13 +8,12 @@ export default defineComponent({
   setup() {
     const store = userStore()
     const data = reactive({
-      authenticationToken: useCookies().get('authenticationToken')
+      authenticationToken: useCookies().get('authenticationToken'),
     })
 
     onMounted(async () => {
-      if (data.authenticationToken) {
+      if (data.authenticationToken)
         await store.getUser()
-      }
     })
 
     return {

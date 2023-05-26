@@ -2,6 +2,7 @@
 import { onMounted, reactive } from 'vue'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { ElMessage } from 'element-plus'
+import { areaCodes } from '../../utils/area-code'
 import userStore from '@/store/user'
 
 import login from '~/api/login'
@@ -44,6 +45,9 @@ export default defineComponent({
       { deep: true },
     )
 
+    /**
+     * 登录
+     */
     function register() {
       const options = {
         path: '/',
@@ -93,11 +97,15 @@ export default defineComponent({
 <template>
   <div class="main">
     <div class="form">
-      <div class="headline">用户登录</div>
+      <div class="headline">
+        用户登录
+      </div>
       <el-form ref="refForm" :model="ruleForm" :rules="rules">
         <el-form-item label="" prop="username">
           <el-input v-model="ruleForm.username" placeholder="请输入手机号码">
-            <template data.slot="prepend"> +&nbsp; </template>
+            <template data.slot="prepend">
+              +&nbsp;
+            </template>
             <el-select
               v-model="ruleForm.areaCode"
               style="width: 80px"
@@ -125,18 +133,17 @@ export default defineComponent({
         <el-checkbox v-model="ruleForm.rememberMe" class="checkbox">
           记住密码
         </el-checkbox>
-        <el-button
-          style="width: 100%"
-          :disabled="disabled"
-          type="primary"
-          @click="register"
-        >
+        <el-button style="width: 100%" :disabled="disabled" type="primary" @click="register">
           登录
         </el-button>
       </el-form>
       <div class="other-box">
-        <nuxt-link to="/signup" class="signup"> 立即注册 </nuxt-link>
-        <nuxt-link to="/email-upgrade"> 邮箱升级为手机号码 </nuxt-link>
+        <nuxt-link to="/signup" class="signup">
+          立即注册
+        </nuxt-link>
+        <nuxt-link to="/email-upgrade">
+          邮箱升级为手机号码
+        </nuxt-link>
         <nuxt-link to="/forget-password" class="forget-password">
           忘记密码？
         </nuxt-link>
@@ -147,14 +154,14 @@ export default defineComponent({
             class="image-svg"
             src="@/assets/images/static/svg/weixin.svg"
             alt=""
-          />
+          >
         </a>
         <a href="https://account-api.easyapi.com/auth/qq">
           <img
             class="image-svg"
             src="@/assets/images/static/svg/qq.svg"
             alt=""
-          />
+          >
         </a>
       </div>
     </div>

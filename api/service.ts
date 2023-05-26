@@ -1,4 +1,5 @@
 import http from '~/api/request'
+
 /**
  * 获取服务报价列表
  */
@@ -10,7 +11,7 @@ export const service = {
   /**
    * 续购服务
    */
-  renewBalance(data:any) {
+  renewBalance(data: any) {
     return http.post(`${useRuntimeConfig().public.serviceUrl}/service/buy`, data)
   },
 
@@ -21,7 +22,6 @@ export const service = {
    */
   getTeamService(id: any) {
     return http.get(`${useRuntimeConfig().public.serviceUrl}/console/team-service/${id}`)
-  }
+  },
 }
 export default service
-
