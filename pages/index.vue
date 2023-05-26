@@ -27,9 +27,9 @@ export default defineComponent({
           else
             router.push({ path: '/login' })
         })
-        .catch((error) => {
-          ElMessage.error(error.response.data.message)
-        })
+        // .catch((error) => {
+        //   ElMessage.error(error.response.data.message)
+        // })
     })
   },
 })
