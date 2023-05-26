@@ -5,7 +5,6 @@
 <script>
 import { defineComponent, onMounted } from 'vue'
 import { useCookies } from '@vueuse/integrations/useCookies'
-import { ElMessage } from 'element-plus'
 import { from } from '../utils/from'
 import { account } from '../api/account'
 
@@ -23,13 +22,10 @@ export default defineComponent({
       account.getUser()
         .then((res) => {
           if (res.code === 1)
-          window.location.replace(useCookies().get('from'))
+            window.location.replace(useCookies().get('from'))
           else
             router.push({ path: '/login' })
         })
-        // .catch((error) => {
-        //   ElMessage.error(error.response.data.message)
-        // })
     })
   },
 })

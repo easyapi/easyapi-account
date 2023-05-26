@@ -2,8 +2,8 @@
 import { useCookies } from '@vueuse/integrations/useCookies'
 import userStore from '@/store/user'
 
-
 export default defineComponent({
+  // eslint-disable-next-line vue/no-reserved-component-names
   name: 'Header',
   setup() {
     const store = userStore()
@@ -11,17 +11,15 @@ export default defineComponent({
       authenticationToken: useCookies().get('authenticationToken')
     })
 
-    onMounted(() => {
+    onMounted(async () => {
       if (data.authenticationToken) {
-        store.getUser()
-        console.log(store);
+        await store.getUser()
       }
-
     })
 
     return {
       ...toRefs(data),
-      store
+      store,
     }
   },
 })

@@ -21,10 +21,9 @@ watch(
   () => props.balance,
   (v) => {
     data.payment = v
-  }
+  },
 )
 const stand = (pay: any) => {
-  console.log(pay)
   data.payment = pay
   emit('event', pay)
 }

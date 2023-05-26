@@ -11,15 +11,13 @@ import userStore from '@/store/user'
 import renew from '@/api/renew'
 import money from '@/api/money'
 import team from '@/api/team'
-import service from '@/api/service'
-
 
 export default defineComponent({
   components: {
     Edition,
     SelectPrice,
     Payment,
-    WeChatPay
+    WeChatPay,
   },
   setup() {
     const router = useRouter()
@@ -51,22 +49,21 @@ export default defineComponent({
      * 获取续费价格
      */
     const getDocumentPrice = () => {
-      if (data.selectMonth === 0) {
+      if (data.selectMonth === 0)
         return
-      }
+
       renew.getRenewPrice({
         month: data.selectMonth,
         memberCount: data.memberCount,
-        release: data.release
-      }).then(res => {
-        if (res.code === 1) {
+        release: data.release,
+      }).then((res) => {
+        if (res.code === 1)
           data.totalPrice = res.content
-        }
       })
     }
 
     const getTeamUserList = () => {
-      team.getTeamUserList({}).then(res => {
+      team.getTeamUserList({}).then((res) => {
         if (res.code === 1) {
           data.nowMemberCount = res.content.length
           data.memberCount = res.content.length
@@ -78,10 +75,10 @@ export default defineComponent({
      * 查询文档报价列表
      */
     const getPriceList = () => {
-      renew.getPriceList({ release: data.release }).then(res => {
+      renew.getPriceList({ release: data.release }).then((res) => {
         if (res.code === 1) {
           data.priceList = res.content
-          for (let object of data.priceList) {
+          for (const object of data.priceList) {
             // 统一计量
             object.num = object.month
             // 计算单价
@@ -101,7 +98,7 @@ export default defineComponent({
 
     const getTeamInfo = () => {
       const teamId = store.team ? store.team.id : ''
-      money.getTeamMoney({ teamId: teamId }).then(res => {
+      money.getTeamMoney({ teamId }).then((res) => {
         if (res.code === 1) {
           data.balance = res.content.balance
           data.team = res.content.team
@@ -123,20 +120,6 @@ export default defineComponent({
       data.price = event.price
       data.date = moment(data.oldDate).add(event.month, 'months').format('YYYY-MM-DD HH:mm:ss')
       getDocumentPrice()
-    }
-
-    const sure = () => {
-      if (data.selectMonth === 0) {
-        ElMessage.warning('请选择续费时长')
-        return
-      }
-      ElMessageBox.confirm('你确定续费吗？', '确认购买', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }).then(() => {
-        determineThePurchase()
-      })
     }
 
     const determineThePurchase = () => {
@@ -165,12 +148,24 @@ export default defineComponent({
         ElMessage.success(res.message)
       })
         .catch(() => {
-          if (data.payment === '' || data.payment === null) {
+          if (data.payment === '' || data.payment === null)
             ElMessage.warning('请选择支付方式')
-          }
         })
     }
 
+    const sure = () => {
+      if (data.selectMonth === 0) {
+        ElMessage.warning('请选择续费时长')
+        return
+      }
+      ElMessageBox.confirm('你确定续费吗？', '确认购买', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(() => {
+        determineThePurchase()
+      })
+    }
 
     watch(() => data.wechatPayDialog, (val) => {
       if (!val) {
@@ -197,10 +192,10 @@ export default defineComponent({
       handleClose,
       getPayment,
       stand,
+      store,
       sure,
-      store
     }
-  }
+  },
 })
 </script>
 
@@ -224,8 +219,7 @@ export default defineComponent({
           class="edition-tips"
           target="_blank"
           href="https://www.easyapi.com/info/price"
-          >查看不同版本对比</a
-        >
+        >查看不同版本对比</a>
         <div class="renew_service">
           <strong class="renew_service_title">续费价格：</strong>
           <SelectPrice
@@ -266,9 +260,7 @@ export default defineComponent({
           </div>
         </div>
         <div class="renew_fl">
-          <strong class="renew_service_title" style="padding-top: 10px"
-            >应付金额：</strong
-          >
+          <strong class="renew_service_title" style="padding-top: 10px">应付金额：</strong>
           <div class="">
             <strong style="color: #fa2222; font-size: 26px">{{
               totalPrice.toFixed(2)
@@ -309,8 +301,7 @@ export default defineComponent({
               color: #888888;
               font-size: 12px;
             "
-            >若在购买过程中遇到任何问题，请联系13656171020，微信同号</span
-          >
+          >若在购买过程中遇到任何问题，请联系13656171020，微信同号</span>
         </div>
       </div>
     </div>
@@ -323,6 +314,7 @@ export default defineComponent({
     />
   </div>
 </template>
+
 <style lang="scss" scoped>
 .renew_content {
   height: auto;

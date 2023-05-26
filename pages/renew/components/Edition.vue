@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getCurrentInstance, reactive, watch } from 'vue'
+import { reactive, watch } from 'vue'
 
 const props = defineProps({
   edition: {
@@ -19,11 +19,11 @@ watch(
   () => props.edition,
   () => {
     select()
-  }
+  },
 )
 
-function choseEdition(item:any) {
-  console.log(item)
+function choseEdition(item: any) {
+  console.log(props.edition, 777)
   if (props.edition === '旗舰版' && item.name === '旗舰版') {
     data.selectEdition = item.name
     emit('event', item)
@@ -36,7 +36,7 @@ function choseEdition(item:any) {
   }
 }
 
-const select = () => {
+function select() {
   if (props.edition !== '') {
     data.selectEdition = props.edition
     const item = {

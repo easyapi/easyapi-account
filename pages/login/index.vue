@@ -56,12 +56,12 @@ export default defineComponent({
       const from = useCookies().get('from')
       login.postLogin(data.ruleForm).then((res) => {
         if (res.code === 1) {
-          store.getUser()
           useCookies().set('authenticationToken', res.content.idToken, {
             maxAge: data.ruleForm.rememberMe ? 60 * 60 * 24 * 30 : 1,
             path: '/',
-            domain: useCookies().get('domain')
+            domain: useCookies().get('domain'),
           })
+          store.getUser()
           if (params !== '' && auth === '三方登录') {
             const json = JSON.parse(params)
             window.location.href
@@ -76,15 +76,11 @@ export default defineComponent({
             }, 1000)
           }
           ElMessage.success(res.message)
-          console.log(res)
         } else {
           ElMessage.error(res.message)
         }
       },
       )
-      // .catch((error) => {
-      //   ElMessage.error(error.response.data.message)
-      // })
     }
     return {
       ...toRefs(data),

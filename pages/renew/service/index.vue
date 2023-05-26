@@ -41,7 +41,7 @@ export default defineComponent({
       wechatPayDialog: false, // 微信支付弹框
       weChatPayUrl: '', // 微信支付二维码链接
       selectPri: null,
-      teamServiceId: ''
+      teamServiceId: '',
     })
 
     const handleClose = () => {
@@ -169,11 +169,11 @@ export default defineComponent({
           } else if (data.payment === '微信支付') {
             data.weChatPayUrl = `https://api.easyapi.com/qr-code?text=${res.codeUrl}&bg=ffffff&appKey=f89UK9X5Q3C2YW2y&appSecret=hr2he5ufz6vw0ikz`
             data.wechatPayDialog = true
-            let socket = new SockJS('https://account-api.easyapi.com/easyapi-socket')
-            let stompClient = Stomp.over(socket)
-            stompClient.connect({}, frame => {
-              stompClient.subscribe('/topic/wxpay/' + data.team.user.id, message => {
-                var json = JSON.parse(message.body)
+            const socket = new SockJS('https://account-api.easyapi.com/easyapi-socket')
+            const stompClient = Stomp.over(socket)
+            stompClient.connect({}, (frame) => {
+              stompClient.subscribe(`/topic/wxpay/${data.team.user.id}`, (message) => {
+                const json = JSON.parse(message.body)
                 data.wechatPayDialog = false
                 reset()
                 /* Warn: Unknown source: $message */
