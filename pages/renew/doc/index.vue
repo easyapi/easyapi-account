@@ -10,6 +10,9 @@ import userStore from '@/store/user'
 
 import renew from '@/api/renew'
 import money from '@/api/money'
+import team from '@/api/team'
+import service from '@/api/service'
+
 
 export default defineComponent({
   components: {
@@ -34,7 +37,7 @@ export default defineComponent({
       memberCount: 0, // 可改变团队人数
       wechatPayDialog: false,
       weChatPayUrl: null,
-      selectric:null,
+      selectric: null,
       totalPrice: 0, // 应付金额
       release: '基础版', // 版本
       edition: false,
@@ -44,6 +47,9 @@ export default defineComponent({
       data.wechatPayDialog = false
     }
 
+    /**
+     * 获取续费价格
+     */
     const getDocumentPrice = () => {
       if (data.selectMonth === 0) {
         return
@@ -68,8 +74,11 @@ export default defineComponent({
       })
     }
 
+    /**
+     * 查询文档报价列表
+     */
     const getPriceList = () => {
-      renew.getPriceList({release: data.release}).then(res => {
+      renew.getPriceList({ release: data.release }).then(res => {
         if (res.code === 1) {
           data.priceList = res.content
           for (let object of data.priceList) {
@@ -91,7 +100,7 @@ export default defineComponent({
     }
 
     const getTeamInfo = () => {
-      let teamId = store.team ? store.team.id : ''
+      const teamId = store.team ? store.team.id : ''
       money.getTeamMoney({ teamId: teamId }).then(res => {
         if (res.code === 1) {
           data.balance = res.content.balance
@@ -138,22 +147,22 @@ export default defineComponent({
         memberCount: data.memberCount,
         release: data.release,
       }
-      renew.getPriceList(params).then((res) => {
+      renew.renew(params).then((res) => {
         if (data.payment === '支付宝') {
           const href = router.resolve({
             path: '/renew/alipay',
             query: {
-              form: res.data.content.alipay,
+              form: res.content.alipay,
             },
           })
           window.open(href, '_blank')
         } else if (data.payment === '微信支付') {
-          data.weChatPayUrl = `https://api.easyapi.com/qr-code?text=${res.data.codeUrl}&bg=ffffff&appKey=f89UK9X5Q3C2YW2y&appSecret=hr2he5ufz6vw0ikz`
+          data.weChatPayUrl = `https://api.easyapi.com/qr-code?text=${res.codeUrl}&bg=ffffff&appKey=f89UK9X5Q3C2YW2y&appSecret=hr2he5ufz6vw0ikz`
           data.wechatPayDialog = true
         }
         getTeamInfo()
         data.selectMonth = 0
-        ElMessage.success(res.data.message)
+        ElMessage.success(res.message)
       })
         .catch(() => {
           if (data.payment === '' || data.payment === null) {
@@ -176,9 +185,9 @@ export default defineComponent({
 
     onMounted(() => {
       document.title = '文档续费 - EasyAPI'
-      // getTeamInfo()
+      getTeamInfo()
       getPriceList()
-      // getTeamUserList()
+      getTeamUserList()
     })
 
     return {
@@ -188,8 +197,8 @@ export default defineComponent({
       handleClose,
       getPayment,
       stand,
-      store,
-      sure
+      sure,
+      store
     }
   }
 })
@@ -199,7 +208,10 @@ export default defineComponent({
   <div>
     <div class="w-full h-auto">
       <div class="w-full h-20 bg-gray-50">
-        <span v-if="store.team" class="flex items-center h-20 m-auto max-w-screen-lg text-lg block">
+        <span
+          v-if="store.team.name"
+          class="flex items-center h-20 m-auto max-w-screen-lg text-lg block"
+        >
           {{ store.team.name }}团队续费
         </span>
       </div>
@@ -208,10 +220,19 @@ export default defineComponent({
           <strong class="renew_service_title">选择版本：</strong>
           <Edition :edition="edition" @event="selectEdition" />
         </div>
-        <a class="edition-tips" target="_blank" href="https://www.easyapi.com/info/price">查看不同版本对比</a>
+        <a
+          class="edition-tips"
+          target="_blank"
+          href="https://www.easyapi.com/info/price"
+          >查看不同版本对比</a
+        >
         <div class="renew_service">
           <strong class="renew_service_title">续费价格：</strong>
-          <SelectPrice ref="selectric" :price-list="priceList" @event="selectPrice" />
+          <SelectPrice
+            ref="selectric"
+            :price-list="priceList"
+            @event="selectPrice"
+          />
         </div>
         <div class="renew_service">
           <strong class="renew_service_title">支付方式：</strong>
@@ -220,10 +241,22 @@ export default defineComponent({
         <div class="renew_fl">
           <strong class="renew_service_title">团队人数：</strong>
           <div class="">
-            <el-input-number v-model="memberCount" controls-outside :min="nowMemberCount" />
+            <el-input-number
+              v-model="memberCount"
+              controls-outside
+              :min="nowMemberCount"
+            />
           </div>
         </div>
-        <p style="margin-top: -10px; margin-bottom: 10px; margin-left: 80px; color: #888888; font-size: 12px">
+        <p
+          style="
+            margin-top: -10px;
+            margin-bottom: 10px;
+            margin-left: 80px;
+            color: #888888;
+            font-size: 12px;
+          "
+        >
           提示:团队超出20人,超出人数按5元/人计算，本次新增人数，从下个月开始计算费用。
         </p>
         <div class="renew_fl">
@@ -233,29 +266,61 @@ export default defineComponent({
           </div>
         </div>
         <div class="renew_fl">
-          <strong class="renew_service_title" style="padding-top: 10px">应付金额：</strong>
+          <strong class="renew_service_title" style="padding-top: 10px"
+            >应付金额：</strong
+          >
           <div class="">
-            <strong style="color: #fa2222; font-size: 26px">{{ totalPrice.toFixed(2) }}</strong>
+            <strong style="color: #fa2222; font-size: 26px">{{
+              totalPrice.toFixed(2)
+            }}</strong>
             &nbsp;
-            <span style="color:ww #323232; font-size: 14px">元</span>
+            <span style="color: ww #323232; font-size: 14px">元</span>
           </div>
         </div>
         <div class="renew_fa">
-          <el-button v-if="balance >= price || payment !== '余额支付'"
-            style="border-radius: 4px; background-color: #1cc0d6; color: #fff; font-size: 14px" @click="sure">
+          <el-button
+            v-if="balance >= price || payment !== '余额支付'"
+            style="
+              border-radius: 4px;
+              background-color: #1cc0d6;
+              color: #fff;
+              font-size: 14px;
+            "
+            @click="sure"
+          >
             确定购买
           </el-button>
-          <el-button v-if="balance < price && payment === '余额支付'"
-            style="border-radius: 4px; background-color: #1cc0d6; color: #fff; font-size: 14px" disabled>
+          <el-button
+            v-if="balance < price && payment === '余额支付'"
+            style="
+              border-radius: 4px;
+              background-color: #1cc0d6;
+              color: #fff;
+              font-size: 14px;
+            "
+            disabled
+          >
             确定购买
           </el-button>
           <span
-            style="display: block; padding-top: 5px; color: #888888; font-size: 12px">若在购买过程中遇到任何问题，请联系13656171020，微信同号</span>
+            style="
+              display: block;
+              padding-top: 5px;
+              color: #888888;
+              font-size: 12px;
+            "
+            >若在购买过程中遇到任何问题，请联系13656171020，微信同号</span
+          >
         </div>
       </div>
     </div>
     <!-- 微信支付弹窗 -->
-    <WeChatPay v-model:visible="wechatPayDialog" :we-chat-pay-url="weChatPayUrl" :price="price" />
+    <WeChatPay
+      v-model="wechatPayDialog"
+      :we-chat-pay-url="weChatPayUrl"
+      :price="totalPrice"
+      @visible="handleClose"
+    />
   </div>
 </template>
 <style lang="scss" scoped>
