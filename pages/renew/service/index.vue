@@ -9,6 +9,8 @@ import WeChatPay from '../components/WeChatPay.vue'
 import userStore from '@/store/user'
 import money from '@/api/money'
 import service from '@/api/service'
+import SockJS from 'sockjs-client/dist/sockjs.min.js'
+import Stomp from 'stompjs'
 import account from '@/api/account'
 import renew from '~/api/renew'
 
@@ -140,11 +142,13 @@ export default defineComponent({
     }
 
     const determineThePurchase = () => {
-      const renewBalance = {
-        servicePriceId: data.servicePriceId,
-        payment: data.payment
-      }
-      renew.getPriceList(renewBalance).then(res => {
+
+      service.renewBalance(
+        {
+          servicePriceId: data.servicePriceId,
+          payment: data.payment
+        }
+      ).then(res => {
         if (res.code === 1) {
           if (data.payment === '支付宝') {
             const href = router.resolve({
@@ -163,7 +167,7 @@ export default defineComponent({
               reset()
             })
           } else if (data.payment === '微信支付') {
-            data.weChatPayUrl = `https://api.easyapi.com/qr-code?text=${res.data.codeUrl}&bg=ffffff&appKey=f89UK9X5Q3C2YW2y&appSecret=hr2he5ufz6vw0ikz`
+            data.weChatPayUrl = `https://api.easyapi.com/qr-code?text=${res.codeUrl}&bg=ffffff&appKey=f89UK9X5Q3C2YW2y&appSecret=hr2he5ufz6vw0ikz`
             data.wechatPayDialog = true
             let socket = new SockJS('https://account-api.easyapi.com/easyapi-socket')
             let stompClient = Stomp.over(socket)
@@ -178,7 +182,7 @@ export default defineComponent({
             })
           }
           /* Warn: Unknown source: $message */
-          ElMessage.success(res.data.message)
+          ElMessage.success(res.message)
         }
       })
     }
@@ -194,7 +198,6 @@ export default defineComponent({
       buy,
       getPayment,
       handleClose,
-      service,
     }
   }
 })

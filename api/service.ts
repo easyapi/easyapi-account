@@ -10,8 +10,8 @@ export const service = {
   /**
    * 续购服务
    */
-  renewBalance() {
-    return http.post(`${useRuntimeConfig().public.serviceUrl}/service/buy`, {}, {})
+  renewBalance(data:any) {
+    return http.post(`${useRuntimeConfig().public.serviceUrl}/service/buy`, data)
   },
 
   /**
