@@ -36,10 +36,11 @@ onMounted(() => {
 
 <template>
   <el-dialog
-    :visible="props.visible"
+    v-model="props.visible"
     title="微信扫码支付"
     width="30%"
     :before-close="handleClose"
+    append-to-body
   >
     <div>
       <div class="text-center">

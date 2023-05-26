@@ -32,21 +32,11 @@ const stand = (pay: any) => {
 
 <template>
   <div class="payment">
-    <div
-      class="payment-item"
-      :class="{ state: data.payment === '余额支付' }"
-      @click="stand('余额支付')"
-      v-if="balance >= price"
-    >
+    <div class="payment-item" :class="{ state: data.payment === '余额支付' }" @click="stand('余额支付')" v-if="balance >= price">
       <svg-icon icon-class="money" class="svg" />
       <span>余额支付(￥{{ balance }})</span>
     </div>
-    <div
-      class="payment_p"
-      :class="{ state: data.payment === '余额支付' }"
-      @click="stand('余额支付')"
-      v-if="balance < price"
-    >
+    <div class="payment_p" :class="{ state: data.payment === '余额支付' }" @click="stand('余额支付')" v-if="balance < price">
       <span>
         <strong>余额支付(￥{{ balance }})</strong>
       </span>
@@ -57,19 +47,11 @@ const stand = (pay: any) => {
         <a href="/account" style="color: #1cc0d6">充值</a>
       </span>
     </div>
-    <div
-      class="payment-item"
-      :class="{ state: data.payment === '微信支付' }"
-      @click="stand('微信支付')"
-    >
+    <div class="payment-item" :class="{ state: data.payment === '微信支付' }" @click="stand('微信支付')">
       <svg-icon icon-class="wechatpay" class="svg" />
       <span>微信支付</span>
     </div>
-    <div
-      class="payment-item"
-      :class="{ state: data.payment === '支付宝' }"
-      @click="stand('支付宝')"
-    >
+    <div class="payment-item" :class="{ state: data.payment === '支付宝' }" @click="stand('支付宝')">
       <svg-icon icon-class="alipay" class="svg" />
       <span>支付宝</span>
     </div>

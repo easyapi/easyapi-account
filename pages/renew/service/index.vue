@@ -147,14 +147,14 @@ export default defineComponent({
         {
           servicePriceId: data.servicePriceId,
           payment: data.payment
-        }
-      ).then(res => {
+        },
+      ).then((res) => {
         if (res.code === 1) {
           if (data.payment === '支付宝') {
-            const href = router.resolve({
+            const { href } = router.resolve({
               path: '/renew/alipay',
               query: {
-                form: res.alipay
+                form: res.alipay,
               },
             })
             window.open(href, '_blank')
@@ -162,7 +162,7 @@ export default defineComponent({
             ElMessageBox.confirm('请您在新打开的页面上完成充值。充值完成后，根据您的情况点击下面按钮。', '提示', {
               confirmButtonText: '充值成功',
               cancelButtonText: '充值失败',
-              type: 'info'
+              type: 'info',
             }).then(() => {
               reset()
             })

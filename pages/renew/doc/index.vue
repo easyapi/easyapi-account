@@ -70,13 +70,12 @@ export default defineComponent({
 
     const getPriceList = () => {
       renew.getPriceList({release: data.release}).then(res => {
-        console.log(res,0000)
         if (res.code === 1) {
           data.priceList = res.content
           for (let object of data.priceList) {
-            //统一计量
+            // 统一计量
             object.num = object.month
-            //计算单价
+            // 计算单价
             object.unitPrice = (object.price / object.num).toFixed(4)
           }
         }
@@ -93,7 +92,6 @@ export default defineComponent({
 
     const getTeamInfo = () => {
       let teamId = store.team ? store.team.id : ''
-      console.log(teamId,999)
       money.getTeamMoney({ teamId: teamId }).then(res => {
         if (res.code === 1) {
           data.balance = res.content.balance
@@ -126,7 +124,7 @@ export default defineComponent({
       ElMessageBox.confirm('你确定续费吗？', '确认购买', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
       }).then(() => {
         determineThePurchase()
       })
