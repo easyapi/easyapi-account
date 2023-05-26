@@ -18,15 +18,15 @@ const props = defineProps({
 const emit = defineEmits(['visible'])
 
 function handleCancel() {
-  emit('visible', false)
+  emit('visible')
 }
 
 function handleClose() {
-  emit('visible', false)
+  emit('visible')
 }
 
 function handleConfirm() {
-  emit('visible', false)
+  emit('visible')
 }
 
 onMounted(() => {

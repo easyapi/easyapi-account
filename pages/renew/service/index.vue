@@ -272,6 +272,7 @@ export default defineComponent({
       :visible="wechatPayDialog"
       :we-chat-pay-url="weChatPayUrl"
       :price="price"
+      @visible="handleClose"
     />
   </div>
 </template>
