@@ -4,7 +4,7 @@ import http from '~/api/request'
  */
 export const service = {
   getServiceList(params: any) {
-    return http.get(`${useRuntimeConfig().public.baseUrl}/api/services`, params, {})
+    return http.get(`${useRuntimeConfig().public.serviceUrl}/console/service-prices`, params, {})
   },
 
   /**
@@ -20,7 +20,7 @@ export const service = {
    * @param id 团队服务关系ID
    */
   getTeamService(id: any) {
-    return http.get(`${useRuntimeConfig().public.serviceUrl}/console/team-service/${id}`, {})
+    return http.get(`${useRuntimeConfig().public.serviceUrl}/console/team-service/${id}`)
   }
 }
 export default service

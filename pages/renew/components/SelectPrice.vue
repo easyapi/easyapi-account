@@ -3,15 +3,16 @@ import { reactive } from 'vue'
 
 export default defineComponent({
   props: {
-    priceList: {
+    pricelist: {
       type: Array,
-      default: () => [],
+      default: () => {return []},
     },
   },
   emits: ['event'],
   setup(prop, { emit }) {
     const data = reactive({
-      selectMoney: 0
+      selectMoney: 0,
+      priceList:[]
     })
 
 
@@ -23,6 +24,16 @@ export default defineComponent({
     function reset() {
       data.selectMoney = 0
     }
+
+    onMounted(() => {
+     console.log(prop,777)
+     console.log(prop.pricelist,888)
+     setTimeout(()=>{
+      data.priceList = prop.pricelist
+     },100)
+     
+    })
+
     return {
       ...toRefs(data,prop),
       selectMoneyFn,
@@ -30,18 +41,6 @@ export default defineComponent({
     }
   },
 })
-// const props = defineProps({
-//   priceList: {
-//     type: Array,
-//     default: ()=>{return []},
-//   },
-// })
-
-// const emit = defineEmits(['event'])
-
-// const data = reactive({
-//   selectMoney: 0
-// })
 </script>
 
 <template>

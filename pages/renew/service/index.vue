@@ -39,7 +39,7 @@ export default defineComponent({
       wechatPayDialog: false, // 微信支付弹框
       weChatPayUrl: '', // 微信支付二维码链接
       selectPri: null,
-      teamServiceId:''
+      teamServiceId: ''
     })
 
     const handleClose = () => {
@@ -48,20 +48,14 @@ export default defineComponent({
 
     const reset = () => {
       getTeamService()
-      data.selectPrice.reset()
+      data.selectPri.selectPrice.reset()
     }
 
-    const getUserIfm = () =>{
-      account.getUser()
-        .then((res) => {
-          console.log(res,777)
-          data.teamServiceId = res.content.team.id
-        })
-    }
-
+    /**
+     * 查询服务报价列表
+     */
     const getServiceList = () => {
-      service.getServiceList(store.team.team.id).then((res) => {
-        console.log(res,777)
+      service.getServiceList({ serviceId: data.service.serviceId }).then((res) => {
         if (res.code === 1) {
           data.priceList = res.content
           for (const object of data.priceList) {
@@ -74,9 +68,12 @@ export default defineComponent({
       })
     }
 
+    /**
+     * 获取团队账户
+     */
     const getTeamInfo = () => {
-      const teamId = store.team ? store.team.team.id : ''
-      money.getTeamMoney(teamId).then((res) => {
+      const teamId = store.team ? store.team.id : ''
+      money.getTeamMoney({ teamId: teamId }).then((res) => {
         if (res.code === 1) {
           data.balance = res.content.balance
           data.team = res.content.team
@@ -98,12 +95,12 @@ export default defineComponent({
       data.payment = event
     }
 
-    const getTeamService=()=> {
-      console.log(store,666)
-      service.getTeamService(store.team.team.teamId).then(res => {
+    /**
+     * 获取团队服务详情
+     */
+    const getTeamService = (teamServiceId) => {
+      service.getTeamService(teamServiceId).then(res => {
         if (res.code === 1) {
-          console.log(res,789)
-
           const content = res.content
           data.service = res.content.service
           if (data.service.type === 3) {
@@ -142,8 +139,8 @@ export default defineComponent({
       })
     }
 
-    const determineThePurchase=()=> {
-      const renewBalance={
+    const determineThePurchase = () => {
+      const renewBalance = {
         servicePriceId: data.servicePriceId,
         payment: data.payment
       }
@@ -187,9 +184,8 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      getUserIfm()
-      getTeamService()
       getTeamInfo()
+      getTeamService(route.query.teamServiceId)
     })
 
     return {
@@ -208,12 +204,19 @@ export default defineComponent({
   <div>
     <div class="w-full h-auto">
       <div class="w-full h-20 bg-gray-50">
-        <span class="flex items-center h-20 m-auto max-w-screen-lg text-lg block">{{ service.name }}服务续费</span>
+        <span
+          class="flex items-center h-20 m-auto max-w-screen-lg text-lg block"
+          >{{ service.name }}服务续费</span
+        >
       </div>
       <div class="renew_content max-w-screen-lg">
         <div class="renew_service">
           <strong class="renew_service_title">服务价格：</strong>
-          <SelectPrice ref="selectPri" :pricelist="priceList" @event="selectPrice" />
+          <SelectPrice
+            ref="selectPri"
+            :pricelist="priceList"
+            @event="selectPrice"
+          />
         </div>
         <div class="renew_service">
           <strong class="renew_service_title">支付方式：</strong>
@@ -221,7 +224,7 @@ export default defineComponent({
         </div>
         <div class="renew_fl">
           <strong class="renew_service_title">{{
-            service.type === 2 ? "剩余次数：" : "到期时间："
+            service.type === 2 ? '剩余次数：' : '到期时间：'
           }}</strong>
           <div class="">
             <strong style="color: #323232; font-size: 14px">{{
@@ -230,7 +233,9 @@ export default defineComponent({
           </div>
         </div>
         <div class="renew_fl">
-          <strong class="renew_service_title" style="padding-top: 10px">应付金额：</strong>
+          <strong class="renew_service_title" style="padding-top: 10px"
+            >应付金额：</strong
+          >
           <div class="frequency">
             <strong style="color: #fa2222; font-size: 26px">{{
               price.toFixed(2)
@@ -240,17 +245,31 @@ export default defineComponent({
           </div>
         </div>
         <div class="renew_btn">
-          <el-button v-if="balance >= price || payment !== '余额支付'" type="primary" @click="buy">
+          <el-button
+            v-if="balance >= price || payment !== '余额支付'"
+            type="primary"
+            @click="buy"
+          >
             确定购买
           </el-button>
-          <el-button v-if="balance < price && payment === '余额支付'" type="primary" disabled>
+          <el-button
+            v-if="balance < price && payment === '余额支付'"
+            type="primary"
+            disabled
+          >
             确定购买
           </el-button>
-          <span class="renew_btn_tips">若在购买过程中遇到任何问题,请联系13656171020,微信同号</span>
+          <span class="renew_btn_tips"
+            >若在购买过程中遇到任何问题,请联系13656171020,微信同号</span
+          >
         </div>
       </div>
     </div>
-    <WeChatPay :visible="wechatPayDialog" :we-chat-pay-url="weChatPayUrl" :price="price" />
+    <WeChatPay
+      :visible="wechatPayDialog"
+      :we-chat-pay-url="weChatPayUrl"
+      :price="price"
+    />
   </div>
 </template>
 <style lang="scss" scoped>
@@ -298,5 +317,4 @@ export default defineComponent({
   color: #888888;
   font-size: 12px;
 }
-
 </style>
