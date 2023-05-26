@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { getCurrentInstance, reactive, watch } from 'vue'
 
-const { proxy: $vm } = getCurrentInstance()
-
 const props = defineProps({
   edition: {
     type: String,
@@ -17,25 +15,29 @@ const data = reactive({
   selectEdition: '',
 })
 
-watch(() => props.edition, () => {
-  select()
-})
+watch(
+  () => props.edition,
+  () => {
+    select()
+  }
+)
 
-function choseEdition (item) {
-  if ( props.edition === '旗舰版' && item.name === '旗舰版') {
+function choseEdition(item:any) {
+  console.log(item)
+  if (props.edition === '旗舰版' && item.name === '旗舰版') {
     data.selectEdition = item.name
     emit('event', item)
-  } else if (  props.edition === '高级版' && item.name !== '基础版') {
+  } else if (props.edition === '高级版' && item.name !== '基础版') {
     data.selectEdition = item.name
     emit('event', item)
-  } else if (  props.edition === '基础版' || /* Warn: Unknown source: edition */ $vm.edition === '') {
+  } else if (props.edition === '基础版' || props.edition === '') {
     data.selectEdition = item.name
     emit('event', item)
   }
 }
 
-const select=()=> {
-  if ( props.edition !== '') {
+const select = () => {
+  if (props.edition !== '') {
     data.selectEdition = props.edition
     const item = {
       name: data.selectEdition,
@@ -47,18 +49,23 @@ const select=()=> {
 
 <template>
   <div class="edition">
-    <div v-for="(item, index) in data.editionList" :key="index" class="renew-price-item" :class="data.selectEdition === item.name
-      ? 'eaActive'
-      : edition === '旗舰版' && item.name !== '旗舰版'
-        ? 'disable-all'
-        : edition === '高级版' && item.name === '基础版'
+    <div
+      v-for="(item, index) in data.editionList"
+      :key="index"
+      class="renew-price-item"
+      :class="
+        data.selectEdition === item.name
+          ? 'eaActive'
+          : props.edition === '旗舰版' && item.name !== '旗舰版'
+          ? 'disable-all'
+          : props.edition === '高级版' && item.name === '基础版'
           ? 'disalbe'
           : ''
-      " @click="choseEdition(item)">
+      "
+      @click="choseEdition(item)"
+    >
       <strong>{{ item.name }}</strong>
-      <div v-if="edition === item.name">
-        (当前版本)
-      </div>
+      <div v-if="props.edition === item.name">(当前版本)</div>
     </div>
   </div>
 </template>

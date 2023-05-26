@@ -189,6 +189,7 @@ export default defineComponent({
       getPayment,
       stand,
       store,
+      sure
     }
   }
 })
@@ -210,7 +211,7 @@ export default defineComponent({
         <a class="edition-tips" target="_blank" href="https://www.easyapi.com/info/price">查看不同版本对比</a>
         <div class="renew_service">
           <strong class="renew_service_title">续费价格：</strong>
-          <SelectPrice ref="selectric" :pricelist="priceList" @event="selectPrice" />
+          <SelectPrice ref="selectric" :price-list="priceList" @event="selectPrice" />
         </div>
         <div class="renew_service">
           <strong class="renew_service_title">支付方式：</strong>
