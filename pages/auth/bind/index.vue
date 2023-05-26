@@ -71,7 +71,7 @@ export default defineComponent({
           ElMessage.error(res.message)
         }
         useCookies().set('authenticationToken', res.content.idToken, {
-          maxAge: data.formData.rememberMe ? 60 * 60 * 24 * 30 : 1,
+          maxAge: data.ruleForm.rememberMe ? 60 * 60 * 24 * 30 : 1,
           path: '/',
           domain: useCookies().get('domain'),
         })

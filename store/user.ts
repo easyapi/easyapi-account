@@ -14,7 +14,7 @@ export const userStore = defineStore('user', {
       team: {},
       token: getToken(),
       user: { domain: '' },
-      userInfo:{}
+      userInfo:null
     }
   },
   actions: {
