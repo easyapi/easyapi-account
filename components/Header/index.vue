@@ -8,19 +8,20 @@ export default defineComponent({
   setup() {
     const store = userStore()
     const data = reactive({
-      authenticationToken : useCookies().get('authenticationToken')
+      authenticationToken: useCookies().get('authenticationToken')
     })
-  
-  onMounted(()=> {
-    if (data.authenticationToken){
-      store.getUser()
-    }
-      
-  })
 
-  return {
+    onMounted(() => {
+      if (data.authenticationToken) {
+        store.getUser()
+        console.log(store);
+      }
+
+    })
+
+    return {
       ...toRefs(data),
-     
+      store
     }
   },
 })
@@ -32,7 +33,7 @@ export default defineComponent({
       <a href="https://www.easyapi.com/">
         <img class="logo" src="https://qiniu.easyapi.com/market/logo.svg" alt="">
       </a>
-      <!-- <div v-if="!$store.state.user.userInfo" class="buttons">
+      <div v-if="!store.userInfo" class="buttons">
         <nuxt-link to="/login">
           登录
         </nuxt-link>
@@ -41,8 +42,8 @@ export default defineComponent({
         </nuxt-link>
       </div>
       <div v-else>
-        <img class="photo" :src="$store.state.user.userInfo.photo" alt>
-      </div> -->
+        <img class="photo" :src="store.userInfo.photo" alt>
+      </div>
     </el-col>
   </el-row>
 </template>

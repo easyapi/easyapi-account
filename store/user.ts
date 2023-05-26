@@ -14,6 +14,7 @@ export const userStore = defineStore('user', {
       team: {},
       token: getToken(),
       user: { domain: '' },
+      userInfo:{}
     }
   },
   actions: {
@@ -30,6 +31,7 @@ export const userStore = defineStore('user', {
           this.mobile = res.content.mobile
           this.email = res.content.email
           this.team = res.content.team
+          this.userInfo = res.content
         }
       })
     },
