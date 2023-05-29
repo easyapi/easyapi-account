@@ -1,14 +1,14 @@
 <script lang="ts">
-import { onMounted, reactive } from 'vue'
-import { ElMessage } from 'element-plus'
-import { useCookies } from '@vueuse/integrations/useCookies'
-import { isValidPhoneNumber } from 'libphonenumber-js'
+import {onMounted, reactive} from 'vue'
+import {ElMessage} from 'element-plus'
+import {useCookies} from '@vueuse/integrations/useCookies'
+import {isValidPhoneNumber} from 'libphonenumber-js'
 import signup from '@/api/signup'
-import { areaCodes } from '~/utils/area-code'
+import {areaCodes} from '~/utils/area-code'
 
 export default defineComponent({
   setup() {
-    useHead({ title: '注册 - EasyAPI服务平台' })
+    useHead({title: '注册 - EasyAPI服务平台'})
     const validPhoneNumber = (rule: any, value: any, callback: any) => {
       if (isValidPhoneNumber(value, data.formData.country))
         callback()
@@ -31,23 +31,23 @@ export default defineComponent({
         nickname: '',
         password: '',
         confirmPassword: '',
-        checked: true,
+        checked: false,
       },
       rules: {
         username: [
-          { required: true, message: '请输入手机号码', trigger: 'blur' },
-          { validator: validPhoneNumber, trigger: 'blur' },
+          {required: true, message: '请输入手机号码', trigger: 'blur'},
+          {validator: validPhoneNumber, trigger: 'blur'},
         ],
         code: [
-          { required: true, message: '请输入验证码', trigger: 'blur' },
-          { pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur' },
+          {required: true, message: '请输入验证码', trigger: 'blur'},
+          {pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur'},
         ],
-        nickname: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        nickname: [{required: true, message: '请输入姓名', trigger: 'blur'}],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, max: 16, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur' },
+          {required: true, message: '请输入密码', trigger: 'blur'},
+          {min: 6, max: 16, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur'},
         ],
-        confirmPassword: [{ required: true, message: '请再输入一次密码', trigger: 'blur' }],
+        confirmPassword: [{required: true, message: '请再输入一次密码', trigger: 'blur'}],
       },
     })
 
@@ -67,7 +67,7 @@ export default defineComponent({
           && data.formData.checked
         )
       },
-      { deep: true },
+      {deep: true},
     )
 
     function enroll() {
@@ -101,18 +101,19 @@ export default defineComponent({
             ElMessage.error(res.message)
           }
         })
-        // .catch(error => {
-        //   ElMessage.error(error.res.data.message)
-        // })
+      // .catch(error => {
+      //   ElMessage.error(error.res.data.message)
+      // })
     }
+
     /**
-    * 发送验证码
-    */
+     * 发送验证码
+     */
     function sendCode() {
       if (data.sendCodeBtn)
         return
 
-      signup.sendCode({ mobile: data.formData.username })
+      signup.sendCode({mobile: data.formData.username})
         .then((res) => {
           if (res.code === 1) {
             ElMessage.success('验证码发送成功')
@@ -171,7 +172,7 @@ export default defineComponent({
             <template slot="prepend">
               +&nbsp;
             </template>
-            <el-select slot="prepend" v-model="formData.areaCode" filterable allow-create style="width: 80px">
+            <el-select v-model="formData.areaCode" filterable allow-create style="width: 80px">
               <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">
                 {{ item.label }}(+{{ item.value }})
               </el-option>
@@ -182,25 +183,29 @@ export default defineComponent({
           <el-input
             v-model="formData.code" placeholder="请输入验证码" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"
             class="code"
-          />
-          <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">
-            {{ sendCodeCount }}
-          </el-button>
+          >
+            <template #append>
+              <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">
+                {{ sendCodeCount }}
+              </el-button>
+            </template>
+          </el-input>
         </el-form-item>
         <el-form-item label="" prop="nickname">
-          <el-input v-model="formData.nickname" placeholder="请输入姓名" />
+          <el-input v-model="formData.nickname" placeholder="请输入姓名"/>
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input v-model="formData.password" placeholder="请设置密码" type="password" />
+          <el-input v-model="formData.password" placeholder="请设置密码" type="password"/>
         </el-form-item>
         <el-form-item label="" prop="confirmPassword">
-          <el-input v-model="formData.confirmPassword" placeholder="请再输入一次密码" type="password" />
+          <el-input v-model="formData.confirmPassword" placeholder="请再输入一次密码" type="password"/>
         </el-form-item>
         <el-checkbox v-model="formData.checked" class="checkbox">
           点击注册表示您同意
           <span class="text-success"><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span>
         </el-checkbox>
-        <el-button id="btn_sub" style="width: 100%" type="primary" :disabled="disabled" class="btn-block btn btn-lg btn-info" @click="enroll">
+        <el-button id="btn_sub" style="width: 100%" type="primary" :disabled="disabled"
+                   class="btn-block btn btn-lg btn-info" @click="enroll">
           注 册
         </el-button>
       </el-form>
@@ -212,3 +217,12 @@ export default defineComponent({
     </div>
   </div>
 </template>
+<style lang="scss" scoped>
+.code{
+  width: 350px !important;
+}
+.text-success {
+  color: #1bc0d5;
+  margin-left: 5px;
+}
+</style>
