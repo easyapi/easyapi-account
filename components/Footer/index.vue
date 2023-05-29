@@ -18,9 +18,16 @@
   text-align: center;
   color: #777;
   font-size: 12px;
+  padding: 70px 0 50px 0;
 
   p {
     line-height: 36px;
+    margin-bottom: 10px;
+  }
+
+  a {
+    color: #777;
+    padding: 0 20px;
   }
 }
 </style>
