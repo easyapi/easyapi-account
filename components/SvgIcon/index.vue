@@ -1,40 +1,37 @@
-<script>
-export default {
-  name: 'SvgIcon',
-  props: {
-    iconClass: {
-      type: String,
-      required: true,
-    },
-    className: {
-      type: String,
-      default: '',
-    },
+<script setup>
+import { computed } from 'vue'
+
+const props = defineProps({
+  name: {
+    type: String,
+    required: true,
   },
-  computed: {
-    iconName() {
-      return `#icon-${this.iconClass}`
-    },
-    svgClass() {
-      return this.className ? `svg-icon ${this.className}` : 'svg-icon'
-    },
+  color: {
+    type: String,
+    default: '',
   },
-}
+})
+
+const iconName = computed(() => `#icon-${props.name}`)
+const svgClass = computed(() => {
+  if (props.name) {
+    return `svg-icon icon-${props.name}`
+  }
+  return 'svg-icon'
+})
 </script>
 
 <template>
-  <svg :class="svgClass" aria-hidden="true">
+  <svg :class="svgClass" v-bind="$attrs" :style="{ color }">
     <use :xlink:href="iconName" />
   </svg>
 </template>
 
-<style scoped>
+<style lang="scss">
 .svg-icon {
   width: 1em;
   height: 1em;
-  font-size: 1.2em;
-  vertical-align: -0.15em;
   fill: currentColor;
-  overflow: hidden;
+  vertical-align: middle;
 }
 </style>
