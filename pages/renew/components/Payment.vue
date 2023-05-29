@@ -1,29 +1,39 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
+import { userStore } from '@/store/user'
 
 const props = defineProps({
-  price: {
-    type: String,
+  totalPrice: {
+    type: Number,
     default: null,
   },
   balance: {
-    type: String,
-    default: '',
+    type: Number,
+    default: null,
   },
 })
-
 const emit = defineEmits(['event'])
-
+const store = userStore()
 const data = reactive({
   payment: '余额支付',
+  balance: 0,
+  totalPrice: 0,
 })
 
 watch(
-  () => props.balance,
-  (v) => {
-    data.payment = v
+  () => props.totalPrice,
+  () => {
+    data.totalPrice = Number(props.totalPrice)
   },
 )
+
+watch(
+  () => props.balance,
+  () => {
+    data.balance = Number(props.balance)
+  },
+)
+
 function stand(pay: any) {
   data.payment = pay
   emit('event', pay)
@@ -32,19 +42,19 @@ function stand(pay: any) {
 
 <template>
   <div class="payment">
-    <div v-if="balance >= price" class="payment-item" :class="{ state: data.payment === '余额支付' }" @click="stand('余额支付')">
+    <div v-if="data.balance >= data.totalPrice" class="payment-item" :class="{ state: data.payment === '余额支付' }" @click="stand('余额支付')">
       <svg-icon name="money" class="svg" />
-      <span>余额支付(￥{{ balance }})</span>
+      <span>余额支付(￥{{ data.balance }})</span>
     </div>
-    <div v-if="balance < price" class="payment_p" :class="{ state: data.payment === '余额支付' }" @click="stand('余额支付')">
+    <div v-if="data.balance < data.totalPrice" class="payment_p" :class="{ state: data.payment === '余额支付' }" @click="stand('余额支付')">
       <span>
-        <strong>余额支付(￥{{ balance }})</strong>
+        <strong>余额支付(￥{{ data.balance }})</strong>
       </span>
       <span
         style="display: block; color: #303030; line-height: 25px; width: 285px"
       >
         余额不足，建议使用其他支付方式，或者
-        <a href="/account" style="color: #1cc0d6">充值</a>
+        <a :href="`https://${store.userInfo.team.url}.easyapi.com/account`" style="color: #1cc0d6">充值</a>
       </span>
     </div>
     <div class="payment-item" :class="{ state: data.payment === '微信支付' }" @click="stand('微信支付')">

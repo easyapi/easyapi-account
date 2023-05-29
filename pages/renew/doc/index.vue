@@ -232,7 +232,7 @@ export default defineComponent({
         </div>
         <div class="renew_service">
           <strong class="renew_service_title">支付方式：</strong>
-          <Payment :price="price" :balance="balance" @event="getPayment" />
+          <Payment :totalPrice="totalPrice" :balance="balance" @event="getPayment" />
         </div>
         <div class="renew_fl">
           <strong class="renew_service_title">团队人数：</strong>

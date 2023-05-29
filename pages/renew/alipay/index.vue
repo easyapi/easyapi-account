@@ -1,4 +1,4 @@
-<script>
+<script setup lang="ts">
 import { nextTick, onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -23,6 +23,6 @@ onMounted(() => {
 
 <template>
   <div>
-    <p v-html="formHtml" />
+    <p v-html="data.formHtml" />
   </div>
 </template>
