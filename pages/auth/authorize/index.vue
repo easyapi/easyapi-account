@@ -8,6 +8,7 @@ import auth from '@/api/auth'
 
 export default defineComponent({
   setup() {
+    useHead({ title: '授权 - EasyAPI服务平台' })
     const route = useRoute()
     const data = reactive({
       account: '',

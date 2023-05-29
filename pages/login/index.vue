@@ -9,6 +9,7 @@ import login from '~/api/login'
 
 export default defineComponent({
   setup() {
+    useHead({ title: '登录 - EasyAPI服务平台' })
     const store = userStore()
     const data = reactive({
       areaCodes,

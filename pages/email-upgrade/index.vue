@@ -9,6 +9,8 @@ import signup from '@/api/signup'
 
 export default defineComponent({
   setup() {
+    useHead({ title: '邮箱升级 - EasyAPI服务平台' })
+
     const data = reactive({
       areaCodes,
       disabled: true,

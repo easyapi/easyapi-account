@@ -8,6 +8,8 @@ const data = reactive({
   formHtml: '',
 })
 
+useHead({ title: '正在跳转支付宝 - EasyAPI' })
+
 onMounted(() => {
   if (route.query.form) {
     data.formHtml = route.query.form

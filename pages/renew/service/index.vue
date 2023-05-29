@@ -20,6 +20,7 @@ export default defineComponent({
     WeChatPay,
   },
   setup() {
+    useHead({ title: '服务续费 - EasyAPI' })
     const route = useRoute()
     const router = useRouter()
     const store = userStore()

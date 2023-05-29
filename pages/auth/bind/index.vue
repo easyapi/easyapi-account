@@ -7,6 +7,7 @@ import login from '@/api/login'
 
 export default defineComponent({
   setup() {
+    useHead({ title: '用户绑定 - EasyAPI服务平台' })
     const validPhoneNumber = (rule, value, callback) => {
       if (isValidPhoneNumber(value, data.ruleForm.country))
         callback()

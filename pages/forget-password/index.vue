@@ -7,6 +7,7 @@ import signup from '@/api/signup'
 
 export default defineComponent({
   setup() {
+    useHead({ title: '忘记密码 - EasyAPI服务平台' })
     const data = reactive({
       areaCodes,
       disabled: true,

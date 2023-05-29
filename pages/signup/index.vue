@@ -8,6 +8,7 @@ import { areaCodes } from '~/utils/area-code'
 
 export default defineComponent({
   setup() {
+    useHead({ title: '注册 - EasyAPI服务平台' })
     const validPhoneNumber = (rule: any, value: any, callback: any) => {
       if (isValidPhoneNumber(value, data.formData.country))
         callback()
