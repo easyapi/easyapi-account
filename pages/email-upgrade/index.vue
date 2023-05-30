@@ -1,16 +1,27 @@
-<script>
-import {reactive} from 'vue'
-import {useCookies} from '@vueuse/integrations/useCookies'
-import {ElMessage} from 'element-plus'
-import {isValidPhoneNumber} from 'libphonenumber-js'
-import {areaCodes} from '../../utils/area-code'
+<script lang="ts">
+import { reactive } from 'vue'
+import { useCookies } from '@vueuse/integrations/useCookies'
+import { ElMessage } from 'element-plus'
+import { isValidPhoneNumber } from 'libphonenumber-js'
+import emailVerify, { areaCodes } from '@/utils/area-code'
 import email from '@/api/email'
 import signup from '@/api/signup'
 
 export default defineComponent({
   setup() {
-    useHead({title: '邮箱升级 - EasyAPI服务平台'})
-
+    useHead({ title: '邮箱升级 - EasyAPI服务平台' })
+    const validPhoneNumber = (rule: any, value: any, callback: any) => {
+      if (isValidPhoneNumber(value, data.formData.country))
+        callback()
+      else
+        callback(new Error('手机号码格式有误'))
+    }
+    const validEmail = (rule: any, value: any, callback: any) => {
+      if (emailVerify(value))
+        callback()
+      else
+        callback(new Error('邮箱格式错误'))
+    }
     const data = reactive({
       areaCodes,
       disabled: true,
@@ -25,56 +36,37 @@ export default defineComponent({
         code: '',
         password: '',
       },
-      emailRegex: /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/, // 邮箱正则表达式
       rules: {
         email: [
-          {required: true, message: '请输入邮箱账号', trigger: 'blur'},
-          {
-            pattern: /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/,
-            message: '邮箱账号格式有误',
-            trigger: 'blur',
-          },
+          { required: true, message: '请输入邮箱账号', trigger: 'blur' },
+          { validator: validEmail, trigger: 'blur' },
         ],
         mobile: [
-          {required: true, message: '请输入手机号码', trigger: 'blur'},
-          {
-            pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-            message: '请输入正确的手机号码',
-            trigger: 'blur',
-          },
+          { required: true, message: '请输入手机号码', trigger: 'blur' },
+          { validator: validPhoneNumber, trigger: 'blur' },
         ],
         code: [
-          {required: true, message: '请输入验证码', trigger: 'blur'},
-          {pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur'},
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur' },
         ],
         password: [
-          {required: true, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur'},
-          {min: 6, max: 16, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur'},
+          { required: true, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur' },
+          { min: 6, max: 16, message: '密码6~16位之间,建议包含英文和标点符号', trigger: 'blur' },
         ],
       },
     })
-
-    // onUpdated(() => {
-    //   // 校验
-    //   data.disabled = !(
-    //     data.emailRegex.test(data.formData.email)
-    //     && isValidPhoneNumber(data.formData.mobile, data.formData.country)
-    //     && data.formData.password.length >= 6
-    //     && data.formData.code.length === 6
-    //   )
-    // })
 
     watch(
       () => data.formData,
       () => {
         data.disabled = !(
-          data.emailRegex.test(data.formData.email)
+          emailVerify(data.formData.email)
           && isValidPhoneNumber(data.formData.mobile, data.formData.country)
           && data.formData.password.length >= 6
           && data.formData.code.length === 6
         )
       },
-      {deep: true},
+      { deep: true },
     )
 
     const upgradeEmail = () => {
@@ -96,8 +88,7 @@ export default defineComponent({
      * 发送验证码
      */
     const sendCode = () => {
-      const telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
-      if (telStr.test(data.formData.mobile)) {
+      if (isValidPhoneNumber(data.formData.mobile, data.formData.country)) {
         const params = {
           mobile: data.formData.mobile,
         }
@@ -141,7 +132,7 @@ export default defineComponent({
       </div>
       <el-form ref="ruleForm" :model="formData" :rules="rules">
         <el-form-item label="" prop="email">
-          <el-input v-model="formData.email" placeholder="请输入原邮箱账号"/>
+          <el-input v-model="formData.email" placeholder="请输入原邮箱账号" />
         </el-form-item>
         <el-form-item label="" prop="password">
           <el-input

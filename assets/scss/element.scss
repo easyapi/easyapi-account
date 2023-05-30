@@ -1,0 +1,194 @@
+/** 按钮 **/
+.el-button {
+  &:hover {
+    background-color: #f2fbff !important;
+    color: #18c1d6 !important;
+    border-color: #18c1d6 !important;
+  }
+
+  &:active {
+    background-color: #f2fbff !important;
+    color: #18c1d6 !important;
+    border-color: #18c1d6 !important;
+  }
+}
+
+.el-button.is-link {
+  color: #18c1d6 !important;
+
+  &:hover {
+    color: #18c1d6 !important;
+    opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0) !important;
+    color: #18c1d6 !important;
+    border-color: transparent !important;
+  }
+
+  &:focus {
+    border-color: transparent !important;
+  }
+}
+
+/** primary 按钮 **/
+.el-button--primary {
+  background-color: #18c1d6 !important;
+  color: #f2fbff !important;
+  border-color: #18c1d6 !important;
+
+  &:hover {
+    background-color: #009EB3FF !important;
+    color: #f2fbff !important;
+    border-color: #18c1d6 !important;
+    opacity: 0.8;
+  }
+
+  &:active {
+    background-color: #01828f !important;
+    color: #ffffff !important;
+    border-color: #01828f !important;
+  }
+}
+
+/** primary - is-link 按钮 **/
+.el-button--primary.is-link {
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: #18c1d6 !important;
+  border-color: transparent !important;
+
+  &:hover {
+    color: #18c1d6 !important;
+    border-color: transparent !important;
+    opacity: 0.8;
+  }
+
+  &:active {
+    color: #18c1d6 !important;
+    border-color: transparent !important;
+  }
+}
+
+.el-button:focus-visible {
+  outline: 0px solid #ffffff !important;
+  outline-offset: 0px !important;
+}
+
+
+/** 分页 **/
+.el-pagination {
+  margin-top: 20px !important;
+  display: flex;
+  justify-content: flex-end;
+
+  .is-active {
+    background-color: #18c1d6 !important;
+  }
+}
+
+/** 选择框 **/
+.el-select__popper {
+  .selected {
+    color: #18c1d6 !important;
+  }
+
+  .el-select-dropdown__item {
+    &:hover {
+      background-color: #f2fbff;
+    }
+  }
+}
+
+/** 输入框和选择框 **/
+.el-input .el-input__wrapper.is-focus {
+  box-shadow: 0 0 0 1px #18c1d6 inset !important;
+}
+
+.el-pagination .el-select .el-input.is-focus .el-input__wrapper {
+  box-shadow: 0 0 0 1px #18c1d6 inset !important;
+}
+
+/** tab **/
+.el-tabs {
+  .is-active {
+    color: #18c1d6 !important;
+  }
+
+  .el-tabs__item {
+    &:hover {
+      color: #18c1d6 !important;
+    }
+  }
+
+  .el-tabs__active-bar {
+    background-color: #18c1d6 !important;
+    transition: 0s !important;
+  }
+
+  .el-tabs__nav-wrap::after {
+    height: 1px !important;
+  }
+}
+
+/** 单选框 **/
+.el-radio.is-checked {
+  .el-radio__inner {
+    background-color: #18c1d6 !important;
+    border-color: #18c1d6 !important;
+  }
+
+  .el-radio__label {
+    color: #18c1d6 !important;
+  }
+}
+
+/** 开关 **/
+.el-switch.is-checked .el-switch__core {
+  border-color: #18c1d6 !important;
+  background-color: #18c1d6 !important;
+}
+
+/** 复选框 **/
+.el-checkbox.is-checked {
+  .el-checkbox__inner {
+    background-color: #18c1d6 !important;
+    border-color: #18c1d6 !important;
+  }
+
+  .el-checkbox__label {
+    color: #18c1d6 !important;
+  }
+}
+
+/** 表格复选框 **/
+.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #18c1d6 !important;
+  border-color: #18c1d6 !important;
+}
+
+/** 单选框组Button **/
+.el-radio-button{
+  &:hover{
+    .el-radio-button__inner{
+      color: #18c1d6 !important;
+    }
+  }
+}
+
+.el-radio-button.is-active{
+  .el-radio-button__inner{
+    background-color: #18c1d6 !important;
+  }
+  &:hover{
+    .el-radio-button__inner{
+      color:#ffffff !important;
+    }
+  }
+}
+
+.el-date-editor .el-range-input,
+.el-input,
+.el-button,
+.el-form-item__label,
+.el-table__cell,
+.el-descriptions__cell {
+  font-size: 14px !important;
+}

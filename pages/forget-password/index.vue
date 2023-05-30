@@ -1,13 +1,20 @@
 <script lang="ts">
-import {reactive} from 'vue'
-import {ElMessage} from 'element-plus'
-import {areaCodes} from '../../utils/area-code'
+import { reactive } from 'vue'
+import { ElMessage } from 'element-plus'
+import { isValidPhoneNumber } from 'libphonenumber-js'
+import { areaCodes } from '../../utils/area-code'
 import forget from '@/api/forget-password'
 import signup from '@/api/signup'
 
 export default defineComponent({
   setup() {
-    useHead({title: '忘记密码 - EasyAPI服务平台'})
+    useHead({ title: '忘记密码 - EasyAPI服务平台' })
+    const validPhoneNumber = (rule: any, value: any, callback: any) => {
+      if (isValidPhoneNumber(value, data.formData.country))
+        callback()
+      else
+        callback(new Error('手机号码格式有误'))
+    }
     const data = reactive({
       areaCodes,
       disabled: true,
@@ -20,6 +27,7 @@ export default defineComponent({
         code: '',
         password: '',
         confirmPassword: '',
+        country: 'CN',
       },
       rules: {
         username: [
@@ -28,16 +36,11 @@ export default defineComponent({
             message: '请输入手机号码',
             trigger: 'blur',
           },
-          {
-            pattern:
-              /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-            message: '手机号码格式有误',
-            trigger: 'blur',
-          },
+          { validator: validPhoneNumber, trigger: 'blur' },
         ],
         code: [
-          {required: true, message: '请输入验证码', trigger: 'blur'},
-          {pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur'},
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { pattern: /^\d{6}$/, message: '验证码格式有误', trigger: 'blur' },
         ],
         password: [
           {
@@ -53,7 +56,7 @@ export default defineComponent({
           },
         ],
         confirmPassword: [
-          {required: true, message: '请再输入一次密码', trigger: 'blur'},
+          { required: true, message: '请再输入一次密码', trigger: 'blur' },
         ],
       },
     })
@@ -69,7 +72,7 @@ export default defineComponent({
           && data.formData.confirmPassword.length >= 6
         )
       },
-      {deep: true},
+      { deep: true },
     )
 
     const forgetPassword = () => {
@@ -95,8 +98,7 @@ export default defineComponent({
     }
 
     const sendCode = () => {
-      const telStr = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
-      if (telStr.test(data.formData.username)) {
+      if (isValidPhoneNumber(data.formData.username, data.formData.country)) {
         const params = {
           mobile: data.formData.username,
         }
@@ -173,10 +175,10 @@ export default defineComponent({
             </el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
-            <el-input v-model="formData.password" placeholder="请输入新密码" type="password"/>
+            <el-input v-model="formData.password" placeholder="请输入新密码" type="password" />
           </el-form-item>
           <el-form-item label="" prop="confirmPassword">
-            <el-input v-model="formData.confirmPassword" placeholder="请再输入一次密码" type="password"/>
+            <el-input v-model="formData.confirmPassword" placeholder="请再输入一次密码" type="password" />
           </el-form-item>
           <el-button style="width: 100%" type="primary" :disabled="disabled" @click="forgetPassword">
             确定
@@ -191,6 +193,7 @@ export default defineComponent({
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .code {
   width: 350px !important;
