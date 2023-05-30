@@ -54,16 +54,6 @@ export default defineComponent({
       },
     })
 
-    // onUpdated(() => {
-    //   // 校验
-    //   data.disabled = !(
-    //     data.emailRegex.test(data.formData.email)
-    //     && isValidPhoneNumber(data.formData.mobile, data.formData.country)
-    //     && data.formData.password.length >= 6
-    //     && data.formData.code.length === 6
-    //   )
-    // })
-
     watch(
       () => data.formData,
       () => {

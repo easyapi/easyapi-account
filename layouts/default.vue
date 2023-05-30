@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
-const screenWidth = ref(null)
+const screenWidth = ref()
 
 onMounted(() => {
   screenWidth.value = document.body.clientWidth
