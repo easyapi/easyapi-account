@@ -183,6 +183,6 @@ useHead({ title: '服务条款 - EasyAPI' })
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import url(./index.scss);
 </style>
