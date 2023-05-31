@@ -109,7 +109,6 @@ export default defineComponent({
             </template>
             <el-select
               v-model="ruleForm.areaCode"
-              style="width: 80px"
               filterable
               allow-create
               data.slot="prepend"
@@ -134,7 +133,7 @@ export default defineComponent({
         <el-checkbox v-model="ruleForm.rememberMe" class="checkbox">
           记住密码
         </el-checkbox>
-        <el-button style="width: 100%" :disabled="disabled" type="primary" @click="register">
+        <el-button :disabled="disabled" type="primary" @click="register">
           登录
         </el-button>
       </el-form>
@@ -153,14 +152,14 @@ export default defineComponent({
         <a href="https://account-api.easyapi.com/auth/wechat">
           <img
             class="image-svg"
-            src="@/assets/images/static/svg/weixin.svg"
+            src="@/assets/svg/weixin.svg"
             alt=""
           >
         </a>
         <a href="https://account-api.easyapi.com/auth/qq">
           <img
             class="image-svg"
-            src="@/assets/images/static/svg/qq.svg"
+            src="@/assets/svg/qq.svg"
             alt=""
           >
         </a>

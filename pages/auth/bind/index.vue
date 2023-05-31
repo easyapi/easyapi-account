@@ -89,9 +89,9 @@ export default defineComponent({
       }
 
       if (providerId === 'qq')
-        data.imageSrc = new URL('@/assets/images/static/svg/qq.svg', import.meta.url).href
+        data.imageSrc = new URL('@/assets/svg/qq.svg', import.meta.url).href
       else
-        data.imageSrc = new URL('@/assets/images/static/svg/weixin.svg', import.meta.url).href
+        data.imageSrc = new URL('@/assets/svg/weixin.svg', import.meta.url).href
     })
 
     return {
@@ -117,12 +117,12 @@ export default defineComponent({
         <img class="image-png" :src="imageSrc" alt="">
         <img
           class="image-svg"
-          src="@/assets/images/static/svg/bind.svg"
+          src="@/assets/svg/bind.svg"
           alt=""
         >
         <img
           class="image-png"
-          src="@/assets/images/static/easyapi.png"
+          src="@/assets/images/easyapi.png"
           alt=""
         >
       </div>
@@ -139,7 +139,6 @@ export default defineComponent({
               v-model="ruleForm.areaCode"
               filterable
               allow-create
-              style="width: 80px"
             >
               <el-option
                 v-for="item in areaCodes"
@@ -163,7 +162,6 @@ export default defineComponent({
         </el-checkbox>
         <el-button
           id="btn_sub"
-          style="width: 100%"
           type="primary"
           :disabled="disabled"
           class="btn-block btn btn-lg btn-info"

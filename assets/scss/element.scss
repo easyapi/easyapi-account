@@ -1,5 +1,6 @@
 /** 按钮 **/
 .el-button {
+  width: 100%;
   &:hover {
     background-color: #f2fbff !important;
     color: #18c1d6 !important;
@@ -86,6 +87,7 @@
 
 /** 选择框 **/
 .el-select__popper {
+  width: 80px;
   .selected {
     color: #18c1d6 !important;
   }

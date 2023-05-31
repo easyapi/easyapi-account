@@ -227,7 +227,7 @@ export default defineComponent({
           <span class="text-success"><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span>
         </el-checkbox>
         <el-button
-          id="btn_sub" style="width: 100%" type="primary" :disabled="disabled"
+          id="btn_sub" type="primary" :disabled="disabled"
           class="btn-block btn btn-lg btn-info" @click="enroll"
         >
           注 册

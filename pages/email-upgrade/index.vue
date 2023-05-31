@@ -152,7 +152,6 @@ export default defineComponent({
               v-model="formData.areaCode"
               filterable
               allow-create
-              style="width: 80px"
             >
               <el-option
                 v-for="item in areaCodes"
@@ -179,7 +178,7 @@ export default defineComponent({
             </template>
           </el-input>
         </el-form-item>
-        <el-button style="width: 100%" type="primary" :disabled="disabled" @click="upgradeEmail">
+        <el-button type="primary" :disabled="disabled" @click="upgradeEmail">
           升级
         </el-button>
       </el-form>

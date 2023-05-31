@@ -14,7 +14,7 @@
 <style scoped lang="scss">
 .footer {
   width: 80%;
-  margin: 0 auto;
+  margin: 120px auto;
   text-align: center;
   color: #777;
   font-size: 12px;
