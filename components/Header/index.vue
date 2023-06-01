@@ -25,12 +25,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <el-row class="header">
-    <el-col :span="24" class="header-wp">
-      <a href="https://www.easyapi.com/">
-        <img class="logo" src="https://qiniu.easyapi.com/market/logo.svg" alt="">
+  <el-row class="bg-[#18c1d6] w-full h-[36px] sm:h-[72px]">
+    <el-col :span="24" class="px-[20px] h-[36px] flex justify-between items-center sm:h-[72px]">
+      <a href="https://www.easyapi.com/" class="text-white">
+        <img class="w-[60px] sm:w-[120px]" src="https://qiniu.easyapi.com/market/logo.svg" alt="">
       </a>
-      <div v-if="!store.userInfo" class="buttons">
+      <div v-if="!store.userInfo" class="text-white">
         <nuxt-link to="/login">
           登录
         </nuxt-link>
@@ -39,69 +39,8 @@ export default defineComponent({
         </nuxt-link>
       </div>
       <div v-else>
-        <img class="photo" :src="store.userInfo.photo" alt>
+        <img class="rounded-[50%] align-top w-[20px] sm:w-[40px]" :src="store.userInfo.photo" alt>
       </div>
     </el-col>
   </el-row>
 </template>
-
-<style scoped lang="scss">
-.header {
-  width: 100%;
-  background-color: #18c1d6;
-
-  .header-wp {
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    a {
-      color: #ffffff;
-    }
-
-    .photo {
-      border-radius: 50%;
-      vertical-align: top;
-    }
-  }
-}
-
-@media screen and (min-width: 450px) {
-  .header {
-    height: 72px;
-
-    .header-wp {
-      height: 72px;
-
-      .logo {
-        width: 120px;
-      }
-
-      .photo {
-        width: 40px;
-        height: 40px;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 450px) {
-  .header {
-    height: 36px;
-
-    .header-wp {
-      height: 36px;
-
-      .logo {
-        width: 60px;
-      }
-
-      .photo {
-        width: 20px;
-        height: 20px;
-      }
-    }
-  }
-}
-</style>
