@@ -18,7 +18,7 @@ export default defineComponent({
         areaCode: 86,
         username: '',
         password: '',
-        rememberMe: false,
+        rememberMe: true,
       },
       rules: {
         username: [
@@ -103,7 +103,7 @@ export default defineComponent({
       </div>
       <el-form ref="refForm" :model="ruleForm" :rules="rules">
         <el-form-item label="" prop="username">
-          <el-input v-model="ruleForm.username" placeholder="请输入手机号码">
+          <el-input size="large" v-model="ruleForm.username" placeholder="请输入手机号码">
             <template data.slot="prepend">
               +&nbsp;
             </template>
@@ -124,7 +124,7 @@ export default defineComponent({
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input
+          <el-input size="large"
             v-model="ruleForm.password"
             placeholder="请输入密码"
             type="password"
@@ -133,7 +133,7 @@ export default defineComponent({
         <el-checkbox v-model="ruleForm.rememberMe" class="checkbox">
           记住密码
         </el-checkbox>
-        <el-button :disabled="disabled" type="primary" @click="register">
+        <el-button size="large" disabled="disabled" type="primary" @click="register">
           登录
         </el-button>
       </el-form>

@@ -178,7 +178,7 @@ export default defineComponent({
             </template>
           </el-input>
         </el-form-item>
-        <el-button type="primary" :disabled="disabled" @click="upgradeEmail">
+        <el-button size="large" type="primary" :disabled="disabled" @click="upgradeEmail">
           升级
         </el-button>
       </el-form>

@@ -117,9 +117,6 @@ export default defineComponent({
             ElMessage.error(res.message)
           }
         })
-      // .catch(error => {
-      //   ElMessage.error(error.res.data.message)
-      // })
     }
 
     /**
@@ -191,14 +188,6 @@ export default defineComponent({
       <el-form ref="ruleForm" :model="formData" :rules="rules">
         <el-form-item label="" prop="username">
           <el-input v-model="formData.username" placeholder="请输入手机号码" maxlength="11" @blur="findUsername">
-<!--            <template #prepend>-->
-<!--              +&nbsp;-->
-<!--            </template>-->
-<!--            <el-select v-model="formData.areaCode" filterable allow-create style="width: 80px">-->
-<!--              <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">-->
-<!--                {{ item.label }}(+{{ item.value }})-->
-<!--              </el-option>-->
-<!--            </el-select>-->
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="code">
@@ -227,7 +216,7 @@ export default defineComponent({
           <span class="text-success"><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span>
         </el-checkbox>
         <el-button
-          id="btn_sub" type="primary" :disabled="disabled"
+          id="btn_sub" size="large" type="primary" :disabled="disabled"
           class="btn-block btn btn-lg btn-info" @click="enroll"
         >
           注 册

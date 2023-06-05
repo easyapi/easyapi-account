@@ -179,7 +179,7 @@ export default defineComponent({
           <el-form-item label="" prop="confirmPassword">
             <el-input v-model="formData.confirmPassword" placeholder="请再输入一次密码" type="password" />
           </el-form-item>
-          <el-button type="primary" :disabled="disabled" @click="forgetPassword">
+          <el-button size="large" type="primary" :disabled="disabled" @click="forgetPassword">
             确定
           </el-button>
         </el-form>

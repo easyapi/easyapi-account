@@ -162,6 +162,7 @@ export default defineComponent({
         </el-checkbox>
         <el-button
           id="btn_sub"
+          size="large"
           type="primary"
           :disabled="disabled"
           class="btn-block btn btn-lg btn-info"
