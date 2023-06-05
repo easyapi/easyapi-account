@@ -1,16 +1,20 @@
 <script>
 export default {
-  layout: 'simple',
-  props: ['error'],
-  head() {
-    return {
+  setup() {
+    const state = reactive({
+      layout: 'simple',
+      props: ['error'],
       title: '错误 - EasyAPI服务平台',
       meta: [
         { hid: 'description', name: 'description', content: '错误' },
         { hid: 'keyword', name: 'keyword', content: '错误' },
       ],
+    })
+    return {
+      ...toRef(state)
     }
-  },
+  }
+
 }
 </script>
 

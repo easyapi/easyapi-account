@@ -1,6 +1,6 @@
 <script>
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { useRoute, useRouter } from 'vue-router'
+
 import moment from 'moment'
 import SockJS from 'sockjs-client/dist/sockjs.min.js'
 import Stomp from 'stompjs'
@@ -201,18 +201,12 @@ export default defineComponent({
   <div>
     <div class="w-full h-auto">
       <div class="w-full h-20 bg-gray-50">
-        <span
-          class="flex items-center h-20 m-auto max-w-screen-lg text-lg block"
-        >{{ service.name }}服务续费</span>
+        <span class="flex items-center h-20 m-auto max-w-screen-lg text-lg block">{{ service.name }}服务续费</span>
       </div>
       <div class="renew_content max-w-screen-lg">
         <div class="renew_service">
           <strong class="renew_service_title">服务价格：</strong>
-          <SelectPrice
-            ref="selectPri"
-            :price-list="priceList"
-            @event="selectPrice"
-          />
+          <SelectPrice ref="selectric" :price-list="priceList" @event="selectPrice" />
         </div>
         <div class="renew_service">
           <strong class="renew_service_title">支付方式：</strong>
@@ -236,30 +230,17 @@ export default defineComponent({
           </div>
         </div>
         <div class="renew_btn">
-          <el-button
-            v-if="balance >= price || payment !== '余额支付'"
-            type="primary"
-            @click="buy"
-          >
+          <el-button v-if="balance >= price || payment !== '余额支付'" type="primary" @click="buy">
             确定购买
           </el-button>
-          <el-button
-            v-if="balance < price && payment === '余额支付'"
-            type="primary"
-            disabled
-          >
+          <el-button v-if="balance < price && payment === '余额支付'" type="primary" disabled>
             确定购买
           </el-button>
           <span class="renew_btn_tips">若在购买过程中遇到任何问题，请联系13656171020，微信同号</span>
         </div>
       </div>
     </div>
-    <WeChatPay
-      :visible="wechatPayDialog"
-      :we-chat-pay-url="weChatPayUrl"
-      :price="price"
-      @visible="handleClose"
-    />
+    <WeChatPay :visible="wechatPayDialog" :we-chat-pay-url="weChatPayUrl" :price="price" @visible="handleClose" />
   </div>
 </template>
 

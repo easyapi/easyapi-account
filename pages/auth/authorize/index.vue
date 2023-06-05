@@ -106,12 +106,12 @@ export default defineComponent({
         </el-button>
       </div>
     </div>
-    <el-button class="ml-10" type="text" @click="changeUser">
+    <el-button class="ml-11" type="text" @click="changeUser">
       切换账号 >
     </el-button>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import url(./index.scss);
 </style>
