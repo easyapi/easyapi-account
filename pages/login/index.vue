@@ -133,7 +133,7 @@ export default defineComponent({
         <el-checkbox v-model="ruleForm.rememberMe" class="checkbox">
           记住密码
         </el-checkbox>
-        <el-button size="large" disabled="disabled" type="primary" @click="register">
+        <el-button size="large" disabled="disabled" type="primary" @click="register" class="w-ful">
           登录
         </el-button>
       </el-form>

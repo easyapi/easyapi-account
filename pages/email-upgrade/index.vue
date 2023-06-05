@@ -132,11 +132,12 @@ export default defineComponent({
       </div>
       <el-form ref="ruleForm" :model="formData" :rules="rules">
         <el-form-item label="" prop="email">
-          <el-input v-model="formData.email" placeholder="请输入原邮箱账号" />
+          <el-input v-model="formData.email" size="large" placeholder="请输入原邮箱账号" />
         </el-form-item>
         <el-form-item label="" prop="password">
           <el-input
             v-model="formData.password"
+            size="large"
             placeholder="请输入原邮箱密码"
             type="password"
           />
@@ -144,6 +145,7 @@ export default defineComponent({
         <el-form-item label="" prop="mobile">
           <el-input
             v-model="formData.mobile"
+            size="large"
             placeholder="请输入新手机号码"
             maxlength="11"
           >
@@ -167,6 +169,7 @@ export default defineComponent({
           <el-input
             v-model="formData.code"
             class="code"
+            size="large"
             placeholder="请输入验证码"
             maxlength="6"
             onkeyup="value=value.replace(/[^\d]/g,'')"

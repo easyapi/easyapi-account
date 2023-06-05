@@ -187,12 +187,12 @@ export default defineComponent({
       </div>
       <el-form ref="ruleForm" :model="formData" :rules="rules">
         <el-form-item label="" prop="username">
-          <el-input v-model="formData.username" placeholder="请输入手机号码" maxlength="11" @blur="findUsername">
+          <el-input v-model="formData.username" size="large" placeholder="请输入手机号码" maxlength="11" @blur="findUsername">
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="code">
           <el-input
-            v-model="formData.code" placeholder="请输入验证码" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"
+            v-model="formData.code" placeholder="请输入验证码" size="large" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"
             class="code"
           >
             <template #append>
@@ -203,13 +203,13 @@ export default defineComponent({
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="nickname">
-          <el-input v-model="formData.nickname" placeholder="请输入姓名" />
+          <el-input v-model="formData.nickname" size="large" placeholder="请输入姓名" />
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input v-model="formData.password" placeholder="请设置密码" type="password" />
+          <el-input v-model="formData.password" size="large" placeholder="请设置密码" type="password" />
         </el-form-item>
         <el-form-item label="" prop="confirmPassword">
-          <el-input v-model="formData.confirmPassword" placeholder="请再输入一次密码" type="password" />
+          <el-input v-model="formData.confirmPassword" size="large" placeholder="请再输入一次密码" type="password" />
         </el-form-item>
         <el-checkbox v-model="formData.checked" class="checkbox">
           点击注册表示您同意

@@ -142,7 +142,7 @@ export default defineComponent({
         </div>
         <el-form ref="ruleForm" :model="formData" :rules="rules">
           <el-form-item label="" prop="username">
-            <el-input v-model="formData.username" placeholder="请输入手机号码" maxlength="11">
+            <el-input v-model="formData.username" size="large" placeholder="请输入手机号码" maxlength="11">
               <template slot="prepend">
                 +&nbsp;
               </template>
@@ -161,6 +161,7 @@ export default defineComponent({
           <el-form-item label="" prop="code">
             <el-input
               v-model="formData.code"
+              size="large"
               placeholder="请输入验证码"
               maxlength="6"
               onkeyup="value=value.replace(/[^\d]/g,'')"
@@ -174,10 +175,10 @@ export default defineComponent({
             </el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
-            <el-input v-model="formData.password" placeholder="请输入新密码" type="password" />
+            <el-input v-model="formData.password" size="large" placeholder="请输入新密码" type="password" />
           </el-form-item>
           <el-form-item label="" prop="confirmPassword">
-            <el-input v-model="formData.confirmPassword" placeholder="请再输入一次密码" type="password" />
+            <el-input v-model="formData.confirmPassword" size="large" placeholder="请再输入一次密码" type="password" />
           </el-form-item>
           <el-button size="large" type="primary" :disabled="disabled" @click="forgetPassword">
             确定

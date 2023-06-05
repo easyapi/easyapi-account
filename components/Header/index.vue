@@ -44,3 +44,8 @@ export default defineComponent({
     </el-col>
   </el-row>
 </template>
+<style lang="scss" scoped>
+.text-white a{
+margin-left: 25px;
+}
+</style>

@@ -129,6 +129,7 @@ export default defineComponent({
       <el-form ref="ruleRef" :model="ruleForm" :rules="rules">
         <el-form-item label="" prop="username">
           <el-input
+          size="large"
             v-model="ruleForm.username"
             placeholder="请输入手机号码"
             class="input-with-select"
@@ -154,6 +155,7 @@ export default defineComponent({
           <el-input
             v-model="ruleForm.password"
             type="password"
+            size="large"
             placeholder="请输入密码"
           />
         </el-form-item>
