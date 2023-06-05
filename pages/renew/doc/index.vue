@@ -134,7 +134,7 @@ export default defineComponent({
       }
       renew.renew(params).then((res) => {
         if (data.payment === '支付宝') {
-          const href = router.resolve({
+          const { href } = router.resolve({
             path: '/renew/alipay',
             query: {
               form: res.content.alipay,

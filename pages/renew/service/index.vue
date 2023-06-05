@@ -48,7 +48,7 @@ export default defineComponent({
     }
 
     const reset = () => {
-      getTeamService()
+      getTeamService(route.query.teamServiceId)
       data.selectPri.reset()
     }
 
