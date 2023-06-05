@@ -14,16 +14,7 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['visible'])
-
-function handleCancel() {
-  emit('visible')
-}
-
 function handleClose() {
-  emit('visible')
-}
-
-function handleConfirm() {
   emit('visible')
 }
 </script>
@@ -47,9 +38,9 @@ function handleConfirm() {
         <p>请使用微信扫描二维码以完成支付</p>
       </div>
     </div>
-    <span class="dialog-footer">
-      <el-button @click="handleCancel">取 消</el-button>
-      <el-button type="primary" @click="handleConfirm">确 定</el-button>
-    </span>
+    <template #footer>
+      <el-button @click="handleClose">取 消</el-button>
+      <el-button type="primary" @click="handleClose">确 定</el-button>
+    </template>
   </el-dialog>
 </template>

@@ -146,7 +146,6 @@ export default defineComponent({
           data.wechatPayDialog = true
         }
         getTeamInfo()
-        data.selectMonth = 0
         ElMessage.success(res.message)
       })
         .catch(() => {
@@ -172,7 +171,6 @@ export default defineComponent({
     watch(() => data.wechatPayDialog, (val) => {
       if (!val) {
         getTeamInfo()
-        data.selectMonth = 0
       }
     })
 

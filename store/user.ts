@@ -13,8 +13,8 @@ export const userStore = defineStore('user', {
       email: '',
       team: {},
       token: getToken(),
-      user: { domain: '' },
-      userInfo:null
+      domain: '.easyapi.com',
+      userInfo: null,
     }
   },
   actions: {

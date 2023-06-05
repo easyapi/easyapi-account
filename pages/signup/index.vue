@@ -3,6 +3,7 @@ import { onMounted, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { isValidPhoneNumber } from 'libphonenumber-js'
+import { from } from '../../utils/from'
 import signup from '@/api/signup'
 import { areaCodes } from '~/utils/area-code'
 
@@ -217,7 +218,7 @@ export default defineComponent({
         </el-checkbox>
         <el-button
           id="btn_sub" size="large" type="primary" :disabled="disabled"
-          class="btn-block btn btn-lg btn-info" @click="enroll"
+          class="btn-block btn btn-lg btn-info w-full" @click="enroll"
         >
           注 册
         </el-button>

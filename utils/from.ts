@@ -18,5 +18,5 @@ export function from() {
     else
       useCookies().set('from', from)
   }
-  useCookies().set('domain', userStore().user.domain)
+  useCookies().set('domain', userStore().domain)
 }

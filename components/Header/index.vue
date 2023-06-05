@@ -31,7 +31,7 @@ export default defineComponent({
         <img class="w-[60px] sm:w-[120px]" src="https://qiniu.easyapi.com/market/logo.svg" alt="">
       </a>
       <div v-if="!store.userInfo" class="text-white">
-        <nuxt-link to="/login">
+        <nuxt-link class="mr-2" to="/login">
           登录
         </nuxt-link>
         <nuxt-link to="/signup">
@@ -46,6 +46,6 @@ export default defineComponent({
 </template>
 <style lang="scss" scoped>
 .text-white a{
-margin-left: 25px;
+  margin-left: 25px;
 }
 </style>

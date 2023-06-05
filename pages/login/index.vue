@@ -3,6 +3,7 @@ import { onMounted, reactive } from 'vue'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { ElMessage } from 'element-plus'
 import { areaCodes } from '../../utils/area-code'
+import { from } from '@/utils/from'
 import userStore from '@/store/user'
 
 import login from '~/api/login'
@@ -76,8 +77,8 @@ export default defineComponent({
               }&redirect_uri=${json.redirect_uri}`
           } else {
             setTimeout(() => {
-              useCookies().remove('from')
               window.location.replace(from)
+              useCookies().remove('from')
             }, 1000)
           }
           ElMessage.success(res.message)
@@ -133,7 +134,7 @@ export default defineComponent({
         <el-checkbox v-model="ruleForm.rememberMe" class="checkbox">
           记住密码
         </el-checkbox>
-        <el-button size="large" disabled="disabled" type="primary" @click="register" class="w-ful">
+        <el-button size="large" :disabled="disabled" type="primary" @click="register" class="w-ful">
           登录
         </el-button>
       </el-form>
