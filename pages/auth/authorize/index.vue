@@ -106,9 +106,9 @@ export default defineComponent({
         </el-button>
       </div>
     </div>
-    <el-button class="ml-11" type="text" @click="changeUser">
+    <el-link class="ml-11">
       切换账号 >
-    </el-button>
+    </el-link>
   </div>
 </template>
 
