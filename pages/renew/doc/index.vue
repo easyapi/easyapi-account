@@ -169,9 +169,8 @@ export default defineComponent({
     }
 
     watch(() => data.wechatPayDialog, (val) => {
-      if (!val) {
+      if (!val)
         getTeamInfo()
-      }
     })
 
     watch(() => data.memberCount, (val) => {
@@ -230,7 +229,7 @@ export default defineComponent({
         </div>
         <div class="renew_service">
           <strong class="renew_service_title">支付方式：</strong>
-          <Payment :totalPrice="totalPrice" :balance="balance" @event="getPayment" />
+          <Payment :total-price="totalPrice" :balance="balance" @event="getPayment" />
         </div>
         <div class="renew_fl">
           <strong class="renew_service_title">团队人数：</strong>
@@ -262,9 +261,7 @@ export default defineComponent({
         <div class="renew_fl">
           <strong class="renew_service_title" style="padding-top: 10px">应付金额：</strong>
           <div class="">
-            <strong style="color: #fa2222; font-size: 26px">{{
-              totalPrice.toFixed(2)
-            }}</strong>
+            <strong style="color: #fa2222; font-size: 26px">{{ totalPrice.toFixed(2) }}</strong>
             &nbsp;
             <span style="color: ww #323232; font-size: 14px">元</span>
           </div>
