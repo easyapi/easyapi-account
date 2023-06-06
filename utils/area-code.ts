@@ -9,8 +9,8 @@ export const areaCodes = [
   { value: 81, label: '日本', country: 'JP' },
   { value: 1, label: '美国', country: 'US' },
 ]
-
 const emailRegex = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/
 export default function emailVerify(email: any) {
-  return emailRegex.test(email)
+  return emailRegex.test(email) 
 }
+

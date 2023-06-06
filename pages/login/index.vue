@@ -108,28 +108,15 @@ export default defineComponent({
             <template data.slot="prepend">
               +&nbsp;
             </template>
-            <el-select
-              v-model="ruleForm.areaCode"
-              filterable
-              allow-create
-              data.slot="prepend"
-            >
-              <el-option
-                v-for="item in areaCodes"
-                :key="item.value"
-                :value="item.value"
-              >
+            <el-select v-model="ruleForm.areaCode" filterable allow-create data.slot="prepend">
+              <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">
                 {{ item.label }}+{{ item.value }}
               </el-option>
             </el-select>
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input size="large"
-            v-model="ruleForm.password"
-            placeholder="请输入密码"
-            type="password"
-          />
+          <el-input size="large" v-model="ruleForm.password" placeholder="请输入密码" type="password" />
         </el-form-item>
         <el-checkbox v-model="ruleForm.rememberMe" class="checkbox">
           记住密码
@@ -151,18 +138,10 @@ export default defineComponent({
       </div>
       <div class="other-login">
         <a href="https://account-api.easyapi.com/auth/wechat">
-          <img
-            class="image-svg"
-            src="@/assets/svg/weixin.svg"
-            alt=""
-          >
+          <img class="image-svg" src="@/assets/svg/weixin.svg" alt="">
         </a>
         <a href="https://account-api.easyapi.com/auth/qq">
-          <img
-            class="image-svg"
-            src="@/assets/svg/qq.svg"
-            alt=""
-          >
+          <img class="image-svg" src="@/assets/svg/qq.svg" alt="">
         </a>
       </div>
     </div>

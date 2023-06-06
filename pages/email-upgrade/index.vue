@@ -22,6 +22,7 @@ export default defineComponent({
       else
         callback(new Error('邮箱格式错误'))
     }
+
     const data = reactive({
       areaCodes,
       disabled: true,
@@ -31,6 +32,7 @@ export default defineComponent({
       formData: {
         areaCode: 86,
         country: 'CN',
+        username: '',
         email: '',
         mobile: '',
         code: '',
@@ -41,7 +43,7 @@ export default defineComponent({
           { required: true, message: '请输入邮箱账号', trigger: 'blur' },
           { validator: validEmail, trigger: 'blur' },
         ],
-        mobile: [
+        username: [
           { required: true, message: '请输入手机号码', trigger: 'blur' },
           { validator: validPhoneNumber, trigger: 'blur' },
         ],
@@ -61,7 +63,7 @@ export default defineComponent({
       () => {
         data.disabled = !(
           emailVerify(data.formData.email)
-          && isValidPhoneNumber(data.formData.mobile, data.formData.country)
+          && isValidPhoneNumber(data.formData.username, data.formData.country)
           && data.formData.password.length >= 6
           && data.formData.code.length === 6
         )
@@ -135,45 +137,21 @@ export default defineComponent({
           <el-input v-model="formData.email" size="large" placeholder="请输入原邮箱账号" />
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input
-            v-model="formData.password"
-            size="large"
-            placeholder="请输入原邮箱密码"
-            type="password"
-          />
+          <el-input v-model="formData.password" size="large" placeholder="请输入原邮箱密码" type="password" />
         </el-form-item>
-        <el-form-item label="" prop="mobile">
-          <el-input
-            v-model="formData.mobile"
-            size="large"
-            placeholder="请输入新手机号码"
-            maxlength="11"
-          >
+        <el-form-item label="" prop="username">
+          <el-input v-model="formData.username" size="large" placeholder="请输入新手机号码" maxlength="11">
             <template> +&nbsp;</template>
-            <el-select
-              v-model="formData.areaCode"
-              filterable
-              allow-create
-            >
-              <el-option
-                v-for="item in areaCodes"
-                :key="item.value"
-                :value="item.value"
-              >
+            <el-select v-model="formData.areaCode" filterable allow-create>
+              <el-option v-for="item in areaCodes" :key="item.value" :value="item.value">
                 {{ item.label }}(+{{ item.value }})
               </el-option>
             </el-select>
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="code">
-          <el-input
-            v-model="formData.code"
-            class="code"
-            size="large"
-            placeholder="请输入验证码"
-            maxlength="6"
-            onkeyup="value=value.replace(/[^\d]/g,'')"
-          >
+          <el-input v-model="formData.code" class="code" size="large" placeholder="请输入验证码" maxlength="6"
+            onkeyup="value=value.replace(/[^\d]/g,'')">
             <template #append>
               <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">
                 {{ sendCodeCount }}

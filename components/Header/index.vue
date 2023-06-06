@@ -40,12 +40,18 @@ export default defineComponent({
       </div>
       <div v-else>
         <img class="rounded-[50%] align-top w-[20px] sm:w-[40px]" :src="store.userInfo.photo" alt>
+        <!-- <ul data-v-292b24ab="" class="el-dropdown-menu el-popper" id="dropdown-menu-555"
+          style="position: absolute; top: 45px; left: 1269px; transform-origin: center top; z-index: 2014;"
+          x-placement="bottom-end">
+          <li data-v-292b24ab="" tabindex="-1" class="el-dropdown-menu__item"><i class="el-icon-edit"></i>我的通知</li>
+          <li data-v-292b24ab="" tabindex="-1" class="el-dropdown-menu__item"><i class="el-icon-sort"></i>个人设置</li>
+          <li data-v-292b24ab="" tabindex="-1" class="el-dropdown-menu__item"><i class="el-icon-monitor"></i>访问官网</li>
+          <li data-v-292b24ab="" tabindex="-1" class="el-dropdown-menu__item"><i class="el-icon-switch-button"></i>退出</li>
+          <div x-arrow="" class="popper__arrow" style="left: 94px;"></div>
+        </ul> -->
       </div>
     </el-col>
-  </el-row>
-</template>
-<style lang="scss" scoped>
-.text-white a{
+  </el-row></template>
+<style lang="scss" scoped>.text-white a {
   margin-left: 25px;
-}
-</style>
+}</style>

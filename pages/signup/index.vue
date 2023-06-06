@@ -28,6 +28,7 @@ export default defineComponent({
         country: 'CN',
         username: '',
         code: '',
+        mobile: '',
         rememberMe: true,
         nickname: '',
         password: '',
@@ -123,33 +124,33 @@ export default defineComponent({
     /**
      * 发送验证码
      */
-    function sendCode() {
-      if (data.sendCodeBtn)
-        return
-
-      signup.sendCode({ mobile: data.formData.username })
-        .then((res) => {
-          if (res.code === 1) {
-            ElMessage.success('验证码发送成功')
-            let second = 60
-            data.sendCodeBtn = true
-            const timer = setInterval(() => {
-              second--
-              if (second === 0) {
-                data.sendCodeBtn = false
-                data.sendCodeCount = '获取验证码'
-                clearInterval(timer)
-                return
-              }
-              data.sendCodeCount = `剩余${second}秒`
-            }, 1000)
-          } else {
-            ElMessage.error(res.message)
+    const sendCode = () => {
+      if (isValidPhoneNumber(data.formData.mobile, data.formData.country)) {
+        const params = {
+          mobile: data.formData.mobile,
+        }
+        signup.sendCode(params)
+          .then((res) => {
+            if (res.code === 1)
+              ElMessage.success(res.message)
+            else
+              ElMessage.error(res.message)
+          })
+        let second = 60
+        data.sendCodeBtn = true
+        const timer = setInterval(() => {
+          second--
+          if (second === 0) {
+            data.sendCodeBtn = false
+            data.sendCodeCount = '获取验证码'
+            clearInterval(timer)
+            return
           }
-        })
-        .catch((error) => {
-          ElMessage.error(error.response.data.message)
-        })
+          data.sendCodeCount = `剩余${second}秒`
+        }, 1000)
+      } else {
+        ElMessage.error('请输入正确的手机号码')
+      }
     }
 
     function findUsername() {
@@ -192,10 +193,8 @@ export default defineComponent({
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="code">
-          <el-input
-            v-model="formData.code" placeholder="请输入验证码" size="large" maxlength="6" onkeyup="value=value.replace(/[^\d]/g,'')"
-            class="code"
-          >
+          <el-input v-model="formData.code" placeholder="请输入验证码" size="large" maxlength="6"
+            onkeyup="value=value.replace(/[^\d]/g,'')" class="code">
             <template #append>
               <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">
                 {{ sendCodeCount }}
@@ -216,10 +215,8 @@ export default defineComponent({
           点击注册表示您同意
           <span class="text-success"><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span>
         </el-checkbox>
-        <el-button
-          id="btn_sub" size="large" type="primary" :disabled="disabled"
-          class="btn-block btn btn-lg btn-info w-full" @click="enroll"
-        >
+        <el-button id="btn_sub" size="large" type="primary" :disabled="disabled"
+          class="btn-block btn btn-lg btn-info w-full" @click="enroll">
           注 册
         </el-button>
       </el-form>
@@ -233,9 +230,10 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-.code{
+.code {
   width: 350px !important;
 }
+
 .text-success {
   color: #1bc0d5;
   margin-left: 5px;
