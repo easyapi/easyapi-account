@@ -277,6 +277,7 @@ export default defineComponent({
               background-color: #1cc0d6;
               color: #fff;
               font-size: 14px;
+              border: none;
             "
             @click="sure"
           >
@@ -289,6 +290,7 @@ export default defineComponent({
               background-color: #1cc0d6;
               color: #fff;
               font-size: 14px;
+              border: none;
             "
             disabled
           >
