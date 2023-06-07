@@ -167,7 +167,7 @@ export default defineComponent({
           size="large"
           type="primary"
           :disabled="disabled"
-          class="btn-block btn btn-lg btn-info"
+          class="btn-block btn btn-lg btn-info w-ful"
           @click="loginPost"
         >
           绑定账号
