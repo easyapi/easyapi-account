@@ -1,12 +1,15 @@
 <script>
 import { useCookies } from '@vueuse/integrations/useCookies'
 import userStore from '@/store/user'
-
+import { ref, unref } from 'vue'
+import { Edit, Sort, Monitor, SwitchButton } from '@element-plus/icons-vue'
 export default defineComponent({
   // eslint-disable-next-line vue/no-reserved-component-names
   name: 'Header',
+  components: { Edit, Sort, Monitor, SwitchButton },
   setup() {
     const store = userStore()
+    const router = useRouter()
     const data = reactive({
       authenticationToken: useCookies().get('authenticationToken'),
     })
@@ -15,10 +18,22 @@ export default defineComponent({
       if (data.authenticationToken)
         await store.getUser()
     })
+    const buttonRef = ref()
+    const popoverRef = ref()
+    const onClickOutside = () => {
+      unref(popoverRef).popperRef?.delayHide?.()
 
+    }
+    const notice = () => {
+      router.push("https://yiku.easyapi.com/user/edit")
+    }
     return {
       ...toRefs(data),
       store,
+      buttonRef,
+      popoverRef,
+      onClickOutside,
+      notice
     }
   },
 })
@@ -39,19 +54,46 @@ export default defineComponent({
         </nuxt-link>
       </div>
       <div v-else>
-        <img class="rounded-[50%] align-top w-[20px] sm:w-[40px]" :src="store.userInfo.photo" alt>
-        <!-- <ul data-v-292b24ab="" class="el-dropdown-menu el-popper" id="dropdown-menu-555"
-          style="position: absolute; top: 45px; left: 1269px; transform-origin: center top; z-index: 2014;"
-          x-placement="bottom-end">
-          <li data-v-292b24ab="" tabindex="-1" class="el-dropdown-menu__item"><i class="el-icon-edit"></i>我的通知</li>
-          <li data-v-292b24ab="" tabindex="-1" class="el-dropdown-menu__item"><i class="el-icon-sort"></i>个人设置</li>
-          <li data-v-292b24ab="" tabindex="-1" class="el-dropdown-menu__item"><i class="el-icon-monitor"></i>访问官网</li>
-          <li data-v-292b24ab="" tabindex="-1" class="el-dropdown-menu__item"><i class="el-icon-switch-button"></i>退出</li>
-          <div x-arrow="" class="popper__arrow" style="left: 94px;"></div>
-        </ul> -->
+        <div ref="buttonRef" v-click-outside="onClickOutside" class="images">
+          <img class="rounded-[50%] align-top w-[20px] sm:w-[40px]" :src="store.userInfo.photo" alt>
+        </div>
+        <el-popover ref="popoverRef" :virtual-ref="buttonRef" trigger="click" virtual-triggering>
+          <li tabindex="-1" class="el-dropdown-menu__item" @click="notice">
+            <el-icon class="el-icon-edit">
+              <Edit />
+            </el-icon>
+            我的通知
+          </li>
+          <li tabindex="-1" class="el-dropdown-menu__item" @click="personal">
+            <el-icon class="el-icon-sort">
+              <Sort />
+            </el-icon>
+            个人设置
+          </li>
+          <li tabindex="-1" class="el-dropdown-menu__item" @click="official">
+            <el-icon class="el-icon-monitor">
+              <Monitor />
+            </el-icon>
+            访问官网
+          </li>
+          <li tabindex="-1" class="el-dropdown-menu__item" @click="logout">
+            <el-icon class="el-icon-switch-button">
+              <SwitchButton />
+            </el-icon>
+            退出
+          </li>
+        </el-popover>
+
       </div>
     </el-col>
-  </el-row></template>
-<style lang="scss" scoped>.text-white a {
+  </el-row>
+</template>
+<style lang="scss" scoped>
+.text-white a {
   margin-left: 25px;
-}</style>
+}
+
+.images {
+  cursor: pointer;
+}
+</style>
