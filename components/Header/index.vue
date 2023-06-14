@@ -24,8 +24,11 @@ export default defineComponent({
       unref(popoverRef).popperRef?.delayHide?.()
 
     }
-    const notice = () => {
-      router.push("https://yiku.easyapi.com/user/edit")
+    const official = () => {
+      window.open("https://www.easyapi.com/home")
+    }
+    const logout = () => {
+      useRouter().replace("login")
     }
     return {
       ...toRefs(data),
@@ -33,7 +36,8 @@ export default defineComponent({
       buttonRef,
       popoverRef,
       onClickOutside,
-      notice
+      official,
+      logout
     }
   },
 })
@@ -58,17 +62,21 @@ export default defineComponent({
           <img class="rounded-[50%] align-top w-[20px] sm:w-[40px]" :src="store.userInfo.photo" alt>
         </div>
         <el-popover ref="popoverRef" :virtual-ref="buttonRef" trigger="click" virtual-triggering>
-          <li tabindex="-1" class="el-dropdown-menu__item" @click="notice">
-            <el-icon class="el-icon-edit">
-              <Edit />
-            </el-icon>
-            我的通知
+          <li tabindex="-1" class="el-dropdown-menu__item">
+            <a href="https://yiku.easyapi.com/notification">
+              <el-icon class="el-icon-edit">
+                <Edit />
+              </el-icon>
+              我的通知
+            </a>
           </li>
-          <li tabindex="-1" class="el-dropdown-menu__item" @click="personal">
-            <el-icon class="el-icon-sort">
-              <Sort />
-            </el-icon>
-            个人设置
+          <li tabindex="-1" class="el-dropdown-menu__item">
+            <a href="https://yiku.easyapi.com/user/edit">
+              <el-icon class="el-icon-sort">
+                <Sort />
+              </el-icon>
+              个人设置
+            </a>
           </li>
           <li tabindex="-1" class="el-dropdown-menu__item" @click="official">
             <el-icon class="el-icon-monitor">
@@ -95,5 +103,14 @@ export default defineComponent({
 
 .images {
   cursor: pointer;
+}
+
+li {
+  width: 140px;
+  margin-left: -10px;
+}
+
+li:hover {
+  background-color: rgb(166, 236, 248);
 }
 </style>
