@@ -1,10 +1,10 @@
 <script>
 import { useCookies } from '@vueuse/integrations/useCookies'
 import userStore from '@/store/user'
-import { ref, unref } from 'vue'
 import { Edit, Sort, Monitor, SwitchButton } from '@element-plus/icons-vue'
+import { ArrowDown } from '@element-plus/icons-vue'
 export default defineComponent({
-  // eslint-disable-next-line vue/no-reserved-component-names
+
   name: 'Header',
   components: { Edit, Sort, Monitor, SwitchButton },
   setup() {
@@ -12,30 +12,38 @@ export default defineComponent({
     const router = useRouter()
     const data = reactive({
       authenticationToken: useCookies().get('authenticationToken'),
+      isLogin: true
     })
 
     onMounted(async () => {
-      if (data.authenticationToken)
+      if (authenticationToken) {
         await store.getUser()
+        return
+      }
+      data.isLogin = false
     })
-    const buttonRef = ref()
-    const popoverRef = ref()
-    const onClickOutside = () => {
-      unref(popoverRef).popperRef?.delayHide?.()
-
+    const inform = () => {
+      window.open(`https://${store.userInfo.team.url}.easyapi.com/notification`, "_self")
     }
+
+    const personal = () => {
+      window.open(`https://${store.userInfo.team.url}.easyapi.com/user/edit`, "_self")
+    }
+
     const official = () => {
       window.open("https://www.easyapi.com/home")
     }
+    
     const logout = () => {
       useRouter().replace("login")
     }
     return {
       ...toRefs(data),
       store,
-      buttonRef,
-      popoverRef,
-      onClickOutside,
+      router,
+      ArrowDown,
+      inform,
+      personal,
       official,
       logout
     }
@@ -49,7 +57,7 @@ export default defineComponent({
       <a href="https://www.easyapi.com/" class="text-white">
         <img class="w-[60px] sm:w-[120px]" src="https://qiniu.easyapi.com/market/logo.svg" alt="">
       </a>
-      <div v-if="!store.userInfo" class="text-white">
+      <div v-if="!isLogin" class="text-white">
         <nuxt-link class="mr-2" to="/login">
           登录
         </nuxt-link>
@@ -57,41 +65,40 @@ export default defineComponent({
           注册
         </nuxt-link>
       </div>
-      <div v-else>
-        <div ref="buttonRef" v-click-outside="onClickOutside" class="images">
-          <img class="rounded-[50%] align-top w-[20px] sm:w-[40px]" :src="store.userInfo.photo" alt>
-        </div>
-        <el-popover ref="popoverRef" :virtual-ref="buttonRef" trigger="click" virtual-triggering>
-          <li tabindex="-1" class="el-dropdown-menu__item">
-            <a href="https://yiku.easyapi.com/notification">
-              <el-icon class="el-icon-edit">
-                <Edit />
-              </el-icon>
-              我的通知
-            </a>
-          </li>
-          <li tabindex="-1" class="el-dropdown-menu__item">
-            <a href="https://yiku.easyapi.com/user/edit">
-              <el-icon class="el-icon-sort">
-                <Sort />
-              </el-icon>
-              个人设置
-            </a>
-          </li>
-          <li tabindex="-1" class="el-dropdown-menu__item" @click="official">
-            <el-icon class="el-icon-monitor">
-              <Monitor />
-            </el-icon>
-            访问官网
-          </li>
-          <li tabindex="-1" class="el-dropdown-menu__item" @click="logout">
-            <el-icon class="el-icon-switch-button">
-              <SwitchButton />
-            </el-icon>
-            退出
-          </li>
-        </el-popover>
-
+      <div v-if="store.userInfo">
+        <el-dropdown trigger="click" class="images">
+          <span class="el-dropdown-link">
+            <img class="rounded-[50%] align-top w-[20px] sm:w-[40px]" :src="store.userInfo.photo" alt>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item @click="inform">
+                <el-icon class="el-icon-edit">
+                  <Edit />
+                </el-icon>
+                我的通知
+              </el-dropdown-item>
+              <el-dropdown-item @click="personal">
+                <el-icon class="el-icon-sort">
+                  <Sort />
+                </el-icon>
+                个人设置
+              </el-dropdown-item>
+              <el-dropdown-item @click="official">
+                <el-icon class="el-icon-monitor">
+                  <Monitor />
+                </el-icon>
+                访问官网
+              </el-dropdown-item>
+              <el-dropdown-item @click="logout">
+                <el-icon class="el-icon-switch-button">
+                  <SwitchButton />
+                </el-icon>
+                退出
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
     </el-col>
   </el-row>
@@ -101,16 +108,10 @@ export default defineComponent({
   margin-left: 25px;
 }
 
-.images {
+.example-showcase .el-dropdown-link {
   cursor: pointer;
-}
-
-li {
-  width: 140px;
-  margin-left: -10px;
-}
-
-li:hover {
-  background-color: rgb(166, 236, 248);
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
 }
 </style>
