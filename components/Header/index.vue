@@ -16,7 +16,7 @@ export default defineComponent({
     })
 
     onMounted(async () => {
-      if (authenticationToken) {
+      if (data.authenticationToken) {
         await store.getUser()
         return
       }
@@ -33,7 +33,7 @@ export default defineComponent({
     const official = () => {
       window.open("https://www.easyapi.com/home")
     }
-    
+
     const logout = () => {
       useRouter().replace("login")
     }
