@@ -30,7 +30,7 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      // from()
+      from()
       if (useCookies().get('username') != null) {
         // 从Cookie中获取登录账号
         data.ruleForm.username = useCookies().get('username')
