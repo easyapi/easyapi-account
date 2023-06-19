@@ -5,7 +5,6 @@ import { userStore } from '~/store/user'
  * 处理来源链接和域名
  */
 export function from() {
-  // useCookies().set('from', 'http://localhost:3000/renew/service')
   let fromData = ''
   if (!useRoute().query.from) {
     fromData = useCookies().get('from') ? useCookies().get('from') : 'https://www.easyapi.com'
@@ -16,7 +15,7 @@ export function from() {
     if (fromData && fromData.includes('account.easyapi.com'))
       useCookies().set('from', 'https://www.easyapi.com')
     else
-      useCookies().set('from', from)
+      useCookies().set('from', fromData)
   }
   useCookies().set('domain', userStore().domain)
 }
