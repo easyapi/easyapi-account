@@ -1,5 +1,6 @@
 <script lang="ts">
-import { reactive } from 'vue'
+import { useHead } from '@unhead/vue'
+import { defineComponent, reactive, toRefs, watch } from 'vue'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { ElMessage } from 'element-plus'
 import { isValidPhoneNumber } from 'libphonenumber-js'
@@ -150,8 +151,10 @@ export default defineComponent({
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="code">
-          <el-input v-model="formData.code" class="code" size="large" placeholder="请输入验证码" maxlength="6"
-            onkeyup="value=value.replace(/[^\d]/g,'')">
+          <el-input
+            v-model="formData.code" class="code" size="large" placeholder="请输入验证码" maxlength="6"
+            onkeyup="value=value.replace(/[^\d]/g,'')"
+          >
             <template #append>
               <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">
                 {{ sendCodeCount }}

@@ -1,8 +1,9 @@
 <script lang="ts">
-import { reactive } from 'vue'
+import { useHead } from '@unhead/vue'
+import { defineComponent, reactive, toRefs, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { isValidPhoneNumber } from 'libphonenumber-js'
-import { areaCodes } from '../../utils/area-code'
+import { areaCodes } from '~/utils/area-code'
 import forget from '@/api/forget-password'
 import signup from '@/api/signup'
 

@@ -1,9 +1,10 @@
 <script lang="ts">
-import { onMounted, reactive } from 'vue'
+import { useHead } from '@unhead/vue'
+import { defineComponent, onMounted, reactive, toRefs, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { isValidPhoneNumber } from 'libphonenumber-js'
-import { from } from '../../utils/from'
+import { from } from '~/utils/from'
 import signup from '@/api/signup'
 import { areaCodes } from '~/utils/area-code'
 
@@ -189,12 +190,13 @@ export default defineComponent({
       </div>
       <el-form ref="ruleForm" :model="formData" :rules="rules">
         <el-form-item label="" prop="username">
-          <el-input v-model="formData.username" size="large" placeholder="请输入手机号码" maxlength="11" @blur="findUsername">
-          </el-input>
+          <el-input v-model="formData.username" size="large" placeholder="请输入手机号码" maxlength="11" @blur="findUsername" />
         </el-form-item>
         <el-form-item label="" prop="code">
-          <el-input v-model="formData.code" placeholder="请输入验证码" size="large" maxlength="6"
-            onkeyup="value=value.replace(/[^\d]/g,'')" class="code">
+          <el-input
+            v-model="formData.code" placeholder="请输入验证码" size="large" maxlength="6"
+            onkeyup="value=value.replace(/[^\d]/g,'')" class="code"
+          >
             <template #append>
               <el-button :disabled="sendCodeBtn" class="getCode" @click="sendCode">
                 {{ sendCodeCount }}
@@ -215,8 +217,10 @@ export default defineComponent({
           点击注册表示您同意
           <span class="text-success"><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span>
         </el-checkbox>
-        <el-button id="btn_sub" size="large" type="primary" :disabled="disabled"
-          class="btn-block btn btn-lg btn-info w-full" @click="enroll">
+        <el-button
+          id="btn_sub" size="large" type="primary" :disabled="disabled"
+          class="btn-block btn btn-lg btn-info w-full" @click="enroll"
+        >
           注 册
         </el-button>
       </el-form>

@@ -113,7 +113,7 @@ export default defineComponent({
         <span>{{ providerId === 'wechat' ? '微信' : 'QQ' }}</span>
         帐号登录，您需要填写账号和密码，以后您也可以使用此账号和密码登录
       </div>
-      <div class="ath mb-10">
+      <div class="auth mb-10">
         <img class="image-png" :src="imageSrc" alt="">
         <img
           class="image-svg"
@@ -129,8 +129,8 @@ export default defineComponent({
       <el-form ref="ruleRef" :model="ruleForm" :rules="rules">
         <el-form-item label="" prop="username">
           <el-input
-          size="large"
             v-model="ruleForm.username"
+            size="large"
             placeholder="请输入手机号码"
             class="input-with-select"
             maxlength="11"

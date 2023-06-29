@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
+
 useHead({ title: '服务条款 - EasyAPI' })
 </script>
 

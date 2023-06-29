@@ -104,7 +104,7 @@ export default defineComponent({
       </div>
       <el-form ref="refForm" :model="ruleForm" :rules="rules">
         <el-form-item label="" prop="username">
-          <el-input size="large" v-model="ruleForm.username" placeholder="请输入手机号码">
+          <el-input v-model="ruleForm.username" size="large" placeholder="请输入手机号码">
             <template data.slot="prepend">
               +&nbsp;
             </template>
@@ -116,12 +116,12 @@ export default defineComponent({
           </el-input>
         </el-form-item>
         <el-form-item label="" prop="password">
-          <el-input size="large" v-model="ruleForm.password" placeholder="请输入密码" type="password" />
+          <el-input v-model="ruleForm.password" size="large" placeholder="请输入密码" type="password" />
         </el-form-item>
         <el-checkbox v-model="ruleForm.rememberMe" class="checkbox">
           记住密码
         </el-checkbox>
-        <el-button size="large" :disabled="disabled" type="primary" @click="register" class="w-ful">
+        <el-button size="large" :disabled="disabled" type="primary" class="w-ful" @click="register">
           登录
         </el-button>
       </el-form>
