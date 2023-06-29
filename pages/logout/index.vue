@@ -1,7 +1,7 @@
 <script lang="ts">
 import { useCookies } from '@vueuse/integrations/useCookies'
-import { onMounted } from 'vue'
-import { from } from '../../utils/from'
+import { defineComponent, onMounted } from 'vue'
+import { from } from '~/utils/from'
 
 export default defineComponent({
   setup() {

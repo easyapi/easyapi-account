@@ -1,4 +1,4 @@
-import { getToken } from '~/utils/token'
+import { getToken, removeToken } from '~/utils/token'
 
 /**
  * API请求封装
@@ -18,12 +18,8 @@ async function fetch(url: string, options?: any, headers?: any): Promise<Respons
   } catch (error: any) {
     if (error.data.code === -9) {
       removeToken()
-      window.location.href = 'https://account.easyapi.com/login?from=https://wwww.easyapi.com/home'
+      window.location.href = 'https://account.easyapi.com/login?from=https://www.easyapi.com/home'
     }
-    // ElMessage({
-    //   type: 'error',
-    //   message: error.data.message,
-    // })
     return error.data
   }
 }
