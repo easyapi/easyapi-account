@@ -3,8 +3,9 @@ import { useCookies } from '@vueuse/integrations/useCookies'
 import userStore from '@/store/user'
 import { Edit, Sort, Monitor, SwitchButton } from '@element-plus/icons-vue'
 import { ArrowDown } from '@element-plus/icons-vue'
-export default defineComponent({
+import { removeToken } from '@/utils/token'
 
+export default defineComponent({
   name: 'Header',
   components: { Edit, Sort, Monitor, SwitchButton },
   setup() {
@@ -35,7 +36,10 @@ export default defineComponent({
     }
 
     const logout = () => {
-      useRouter().replace("login")
+      useRouter().replace("/login")
+      data.isLogin = false
+      store.userInfo = {}
+      removeToken()
     }
     return {
       ...toRefs(data),
@@ -57,7 +61,7 @@ export default defineComponent({
       <a href="https://www.easyapi.com/" class="text-white">
         <img class="w-[60px] sm:w-[120px]" src="https://qiniu.easyapi.com/market/logo.svg" alt="">
       </a>
-      <div v-if="!isLogin" class="text-white">
+      <div v-if="!isLogin" class="text-white ">
         <nuxt-link class="mr-2" to="/login">
           登录
         </nuxt-link>
@@ -65,7 +69,7 @@ export default defineComponent({
           注册
         </nuxt-link>
       </div>
-      <div v-if="store.userInfo">
+      <div v-if="isLogin && store.userInfo">
         <el-dropdown trigger="click" class="images">
           <span class="el-dropdown-link">
             <img class="rounded-[50%] align-top w-[20px] sm:w-[40px]" :src="store.userInfo.photo" alt>
