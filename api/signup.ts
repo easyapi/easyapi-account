@@ -6,7 +6,6 @@ import http from '~/api/request'
  * @see https://www.easyapi.com
  */
 export const signup = {
-  
   signup(data: any) {
     return http.post(`${useRuntimeConfig().public.baseUrl}/account/signup`, data, {})
   },

@@ -42,17 +42,17 @@ function stand(pay: any) {
 
 <template>
   <div class="payment">
-    <div v-if="data.balance >= data.totalPrice" class="payment-item" :class="{ state: data.payment === '余额支付' }" @click="stand('余额支付')">
+    <div v-if="data.balance >= data.totalPrice" class="payment-item" :class="{ state: data.payment === '余额支付' }"
+      @click="stand('余额支付')">
       <svg-icon name="money" class="svg" />
       <span>余额支付(￥{{ data.balance }})</span>
     </div>
-    <div v-if="data.balance < data.totalPrice" class="payment_p" :class="{ state: data.payment === '余额支付' }" @click="stand('余额支付')">
+    <div v-if="data.balance < data.totalPrice" class="payment_p" :class="{ state: data.payment === '余额支付' }"
+      @click="stand('余额支付')">
       <span>
         <strong>余额支付(￥{{ data.balance }})</strong>
       </span>
-      <span
-        style="display: block; color: #303030; line-height: 25px; width: 285px"
-      >
+      <span style="display: block; color: #303030; line-height: 25px; width: 285px">
         余额不足，建议使用其他支付方式，或者
         <a :href="`https://${store.userInfo.team.url}.easyapi.com/account`" style="color: #1cc0d6">充值</a>
       </span>

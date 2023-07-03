@@ -11,6 +11,5 @@ export const areaCodes = [
 ]
 const emailRegex = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/
 export default function emailVerify(email: any) {
-  return emailRegex.test(email) 
+  return emailRegex.test(email)
 }
-
