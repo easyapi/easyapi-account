@@ -12,15 +12,13 @@ export default defineComponent({
     onMounted(() => {
       from()
       const cookies = useCookies()
-      cookies.remove('authenticationToken')
       cookies.remove('authenticationToken', { path: '/', domain: '.easyapi.com' })
-      const windowWithReferrer = window as unknown as WindowWithReferrer
-      if (windowWithReferrer.referrer.includes('logout'))
+      if (document.referrer.includes('logout'))
         window.location.replace('/login')
-      else if (windowWithReferrer.referrer.includes('account.easyapi.com'))
+      else if (document.referrer.includes('account.easyapi.com'))
         window.location.replace('/login/?from=https://www.easyapi.com')
       else
-        window.location.replace(`/login/?from=${windowWithReferrer.referrer}`)
+        window.location.replace(`/login/?from=${document.referrer}`)
     })
   },
 })
