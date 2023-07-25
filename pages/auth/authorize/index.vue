@@ -59,16 +59,14 @@ export default defineComponent({
       sessionStorage.setItem('auth', '')
       if (!token)
         changeUser()
-      auth.getAuthorize(params)
-        .then((res) => {
-          if (res.data.code === 1) {
-            data.client = res.data.content.name
-            data.account = res.data.content.username
-          }
-        })
-        .catch((error) => {
-          ElMessage.error(error.response.data.message)
-        })
+      auth.getAuthorize(params).then((res) => {
+        if (res.data.code === 1) {
+          data.client = res.data.content.name
+          data.account = res.data.content.username
+        }
+      }).catch((error) => {
+        ElMessage.error(error.response.data.message)
+      })
     })
 
     return {
