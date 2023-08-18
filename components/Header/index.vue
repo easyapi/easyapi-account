@@ -1,9 +1,8 @@
 <script>
-import { useCookies } from '@vueuse/integrations/useCookies'
 import userStore from '@/store/user'
 import { Edit, Sort, Monitor, SwitchButton } from '@element-plus/icons-vue'
 import { ArrowDown } from '@element-plus/icons-vue'
-import { removeToken } from '@/utils/token'
+import { getToken, removeToken } from '@/utils/token'
 
 export default defineComponent({
   name: 'Header',
@@ -12,12 +11,11 @@ export default defineComponent({
     const store = userStore()
     const router = useRouter()
     const data = reactive({
-      authenticationToken: useCookies().get('authenticationToken'),
       isLogin: true
     })
 
     onMounted(async () => {
-      if (data.authenticationToken) {
+      if (getToken()) {
         await store.getUser()
         return
       }

@@ -1,12 +1,13 @@
 <script>
 import { onMounted, reactive } from 'vue'
-import { useCookies } from '@vueuse/integrations/useCookies'
+import { useCookie } from '#app/composables/cookie'
 import { ElMessage } from 'element-plus'
 import { areaCodes } from '../../utils/area-code'
 import { from } from '@/utils/from'
 import userStore from '@/store/user'
 
 import login from '~/api/login'
+import { setToken } from "../../utils/token";
 
 export default defineComponent({
   setup() {
@@ -31,9 +32,10 @@ export default defineComponent({
 
     onMounted(() => {
       from()
-      if (useCookies().get('username') != null) {
+      console.log(useCookie('username').value)
+      if (useCookie('username').value != null) {
         // 从Cookie中获取登录账号
-        data.ruleForm.username = useCookies().get('username')
+        data.ruleForm.username = useCookie('username').value
       }
     })
 
@@ -56,17 +58,13 @@ export default defineComponent({
         secure: true,
         sameSite: 'none',
       }
-      useCookies().set('username', data.ruleForm.username, options)
+      useCookie('username', options).value = data.ruleForm.username
       const params = sessionStorage.getItem('params')
       const auth = sessionStorage.getItem('auth')
-      const from = useCookies().get('from')
+      const from = useCookie('from').value
       login.postLogin(data.ruleForm).then((res) => {
         if (res.code === 1) {
-          useCookies().set('authenticationToken', res.content.idToken, {
-            maxAge: data.ruleForm.rememberMe ? 60 * 60 * 24 * 30 : 1,
-            path: '/',
-            domain: useCookies().get('domain'),
-          })
+          setToken(res.content.idToken, data.ruleForm.rememberMe)
           store.getUser()
           if (params !== '' && auth === '三方登录') {
             const json = JSON.parse(params)
@@ -78,7 +76,7 @@ export default defineComponent({
           } else {
             setTimeout(() => {
               window.location.replace(from)
-              useCookies().remove('from')
+              useCookie('from').value = null
             }, 1000)
           }
           ElMessage.success(res.message)

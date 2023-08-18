@@ -1,10 +1,10 @@
 <script>
 import { onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
-import { useCookies } from '@vueuse/integrations/useCookies'
 import { ElMessage } from 'element-plus'
 import qs from 'qs'
 import auth from '@/api/auth'
+import { getToken } from "../../../utils/token";
 
 export default defineComponent({
   setup() {
@@ -41,8 +41,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      const token = useCookies().get('authenticationToken')
-      if (!token) {
+      if (!getToken()) {
         // 添加三方登录标识
         sessionStorage.setItem('auth', '三方登录')
         window.location.href = '/login'
@@ -57,7 +56,7 @@ export default defineComponent({
       sessionStorage.setItem('params', JSON.stringify(params))
       // 清空三方登录标识
       sessionStorage.setItem('auth', '')
-      if (!token)
+      if (!getToken())
         changeUser()
       auth.getAuthorize(params).then((res) => {
         if (res.data.code === 1) {

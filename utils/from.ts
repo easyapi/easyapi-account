@@ -1,4 +1,4 @@
-import { useCookies } from '@vueuse/integrations/useCookies'
+import { useCookie } from '#app/composables/cookie'
 import { useRoute } from 'vue-router'
 import { userStore } from '~/store/user'
 
@@ -6,17 +6,17 @@ import { userStore } from '~/store/user'
  * 处理来源链接和域名
  */
 export function from() {
-  let url = ''
+  let url: string | null | undefined = ''
   if (!useRoute().query.from) {
-    url = useCookies().get('from') ? useCookies().get('from') : 'https://www.easyapi.com'
+    url = useCookie('from').value ? useCookie('from').value : 'https://www.easyapi.com'
     url = url?.includes('account.easyapi.com') ? 'https://www.easyapi.com' : url
-    useCookies().set('from', url, { path: '/' })
+    useCookie('from',{ path: '/' }).value = url
   } else {
     url = useRoute().query.from as string
     if (url?.includes('account.easyapi.com'))
-      useCookies().set('from', 'https://www.easyapi.com', { path: '/' })
+      useCookie('from',{ path: '/' }).value = 'https://www.easyapi.com'
     else
-      useCookies().set('from', url, { path: '/' })
+      useCookie('from',{ path: '/' }).value = url
   }
-  useCookies().set('domain', userStore().domain, { path: '/' })
+  useCookie('domain',{ path: '/' }).value = userStore().domain
 }

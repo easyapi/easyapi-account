@@ -1,7 +1,7 @@
 <script lang="ts">
 import { useHead } from '@unhead/vue'
 import { defineComponent, reactive, toRefs, watch } from 'vue'
-import { useCookies } from '@vueuse/integrations/useCookies'
+import { useCookie } from '#app/composables/cookie'
 import { ElMessage } from 'element-plus'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 import emailVerify, { areaCodes } from '@/utils/area-code'
@@ -73,12 +73,12 @@ export default defineComponent({
     )
 
     const upgradeEmail = () => {
-      const from = useCookies().get('from')
+      const from = useCookie('from').value
       email.upgradeEmail(data.formData).then((res) => {
         if (res.code === 1) {
           ElMessage.success(res.message)
           setTimeout(() => {
-            useCookies().remove('from')
+            useCookie('from').value = null
             window.location.replace(from)
           }, 1000)
         } else {

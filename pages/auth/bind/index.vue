@@ -1,9 +1,10 @@
 <script>
-import { useCookies } from '@vueuse/integrations/useCookies'
+import { useCookie } from '#app/composables/cookie'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 import { ElMessage } from 'element-plus'
 import bind from '@/api/bind'
 import login from '@/api/login'
+import {setToken} from "../../../utils/token";
 
 export default defineComponent({
   setup() {
@@ -51,7 +52,7 @@ export default defineComponent({
     )
 
     const bindPost = () => {
-      const from = useCookies().get('from')
+      const from = useCookie('from').value
       const params = {
         providerUserId: data.providerUserId,
         providerId: data.providerId,
@@ -69,12 +70,7 @@ export default defineComponent({
       login.postLogin(data.ruleForm).then((res) => {
         if (res.code !== 1)
           ElMessage.error(res.message)
-
-        useCookies().set('authenticationToken', res.content.idToken, {
-          maxAge: data.ruleForm.rememberMe ? 60 * 60 * 24 * 30 : 1,
-          path: '/',
-          domain: useCookies().get('domain'),
-        })
+        setToken(res.content.idToken, data.ruleForm.rememberMe)
         bindPost()
         ElMessage.success('绑定成功')
       })

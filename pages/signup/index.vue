@@ -2,11 +2,12 @@
 import { useHead } from '@unhead/vue'
 import { defineComponent, onMounted, reactive, toRefs, watch } from 'vue'
 import { ElMessage } from 'element-plus'
-import { useCookies } from '@vueuse/integrations/useCookies'
+import { useCookie } from '#app/composables/cookie'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 import { from } from '~/utils/from'
 import signup from '@/api/signup'
 import { areaCodes } from '~/utils/area-code'
+import { setToken } from "~/utils/token";
 
 export default defineComponent({
   setup() {
@@ -107,17 +108,13 @@ export default defineComponent({
         ElMessage.error('请勾选同意EasyAPI用户协议')
         return
       }
-      const from = useCookies().get('from')
+      let from = useCookie('from').value as string | ''
       signup.signup(data.formData).then((res) => {
         if (res.code === 1) {
-          useCookies().set('authenticationToken', res.content, {
-            maxAge: data.formData.rememberMe ? 60 * 60 * 24 * 30 : 1,
-            path: '/',
-            domain: useCookies().get('domain'),
-          })
+          setToken(res.content, data.formData.rememberMe)
           ElMessage.success(res.message)
           setTimeout(() => {
-            useCookies().remove('from')
+            useCookie('from').value = null
             window.location.replace(from)
           }, 1000)
         } else {
