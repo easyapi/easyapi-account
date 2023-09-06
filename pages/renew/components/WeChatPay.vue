@@ -39,8 +39,12 @@ function handleClose() {
       </div>
     </div>
     <template #footer>
-      <el-button @click="handleClose">取 消</el-button>
-      <el-button type="primary" @click="handleClose">确 定</el-button>
+      <el-button @click="handleClose">
+        取 消
+      </el-button>
+      <el-button type="primary" @click="handleClose">
+        确 定
+      </el-button>
     </template>
   </el-dialog>
 </template>

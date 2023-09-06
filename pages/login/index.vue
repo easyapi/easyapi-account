@@ -1,13 +1,13 @@
 <script>
+import { useHead } from '@unhead/vue'
 import { onMounted, reactive } from 'vue'
-import { useCookie } from '#app/composables/cookie'
 import { ElMessage } from 'element-plus'
 import { areaCodes } from '../../utils/area-code'
+import { setToken } from '../../utils/token'
+import { useCookie } from '#app/composables/cookie'
 import { from } from '@/utils/from'
+import user from '@/api/user'
 import userStore from '@/store/user'
-
-import login from '~/api/login'
-import { setToken } from "../../utils/token";
 
 export default defineComponent({
   setup() {
@@ -32,7 +32,6 @@ export default defineComponent({
 
     onMounted(() => {
       from()
-      console.log(useCookie('username').value)
       if (useCookie('username').value != null) {
         // 从Cookie中获取登录账号
         data.ruleForm.username = useCookie('username').value
@@ -52,7 +51,7 @@ export default defineComponent({
     /**
      * 登录
      */
-    function register() {
+    function login() {
       const options = {
         path: '/',
         secure: true,
@@ -62,8 +61,9 @@ export default defineComponent({
       const params = sessionStorage.getItem('params')
       const auth = sessionStorage.getItem('auth')
       const from = useCookie('from').value
-      login.postLogin(data.ruleForm).then((res) => {
+      user.login(data.ruleForm).then((res) => {
         if (res.code === 1) {
+          ElMessage.success(res.message)
           setToken(res.content.idToken, data.ruleForm.rememberMe)
           store.getUser()
           if (params !== '' && auth === '三方登录') {
@@ -79,16 +79,13 @@ export default defineComponent({
               useCookie('from').value = null
             }, 1000)
           }
-          ElMessage.success(res.message)
-        } else {
-          ElMessage.error(res.message)
         }
       },
       )
     }
     return {
       ...toRefs(data),
-      register,
+      login,
     }
   },
 })
@@ -119,7 +116,7 @@ export default defineComponent({
         <el-checkbox v-model="ruleForm.rememberMe" class="checkbox">
           记住密码
         </el-checkbox>
-        <el-button size="large" :disabled="disabled" type="primary" class="w-ful" @click="register">
+        <el-button size="large" :disabled="disabled" type="primary" class="w-ful" @click="login">
           登录
         </el-button>
       </el-form>

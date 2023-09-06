@@ -1,9 +1,12 @@
 <script>
+import { useHead } from '@unhead/vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 import moment from 'moment'
+import { useRoute, useRouter } from 'nuxt/app'
 import SockJS from 'sockjs-client/dist/sockjs.min.js'
 import Stomp from 'stompjs'
+import { onMounted, toRefs } from 'vue'
 import Edition from '../components/Edition.vue'
 import SelectPrice from '../components/SelectPrice.vue'
 import Payment from '../components/Payment.vue'

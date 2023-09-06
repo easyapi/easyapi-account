@@ -1,4 +1,4 @@
-import {defineNuxtPlugin} from "#app/nuxt";
+import { defineNuxtPlugin } from 'nuxt/app'
 import ElementPlus, { ID_INJECTION_KEY } from 'element-plus'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'

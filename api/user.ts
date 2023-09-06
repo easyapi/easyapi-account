@@ -1,13 +1,14 @@
+import { useRuntimeConfig } from 'nuxt/app'
 import http from '~/api/request'
 
-const login = {
+const user = {
   /**
    * 登录
    *
    * @see https://www.easyapi.com
    */
-  postLogin(data: any) {
+  login(data: any) {
     return http.post(`${useRuntimeConfig().public.baseUrl}/authenticate`, data, {})
   },
 }
-export default login
+export default user

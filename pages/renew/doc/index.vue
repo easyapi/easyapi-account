@@ -295,7 +295,7 @@ export default defineComponent({
           </el-button>
           <span
             style="
-              display: block;
+            display: block;
               padding-top: 5px;
               color: #888888;
               font-size: 12px;

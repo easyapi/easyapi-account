@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
 import { nextTick, onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 

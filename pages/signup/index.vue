@@ -2,18 +2,19 @@
 import { useHead } from '@unhead/vue'
 import { defineComponent, onMounted, reactive, toRefs, watch } from 'vue'
 import { ElMessage } from 'element-plus'
-import { useCookie } from '#app/composables/cookie'
 import { isValidPhoneNumber } from 'libphonenumber-js'
+import { useCookie } from '#app/composables/cookie'
 import { from } from '~/utils/from'
 import signup from '@/api/signup'
 import { areaCodes } from '~/utils/area-code'
-import { setToken } from "~/utils/token";
+import { setToken } from '~/utils/token'
 
 export default defineComponent({
   setup() {
     useHead({ title: '注册 - EasyAPI服务平台' })
     const validPhoneNumber = (rule: any, value: any, callback: any) => {
-      if (isValidPhoneNumber(value, data.formData.country)) callback()
+      if (isValidPhoneNumber(value, data.formData.country))
+        callback()
       else callback(new Error('手机号码格式有误'))
     }
     const data = reactive({
@@ -68,31 +69,31 @@ export default defineComponent({
       () => data.formData,
       () => {
         data.disabled = !(
-          isValidPhoneNumber(data.formData.username, data.formData.country) &&
-          data.formData.password.length >= 6 &&
-          data.formData.confirmPassword.length >= 6 &&
-          data.formData.nickname !== '' &&
-          data.formData.code !== '' &&
-          data.formData.checked &&
-          !data.existUsername
+          isValidPhoneNumber(data.formData.username, data.formData.country)
+          && data.formData.password.length >= 6
+          && data.formData.confirmPassword.length >= 6
+          && data.formData.nickname !== ''
+          && data.formData.code !== ''
+          && data.formData.checked
+          && !data.existUsername
         )
       },
-      { deep: true }
+      { deep: true },
     )
 
     watch(
       () => data.existUsername,
       () => {
         data.disabled = !(
-          isValidPhoneNumber(data.formData.username, data.formData.country) &&
-          data.formData.password.length >= 6 &&
-          data.formData.confirmPassword.length >= 6 &&
-          data.formData.nickname !== '' &&
-          data.formData.code !== '' &&
-          data.formData.checked &&
-          !data.existUsername
+          isValidPhoneNumber(data.formData.username, data.formData.country)
+          && data.formData.password.length >= 6
+          && data.formData.confirmPassword.length >= 6
+          && data.formData.nickname !== ''
+          && data.formData.code !== ''
+          && data.formData.checked
+          && !data.existUsername
         )
-      }
+      },
     )
 
     function enroll() {
@@ -108,7 +109,7 @@ export default defineComponent({
         ElMessage.error('请勾选同意EasyAPI用户协议')
         return
       }
-      let from = useCookie('from').value as string | ''
+      const from = useCookie('from').value as string | ''
       signup.signup(data.formData).then((res) => {
         if (res.code === 1) {
           setToken(res.content, data.formData.rememberMe)
@@ -132,7 +133,8 @@ export default defineComponent({
           mobile: data.formData.username,
         }
         signup.sendCode(params).then((res) => {
-          if (res.code === 1) ElMessage.success(res.message)
+          if (res.code === 1)
+            ElMessage.success(res.message)
           else ElMessage.error(res.message)
         })
         let second = 60
@@ -184,7 +186,9 @@ export default defineComponent({
 <template>
   <div class="main">
     <div class="form">
-      <div class="headline">用户注册</div>
+      <div class="headline">
+        用户注册
+      </div>
       <el-form ref="ruleForm" :model="formData" :rules="rules">
         <el-form-item label="" prop="username">
           <el-input
@@ -240,9 +244,7 @@ export default defineComponent({
         </el-form-item>
         <el-checkbox v-model="formData.checked" class="checkbox">
           点击注册表示您同意
-          <span class="text-success"
-            ><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span
-          >
+          <span class="text-success"><a href="/terms" target="_blank">《EasyAPI服务条款》</a></span>
         </el-checkbox>
         <el-button
           id="btn_sub"
@@ -256,7 +258,9 @@ export default defineComponent({
         </el-button>
       </el-form>
       <div class="other-box">
-        <nuxt-link to="/login"> 我已有EasyAPI账号,直接登录 </nuxt-link>
+        <nuxt-link to="/login">
+          我已有EasyAPI账号,直接登录
+        </nuxt-link>
       </div>
     </div>
   </div>

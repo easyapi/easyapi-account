@@ -1,10 +1,10 @@
 <script>
-import { useCookie } from '#app/composables/cookie'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 import { ElMessage } from 'element-plus'
+import { setToken } from '../../../utils/token'
+import { useCookie } from '#app/composables/cookie'
 import bind from '@/api/bind'
 import login from '@/api/login'
-import {setToken} from "../../../utils/token";
 
 export default defineComponent({
   setup() {
@@ -67,7 +67,7 @@ export default defineComponent({
     }
 
     const loginPost = () => {
-      login.postLogin(data.ruleForm).then((res) => {
+      login.login(data.ruleForm).then((res) => {
         if (res.code !== 1)
           ElMessage.error(res.message)
         setToken(res.content.idToken, data.ruleForm.rememberMe)

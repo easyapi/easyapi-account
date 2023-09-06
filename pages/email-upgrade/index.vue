@@ -1,9 +1,9 @@
 <script lang="ts">
 import { useHead } from '@unhead/vue'
 import { defineComponent, reactive, toRefs, watch } from 'vue'
-import { useCookie } from '#app/composables/cookie'
 import { ElMessage } from 'element-plus'
 import { isValidPhoneNumber } from 'libphonenumber-js'
+import { useCookie } from '#app/composables/cookie'
 import emailVerify, { areaCodes } from '@/utils/area-code'
 import email from '@/api/email'
 import signup from '@/api/signup'

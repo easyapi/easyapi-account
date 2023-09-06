@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 import { userStore } from '@/store/user'
 
 const props = defineProps({
@@ -42,13 +42,17 @@ function stand(pay: any) {
 
 <template>
   <div class="payment">
-    <div v-if="data.balance >= data.totalPrice" class="payment-item" :class="{ state: data.payment === '余额支付' }"
-      @click="stand('余额支付')">
+    <div
+      v-if="data.balance >= data.totalPrice" class="payment-item" :class="{ state: data.payment === '余额支付' }"
+      @click="stand('余额支付')"
+    >
       <svg-icon name="money" class="svg" />
       <span>余额支付(￥{{ data.balance }})</span>
     </div>
-    <div v-if="data.balance < data.totalPrice" class="payment_p" :class="{ state: data.payment === '余额支付' }"
-      @click="stand('余额支付')">
+    <div
+      v-if="data.balance < data.totalPrice" class="payment_p" :class="{ state: data.payment === '余额支付' }"
+      @click="stand('余额支付')"
+    >
       <span>
         <strong>余额支付(￥{{ data.balance }})</strong>
       </span>
