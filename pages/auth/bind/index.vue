@@ -1,10 +1,12 @@
 <script>
+import { useHead } from '@unhead/vue'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 import { ElMessage } from 'element-plus'
+import { onMounted, toRefs } from 'vue'
 import { setToken } from '../../../utils/token'
 import { useCookie } from '#app/composables/cookie'
 import bind from '@/api/bind'
-import login from '@/api/login'
+import user from '@/api/user'
 
 export default defineComponent({
   setup() {
@@ -67,12 +69,12 @@ export default defineComponent({
     }
 
     const loginPost = () => {
-      login.login(data.ruleForm).then((res) => {
-        if (res.code !== 1)
-          ElMessage.error(res.message)
-        setToken(res.content.idToken, data.ruleForm.rememberMe)
-        bindPost()
-        ElMessage.success('绑定成功')
+      user.login(data.ruleForm).then((res) => {
+        if (res.code === 1) {
+          setToken(res.content.idToken, data.ruleForm.rememberMe)
+          bindPost()
+          ElMessage.success('绑定成功')
+        }
       })
     }
 
