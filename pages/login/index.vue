@@ -2,7 +2,7 @@
 import { useHead } from '@unhead/vue'
 import { onMounted, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
-import { useCookie } from 'nuxt/dist/app/composables/cookie'
+import { useCookie } from 'nuxt/app'
 import { areaCodes } from '../../utils/area-code'
 import { setToken } from '../../utils/token'
 import { from } from '@/utils/from'

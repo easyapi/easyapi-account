@@ -1,4 +1,4 @@
-import { useCookie } from 'nuxt/dist/app/composables/cookie'
+import { useCookie } from 'nuxt/app'
 import { useRoute } from 'vue-router'
 import { userStore } from '~/store/user'
 

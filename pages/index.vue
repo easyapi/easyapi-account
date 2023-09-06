@@ -1,6 +1,6 @@
 <script>
 import { defineComponent, onMounted } from 'vue'
-import { useCookie } from 'nuxt/dist/app/composables/cookie'
+import { useCookie } from 'nuxt/app'
 import { from } from '../utils/from'
 import { account } from '../api/account'
 import { getToken } from '@/utils/token'
