@@ -1,4 +1,4 @@
-import { useCookie } from '#app/composables/cookie'
+import { useCookie } from 'nuxt/dist/app/composables/cookie'
 
 const key = 'authenticationToken'
 
