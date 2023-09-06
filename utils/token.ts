@@ -12,7 +12,7 @@ export function getToken() {
 /**
  * 存储token
  */
-export function setToken(token: string, rememberMe : boolean) {
+export function setToken(token: string, rememberMe: boolean): void {
   useCookie(key, { maxAge: rememberMe ? 60 * 60 * 24 * 30 : 1, path: '/', domain: useCookie('domain').value as string | undefined }).value = token
 }
 
