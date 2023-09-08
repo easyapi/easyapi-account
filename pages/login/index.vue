@@ -52,6 +52,7 @@ export default defineComponent({
      * 登录
      */
     function login() {
+
       const options = {
         path: '/',
         secure: true,
@@ -61,24 +62,27 @@ export default defineComponent({
       const params = sessionStorage.getItem('params')
       const auth = sessionStorage.getItem('auth')
       const from = useCookie('from').value
-      user.login(data.ruleForm).then((res) => {
+
+      user.login(data.ruleForm).then( async (res) => {
         if (res.code === 1) {
           ElMessage.success(res.message)
-          setToken(res.content.idToken, data.ruleForm.rememberMe)
-          store.getUser()
-          if (params !== '' && auth === '三方登录') {
-            const json = JSON.parse(params)
-            window.location.href
-              = `/auth/authorize?client_id=${json.client_id
+          await setToken(res.content.idToken, data.ruleForm.rememberMe)
+          await store.getUser()
+          setTimeout(() => {
+            if (params !== '' && auth === '三方登录') {
+              const json = JSON.parse(params)
+              window.location.href
+                = `/auth/authorize?client_id=${json.client_id
               }&response_type=${json.response_type
               }&scope=${json.scope
               }&redirect_uri=${json.redirect_uri}`
-          } else {
-            setTimeout(() => {
-              window.location.replace(from)
-              useCookie('from').value = null
-            }, 1000)
-          }
+            } else {
+              setTimeout(() => {
+                window.location.replace(from)
+                useCookie('from').value = null
+              }, 1000)
+            }
+          }, 2000)
         }
       },
       )
