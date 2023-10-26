@@ -52,7 +52,6 @@ export default defineComponent({
      * 登录
      */
     function login() {
-
       const options = {
         path: '/',
         secure: true,
@@ -63,7 +62,7 @@ export default defineComponent({
       const auth = sessionStorage.getItem('auth')
       const from = useCookie('from').value
 
-      user.login(data.ruleForm).then( async (res) => {
+      user.login(data.ruleForm).then(async (res) => {
         if (res.code === 1) {
           ElMessage.success(res.message)
           await setToken(res.content.idToken, data.ruleForm.rememberMe)
@@ -76,13 +75,17 @@ export default defineComponent({
               }&response_type=${json.response_type
               }&scope=${json.scope
               }&redirect_uri=${json.redirect_uri}`
-            } else {
+            }
+            else {
               setTimeout(() => {
                 window.location.replace(from)
                 useCookie('from').value = null
               }, 1000)
             }
           }, 2000)
+        }
+        else {
+          ElMessage.error(res.message)
         }
       },
       )
